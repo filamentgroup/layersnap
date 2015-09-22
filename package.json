@@ -1,5 +1,5 @@
 {
-  "name": "filament-animatesvg",
+  "name": "animatesvg",
   "title": "animatesvg",
   "description": "Create SVG build animations declaratively.",
   "version": "0.1.0",
