@@ -9,7 +9,7 @@ More docs coming soon.
 ### Using Animatesvg
 
 * [Demo](http://filamentgroup.github.io/svg-build/demo/)
-* [Tests](http://filamentgroup.github.io/animatesvg/test/)
+* [Tests](http://filamentgroup.github.io/svg-build/test/)
 
 ## Building the Project Locally
 
