@@ -1,0 +1,19 @@
+/*
+SVG Build Animations
+*/
+.svg-supported .animate-svg svg > g[id] {
+	opacity: 0;
+}
+.svg-supported .animate-svg svg {
+	max-width: 100%;
+}
+.svg-supported .animate-svg .animate-svg-toggle {
+	opacity: 1;
+	transition: opacity .3s linear;
+}
+.svg-supported .animate-svg .animate-svg-toggle-hide {
+	opacity: 0;
+}
+.svg-supported [data-animatesvg-interact] g[id*='toggle'] {
+	cursor: pointer;
+}

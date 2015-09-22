@@ -1,0 +1,15 @@
+{
+	"name": "filament-animatesvg",
+	"version": "0.1.0",
+	"main": [
+		"dist/animatesvg.js",
+		"dist/animatesvg-init.js",
+		"dist/animatesvg.css"
+	],
+	"ignore": [
+		"**/.*"
+	],
+	"dependencies": {
+		"jquery": ">=1.11.2"
+	}
+}

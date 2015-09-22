@@ -1,0 +1,31 @@
+body {
+	color: #000;
+	background-color: #fff;
+	font: 100%/1.2 sans-serif;
+}
+
+:link {
+	color: #1593D3;
+}
+
+:visited {
+	color: #38C;
+}
+/* Logo */
+.header {
+	background: #247201 url(http://filamentgroup.com/images/headerbg-new.jpg) no-repeat bottom left;
+}
+#fg-logo {
+	text-indent: -9999px;
+	margin: 0 auto;
+	width: 287px;
+	height: 52px;
+	background-image: url(http://filamentgroup.com/images/fg-logo-icon.png);
+}
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5){
+	#fg-logo {
+		background-size: 287px 52px;
+		background-image: url(http://filamentgroup.com/images/fg-logo-icon-lrg.png);
+	}
+}
+
