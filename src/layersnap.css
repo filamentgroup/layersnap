@@ -1,0 +1,19 @@
+/*
+SVG Build Animations
+*/
+.svg-supported .layersnap svg > g[id] {
+	opacity: 0;
+}
+.svg-supported .layersnap svg {
+	max-width: 100%;
+}
+.svg-supported .layersnap .layersnap-toggle {
+	opacity: 1;
+	transition: opacity .3s linear;
+}
+.svg-supported .layersnap .layersnap-toggle-hide {
+	opacity: 0;
+}
+.svg-supported [data-layersnap-interact] g[id*='toggle'] {
+	cursor: pointer;
+}

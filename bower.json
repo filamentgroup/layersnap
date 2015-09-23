@@ -1,10 +1,10 @@
 {
-	"name": "filament-animatesvg",
+	"name": "layersnap",
 	"version": "0.1.0",
 	"main": [
-		"dist/animatesvg.js",
-		"dist/animatesvg-init.js",
-		"dist/animatesvg.css"
+		"dist/layersnap.js",
+		"dist/layersnap-init.js",
+		"dist/layersnap.css"
 	],
 	"ignore": [
 		"**/.*"

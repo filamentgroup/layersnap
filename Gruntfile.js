@@ -21,6 +21,14 @@ module.exports = function(grunt) {
 				src: 'node_modules/jquery/dist/jquery.js',
 				dest: 'dist/dependencies/jquery.js'
 			},
+			xray: {
+				src: 'node_modules/xrayhtml/dist/xrayhtml.js',
+				dest: 'dist/dependencies/xrayhtml.js'
+			},
+			xraycss: {
+				src: 'node_modules/xrayhtml/dist/xrayhtml.css',
+				dest: 'dist/dependencies/xrayhtml.css'
+			},
 			snap: {
 				src: 'node_modules/snapsvg/dist/snap.svg.js',
 				dest: 'dist/dependencies/snap.svg.js'
@@ -50,13 +58,13 @@ module.exports = function(grunt) {
 			},
 			core: {
 				src: [
-					'src/animatesvg.js'
+					'src/layersnap.js'
 				],
 				dest: 'dist/<%= pkg.name %>.js'
 			},
 			init: {
 				src: [
-					'src/animatesvg-init.js'
+					'src/layersnap-init.js'
 				],
 				dest: 'dist/<%= pkg.name %>.init.js'
 			},
@@ -135,13 +143,13 @@ module.exports = function(grunt) {
 		compress: {
 			main: {
 				options: {
-					archive: 'dist/animatesvg-<%= pkg.version %>.zip',
+					archive: 'dist/layersnap-<%= pkg.version %>.zip',
 					mode: 'zip',
 					pretty: true
 				},
 				files: [
-					{expand: true, cwd: 'dist/', src: ['*'], dest: 'animatesvg/'},
-					{expand: true, cwd: 'dist/', src: ['dependencies/*'], dest: 'animatesvg/'}
+					{expand: true, cwd: 'dist/', src: ['*'], dest: 'layersnap/'},
+					{expand: true, cwd: 'dist/', src: ['dependencies/*'], dest: 'layersnap/'}
 				]
 			}
 		}

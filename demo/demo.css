@@ -3,7 +3,17 @@ body {
 	background-color: #fff;
 	font: 100%/1.2 sans-serif;
 }
-
+pre,
+body code {
+	font-weight: normal;
+}
+pre {
+	max-height: 200px;
+	overflow: auto;
+	background: #eee;
+	color: #333;
+	padding: 10px;
+}
 :link {
 	color: #1593D3;
 }

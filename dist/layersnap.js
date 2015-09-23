@@ -1,5 +1,5 @@
-/*! animatesvg - v1.0.4 - 2015-09-22
-* https://github.com/filamentgroup/animatesvg
+/*! layersnap - v0.1.0 - 2015-09-23
+* https://github.com/filamentgroup/layersnap
 * Copyright (c) 2015 Filament Group; Licensed MIT */
 (function($,w){
 
@@ -10,14 +10,14 @@
 		$( w.document.documentElement ).addClass( "svg-supported" );
 	}
 
-	$.fn.animateSVG = function(){
+	$.fn.layersnap = function(){
 		return this.each(function(){
 			var i = 1;
-			var animatesvgDiv = new Snap( this );
-			var svg = animatesvgDiv.select( "svg" );
+			var layersnapDiv = new Snap( this );
+			var svg = layersnapDiv.select( "svg" );
 			var bbox = svg.getBBox(); //bounding box, get coords and centre
 
-			animatesvgDiv.selectAll( "svg > g[id]" ).forEach(function(elem){
+			layersnapDiv.selectAll( "svg > g[id]" ).forEach(function(elem){
 				var el = elem;
 				el.attr( "opacity", 0 );
 				var elID = el.attr( "id" );
@@ -92,11 +92,11 @@
 			});
 
 			// interactivity
-			var interactiveAttr = "data-animatesvg-interact";
-			var activeGroupClass = "animate-svg-toggle-active";
+			var interactiveAttr = "data-layersnap-interact";
+			var activeGroupClass = "layersnap-toggle-active";
 			var activeGroupID = "activegroup";
-			var toggleClass = "animate-svg-toggle-hide";
-			var toggleTriggerElementClass = "animate-svg-toggle";
+			var toggleClass = "layersnap-toggle-hide";
+			var toggleTriggerElementClass = "layersnap-toggle";
 			if( $( this ).is( "[" + interactiveAttr + "]" ) && $( this ).attr( interactiveAttr ) !== "bound" ){
 
 				var $svgParent = $( this );
@@ -121,7 +121,7 @@
 						}
 					} );
 
-				// hide all .animate-svg-toggle elems
+				// hide all .layersnap-toggle elems
 				$svgParent.find( "." + activeGroupClass ).addClass( toggleClass );
 
 				// trigger initial toggle if specified

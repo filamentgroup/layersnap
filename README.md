@@ -1,12 +1,12 @@
-# animatesvg [![Build Status](https://img.shields.io/travis/filamentgroup/animatesvg/master.svg)](https://travis-ci.org/filamentgroup/animatesvg)
+# Layersnap [![Build Status](https://img.shields.io/travis/filamentgroup/layersnap/master.svg)](https://travis-ci.org/filamentgroup/layersnap)
 
 [![Filament Group](http://filamentgroup.com/images/fg-logo-positive-sm-crop.png) ](http://www.filamentgroup.com/)
 
-## Create SVG build animations declaratively.
+## Build SVG animations simply & declaratively.
 
 More docs coming soon.
 
-### Using Animatesvg
+### Using layersnap
 
 * [Demo](http://filamentgroup.github.io/svg-build/demo/)
 * [Tests](http://filamentgroup.github.io/svg-build/test/)

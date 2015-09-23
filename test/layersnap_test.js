@@ -23,7 +23,7 @@
 
 	test( 'exists', function() {
 		expect(1);
-		ok( $.fn.animateSVG, 'animateSVG plugin defined.' );
+		ok( $.fn.layersnap, 'layersnap plugin defined.' );
 	});
 
 

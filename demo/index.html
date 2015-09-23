@@ -4,20 +4,30 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>animatesvg</title>
+	<title>LayerSnap Demos</title>
 
-	<link rel="stylesheet" href="../dist/animatesvg.css">
+	<link rel="stylesheet" href="../dist/layersnap.css">
+	<link rel="stylesheet" href="../dist/dependencies/xrayhtml.css">
 	<link rel="stylesheet" href="demo.css">
 	<link rel="stylesheet" href="//filamentgroup.github.io/demo-head/demohead.css">
 
 	<script src="../dist/dependencies/jquery.js"></script>
+	<script src="../dist/dependencies/xrayhtml.js"></script>
 	<script src="../dist/dependencies/snap.svg.js"></script>
 	<script src="../dist/dependencies/porthole.js"></script>
 	<script src="../dist/dependencies/porthole.init.js"></script>
-	<script src="../dist/animatesvg.js"></script>
-	<script src="../dist/animatesvg.init.js"></script>
+	<script src="../dist/layersnap.js"></script>
+	<script src="../dist/layersnap.init.js"></script>
 	<script src="//filamentgroup.github.io/demo-head/loadfont.js"></script>
 	<script>
+		// replay animations on tap/click
+		$( document ).bind( "enhance", function( e ){
+			$( e.target ).find( ".layersnap" ).not( "[data-layersnap-interact]" ).bind( "click", function( e ){
+				$( this ).layersnap();
+			} );
+		});
+
+		// generic event for auto-init. run on domready
 		$( function(){
 			$( document ).trigger( "enhance" );
 		});
@@ -29,71 +39,55 @@
 			<img src="http://filamentgroup.com/images/fg-logo-positive-sm-crop.png">
 		</div>
 		<div class="details">
-			<h1 class="description-container">Demo of <span class="repo-name">animatesvg</span>
-				<span class="description">Create SVG build animations declaratively.</span>
+			<h1 class="description-container">Demo of <span class="repo-name">Layersnap</span>
+				<span class="description">Build SVG animations simply & declaratively.</span>
 			</h1>
 			<ul class="outbound-links">
-				<li><a href="https://github.com/filamentgroup/animatesvg">Code</a></li>
-				<li><a href="https://github.com/filamentgroup/animatesvg/issues">Issues</a></li>
+				<li><a href="https://github.com/filamentgroup/layersnap">Code</a></li>
+				<li><a href="https://github.com/filamentgroup/layersnap/issues">Issues</a></li>
 			</ul>
 		</div>
 	</div>
 
 	<div class="docs-main">
 
-		<h1 class="docs"> Demos</h1>
-		<p class="docs">SVG illustrations can be animated by grouping graphics as desired and giving those groups names to specify their transition type, duration, and delay. The animations in this page are set to auto-play when they scroll into view using <a href="https://github.com/filamentgroup/porthole">Porthole</a>. </p>
+		<h1 class="docs"> LayerSnap Demos</h1>
+
+		<p class="docs">LayerSnap is a script that builds on top of <a href="http://snapsvg.io/">Snap SVG</a> to enable simple declarative SVG builds by configuring the SVG file itself–no need to script anything.</p>
+
+		<p class="docs">An SVG illustration can be animated by grouping graphics as desired and giving those groups IDs to specify their transition type, duration, and delay. The animations in this page are set to auto-play when they scroll into view (<a href="https://github.com/filamentgroup/porthole">using Porthole, which is explained later in this page.</a>). To replay a graphic on this page, you can tap or click it.</p>
 
 
-		<h2 class="docs">Animation Markup How-To</h2>
+		<h2 class="docs">How-To</h2>
 
-		<p class="docs">SVG markup must be included inline in the HTML, wrapped in a <code>&lt;div&nbsp;class=&quot;animate-svg&quot;&gt;&lt;/div&gt;</code> element for transtiions to work.</p>
+		<p class="docs">Include jQuery (or Shoestring), SnapSVG, and the <a href="https://github.com/filamentgroup/layersnap/tree/master/dist"></a>layersnap JS and CSS files in the dist folder</a> of this repo.</p>
 
-	<pre class="docs"><code code="docs">
-	&lt;div&nbsp;class=&quot;animate-svg&quot;&gt;
-	  &lt;svg&gt;
-	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
-	  &lt;/svg&gt;
-	&lt;/div&gt;
-	</code></pre>
+		<p class="docs">SVG markup must be included inline in the HTML, wrapped in a <code>&lt;div&nbsp;class=&quot;layersnap&quot;&gt;&lt;/div&gt;</code>. Transitions are defined via the ID attribute of <code>g</code> element children of the <code>svg</code> element.</p>
 
-		<h3 class="docs">Configuring Play Timing</h3>
+<pre class="docs"><code code="docs">
+&lt;div&nbsp;<strong>class=&quot;layersnap&quot;</strong>&gt;
+  &lt;svg&gt;
+    &lt;g <strong>id=&quot;fade&quot;</strong>&gt;...&lt;/g&gt;
+  &lt;/svg&gt;
+&lt;/div&gt;
+</code></pre>
 
-		<p class="docs">To have the animation play immediately when the page loads, no matter where it is in the page, give the `div` wrapper the attribute <code>data-animatesvg-init</code>.</p>
-	&lt;div&nbsp;class=&quot;animate-svg&quot; data-animatesvg-init&gt;
-	  &lt;svg&gt;
-	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
-	  &lt;/svg&gt;
-	&lt;/div&gt;
-	</code></pre>
-
-	<p class="docs">To have the animation play once when it scrolls into the viewport, give the <code>div</code> wrapper the attribute <code>data-scroll-activate</code>.</p>
-	&lt;div&nbsp;class=&quot;animate-svg&quot; data-animatesvg-init&gt;
-	  &lt;svg&gt;
-	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
-	  &lt;/svg&gt;
-	&lt;/div&gt;
-	</code></pre>
-
-	<p class="docs">To have the animation play every time when it scrolls into the viewport, give the <code>div</code> wrapper the attribute <code>data-scroll-activate</code> and the attribute <code>data-scroll-deactivate</code>.</p>
-	&lt;div&nbsp;class=&quot;animate-svg&quot; data-scroll-activate data-scroll-deactivate&gt;
-	  &lt;svg&gt;
-	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
-	  &lt;/svg&gt;
-	&lt;/div&gt;
-	</code></pre>
+	<p class="docs">To have the animation play when the page loads, give the <code>div</code> wrapper the attribute <code>data-layersnap-init</code>.</p>
+<pre class="docs"><code code="docs">
+&lt;div&nbsp;class=&quot;layersnap&quot; <strong>data-layersnap-init</strong>&gt;
+  &lt;svg&gt;
+    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
+  &lt;/svg&gt;
+&lt;/div&gt;
+</code></pre>
 
 
-		<h2 class="docs">Transition Type Examples</h2>
+	<h2 class="docs">Transition Examples</h2>
 
-		<p class="docs">Transitions are defined via the ID attribute of <code>g</code> elements in an SVG.</p>
-
-
-	<h3 class="docs">Example Transitions</h3>
 
 	<div data-xrayhtml="flip" data-title="Fade">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="fade">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -104,8 +98,8 @@
 
 
 	<div data-xrayhtml="flip" data-title="Drift-up">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="drift-up">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -115,8 +109,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Drift-down">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="drift-down">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -126,8 +120,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Drift-left">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="drift-left">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -137,8 +131,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Drift-right">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="drift-right">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -148,8 +142,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Slide-up">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="slide-up">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -159,8 +153,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Slide-down">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="slide-down">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -170,8 +164,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Slide-left">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="slide-left">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -181,8 +175,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Slide-right">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="slide-right">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="slide-right">
 				<g id="fade">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -193,8 +187,8 @@
 
 
 	<div data-xrayhtml="flip" data-title="Rotate-left">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="rotate-left">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -204,8 +198,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Rotate-right">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="rotate-right">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -216,8 +210,8 @@
 
 
 	<div data-xrayhtml="flip" data-title="Scale-up">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="scale-up">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -227,8 +221,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Scale-down">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="scale-down">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -238,8 +232,8 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Pop">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="pop">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -254,8 +248,8 @@
 	<p>You can set a custom duration on any <code>g</code> element to change it from the default of 800ms. For example, the following example has a <code>g</code> with an ID of <code>rotate-right duration-5000</code>, to make its animation run for 5 seconds.</p>
 
 	<div data-xrayhtml="flip" data-title="Custom Duration">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="rotate-right duration-5000">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -272,8 +266,8 @@
 
 
 	<div data-xrayhtml="flip" data-title="Custom Delay">
-		<div class="animate-svg" data-scroll-activate>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+		<div class="layersnap" data-scroll-activate>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="rotate-right delay-2000">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
@@ -282,13 +276,150 @@
 		</div>
 	</div>
 
+	<h3 class="docs">Delaying Start Time for when the graphic is visible</h3>
+
+	<p class="docs">If you've included <a href="https://github.com/filamentgroup/porthole">Porthole</a> in your page, you can have an animation start when it scrolls into the viewport. All of the animations in this page use Porthole to do just that.</p>
+
+	<p class="docs">With porthole included, to have the animation play once when it scrolls into the viewport, give the <code>div</code> wrapper the attribute <code>data-scroll-activate</code>.</p>
+	<pre><code>
+	&lt;div&nbsp;class=&quot;layersnap&quot; <strong>data-scroll-activate</strong>&gt;
+	  &lt;svg&gt;
+	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
+	  &lt;/svg&gt;
+	&lt;/div&gt;
+	</code></pre>
+
+	<p class="docs">To make it replay every time it enters the viewport, also add the attribute <code>data-scroll-deactivate</code>.</p>
+<pre class="docs"><code code="docs">
+	&lt;div&nbsp;class=&quot;layersnap <strong>&quot; data-scroll-activate data-scroll-deactivate</strong>&gt;
+	  &lt;svg&gt;
+	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
+	  &lt;/svg&gt;
+	&lt;/div&gt;
+	</code></pre>
+
+
+	<h3 class="docs">Interactive Animations</h3>
+
+	<p class="docs">Animations can interact with other DOM content by changing a group’s ID attribute to include "toggle-" followed by an ID of an element on the page that should be toggled when that group is clicked. Once clicked, a class of "layersnap-toggle-hide" will be added to the associated element, and a class of "layersnap-toggle-active" will be added to the SVG group. By default, all toggles will receive the hide class, so if you'd like to activate a group from the start, add "toggleactive" to that group's ID.</p>
+
+	<div data-xrayhtml="flip" data-title="Example">
+		<div class="layersnap interact-example" data-layersnap-interact data-scroll-activate >
+			<style>
+				.interact-example {
+					position: relative;
+				}
+				.interact-example div {
+					padding: 1em;
+				}
+				.interact-example g:hover > polygon {
+					fill: #36A2CC;
+				}
+				g.layersnap-toggle-active:hover  > polygon,
+				g.layersnap-toggle-active  > polygon {
+					fill: #073C5C;
+				}
+				@media (min-width: 50em){
+					.interact-example div {
+						position: absolute;
+						right: 10px;
+						left: 320px;
+						top: 40px;
+					}
+				}
+			</style>
+			<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+				 width="274px" height="274px" viewBox="0 0 274 274" enable-background="new 0 0 274 274" xml:space="preserve">
+			<g id="pop_delay-800_duration-1500_toggle-one_activegroup">
+				<polygon fill="#227FB6" points="18.1,205.6 20.3,209.4 22.7,213.2 25.3,216.7 27.9,220.3 30.6,223.7 33.4,227.1 36.4,230.4
+					39.4,233.5 42.7,236.7 45.8,239.6 49.3,242.5 52.6,245.2 56.2,247.9 59.8,250.4 63.5,252.7 67.2,255.2 71,257.3 75,259.3
+					79.1,261.4 87.3,264.9 91.5,266.3 95.8,267.7 100.2,269 104.4,270.2 109,271 113.4,272 118,273 122.5,273 127.3,274 132,274
+					137,274 137,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 72.1786 222.2871)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">ONE</text>
+				</g>
+			</g>
+			<g id="pop_delay-1000_duration-1500_toggle-two">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="18.1,68.7 15.9,72.5 13.9,76.6 12,80.5 10.4,84.5
+					8.6,88.7 5.8,96.9 4.6,101.2 3.5,105.4 2,109.8 2,114.1 1,118.5 1,122.7 0,127.2 0,131.6 0,136 0,140.4 0,144.8 0,149.4 1,153.8
+					1,158.2 3,167 4.1,171.5 5.3,175.8 6.6,180.2 8.2,184.5 9.9,188.8 11.8,193 13.7,197.3 15.9,201.4 18.1,205.6 136.6,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 29.5836 140.9613)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">TWO</text>
+				</g>
+			</g>
+			<g id="pop_delay-1200_duration-1500_toggle-three">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="137,0.3 132.2,0 123.4,1 118.9,1 114.7,2 110.3,3 106,4
+					101.7,4.9 97.5,6 93.3,7.3 89.2,8.8 85,10.4 81,12.1 77,13.9 73.1,15.9 65.4,20.2 61.5,22.7 58,25.2 54.2,27.8 50.8,30.4
+					47.2,33.4 43.9,36.4 40.6,39.4 34.5,46 31.5,49.6 28.5,53.1 25.7,56.9 23.1,60.7 20.6,64.7 18.1,68.7 137,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 59.7576 61.4365)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">THREE</text>
+				</g>
+			</g>
+			<g id="pop_delay-1800_duration-1500_toggle-four">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="255.1,68.7 253,64.9 250.5,61.1 248,57.5 245.4,54
+					242.8,50.6 239.9,47.1 236.9,43.9 233.9,40.8 230.6,37.6 227.5,34.7 224,31.8 220.6,29 217.1,26.3 213.5,23.9 209.8,21.5
+					206.1,19.1 202.3,16.9 198.2,15 194.2,12.9 186,9.4 181.8,7.9 177.5,6.5 173.1,5.2 168.9,4.1 164.3,3 159.9,2 155.3,2 150.8,1
+					146,1 141.3,0 137,0 137,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 156.121 61.4367)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">FOUR</text>
+				</g>
+			</g>
+			<g id="pop_delay-1600_duration-1500_toggle-five">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="255.1,205.6 257.4,201.7 259.4,197.7 261.2,193.8
+					262.9,189.7 264.7,185.6 267.5,177.4 268.6,173 269.8,168.8 271,164.5 272,160.2 272,155.8 273,151.6 273,147.1 273,142.7
+					274,138.3 274,133.9 273,129.4 273,124.9 272,120.4 272,116 270.2,107.2 269.2,102.7 268,98.5 266.7,94.1 265.1,89.8 263.4,85.5
+					261.5,81.3 259.5,76.9 257.4,72.8 255.1,68.7 136.6,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 203.016 140.9161)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">FIVE</text>
+				</g>
+			</g>
+			<g id="pop_delay-1400_duration-1500_toggle-six">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="137,274 141,274 149.9,273 154.4,273 158.6,272 163,271
+					167.3,271 171.6,269.4 175.7,268.3 180,267 184.1,265.5 188.3,263.9 192.2,262.2 196.3,260.3 200.2,258.4 207.9,254 211.7,251.6
+					215.4,249.1 219,246.4 222.5,243.8 226.1,240.9 229.4,237.9 232.6,234.8 238.8,228.3 241.8,224.7 244.7,221.1 247.5,217.4
+					250.2,213.5 252.7,209.6 255.1,205.6 137,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 176.9976 222.2653)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">SIX</text>
+				</g>
+			</g>
+
+			</svg>
+
+			<div id="one" class="layersnap-toggle">
+					<h2>ONE!</h2>
+					<p>This text was enabled by tapping an interactive graphic.</p>
+			</div>
+			<div id="two" class="layersnap-toggle">
+					<h2>TWO!</h2>
+					<p>This text was enabled by tapping an interactive graphic.</p>
+			</div>
+			<div id="three" class="layersnap-toggle">
+					<h2>THREE!</h2>
+					<p>This text was enabled by tapping an interactive graphic.</p>
+			</div>
+			<div id="four" class="layersnap-toggle">
+					<h2>FOUR!</h2>
+					<p>This text was enabled by tapping an interactive graphic.</p>
+			</div>
+			<div id="five" class="layersnap-toggle">
+					<h2>FIVE!</h2>
+					<p>This text was enabled by tapping an interactive graphic.</p>
+			</div>
+			<div id="six" class="layersnap-toggle">
+					<h2>SIX!</h2>
+					<p>This text was enabled by tapping an interactive graphic.</p>
+			</div>
+		</div>
+	</div>
+
 
 
 	<h2 class="docs">Building Animations in Adobe Illustrator</h2>
 
-	<p class="docs">If you're editing an SVG in Adobe Illustrator, you can group graphics in the Layers Palette and name their layer as if you are setting the group's ID attribute (with the transition name, duration, and delay.</p>
+	<p class="docs">If you're editing an SVG in Adobe Illustrator, you can group graphics in the Layers palette and name their layer as if you are setting the group's ID attribute (with the transition name, duration, and delay. When you save your SVG, these layers will become `g` elements with ID attributes matching the layer names you created.</p>
 
 	<h3 class="docs">Tips and Caveats</h3>
+
 	<ul class="docs">
 		<li class="docs">In order to use the layer naming technique above, you'll need at least 2 layers in the pallete. Unnamed layers will go ignored by the Animation script.</li>
 		<li class="docs">If more than one layer has the same name, Illustrator will add underscores and other characters to the SVG markup to make its ID unique. It'll still appear the same way in Illustrator however, and the animation engine knows to look for these characters and ignore them.</li>

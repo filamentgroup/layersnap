@@ -1,5 +1,5 @@
 /*
-* animatesvg
+* layersnap
 * Copyright (c) 2015 Filament Group, Inc.
 * MIT License
 */
@@ -7,11 +7,11 @@
 ;(function( $ ) {
 
 	$( document ).bind( "inviewport", function( e ){
-		$( e.target ).filter( ".animate-svg" ).animateSVG();
+		$( e.target ).filter( ".layersnap" ).layersnap();
 	});
 
 	$( document ).bind( "enhance", function( e ){
-		$( e.target ).find( ".animate-svg[data-animatesvg-init]" ).animateSVG();
+		$( e.target ).find( ".layersnap[data-layersnap-init]" ).layersnap();
 	});
 
 })( jQuery );
