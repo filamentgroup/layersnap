@@ -8,8 +8,8 @@ More docs coming soon.
 
 ### Using layersnap
 
-* [Demo](http://filamentgroup.github.io/svg-build/demo/)
-* [Tests](http://filamentgroup.github.io/svg-build/test/)
+* [Demo](http://filamentgroup.github.io/layersnap/demo/)
+* [Tests](http://filamentgroup.github.io/layersnap/test/)
 
 ## Building the Project Locally
 
