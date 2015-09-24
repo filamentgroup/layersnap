@@ -14,6 +14,9 @@ SVG Build Animations
 	// strings
 	var svgEl = "svg";
 	var childGroups = svgEl + " > g[id]";
+	var replayAttr = "data-layersnap-replay";
+	var replayBtnText = "Replay";
+	var replayBtnClass = "layersnap-replay";
 
 	// ID chunker regexps
 	var regDuration = /(^|\s|_)duration[\-_]+([\d]+)/;
@@ -110,6 +113,7 @@ SVG Build Animations
 				};
 				// get settings from el ID
 				var elID = ret.el.attr( "id" );
+				ret.el.attr( { "opacity": 0 } );
 				// override duration if set
 				var idDuration = elID.match( regDuration);
 				if( idDuration ){
@@ -132,8 +136,20 @@ SVG Build Animations
 				i++;
 			});
 
+			// replay button
+			if( $svgParent.is( "[" + replayAttr + "]" ) ){
+				$( "<button class='" + replayBtnClass + "' title='" + replayBtnText + "'>" + replayBtnText + "</button>" )
+					.bind( "click", function( e ){
+						$svgParent.layersnap();
+						e.preventDefault();
+					})
+					.appendTo( $svgParent );
+
+				$svgParent.removeAttr( replayAttr );
+			}
+
 			// interactivity
-			if( $( this ).is( "[" + interactiveAttr + "]" ) && $( this ).attr( interactiveAttr ) !== interactivitySet ){
+			if( $svgParent.is( "[" + interactiveAttr + "]" ) && $svgParent.attr( interactiveAttr ) !== interactivitySet ){
 
 				$svgParent
 					.attr( interactiveAttr, interactivitySet )

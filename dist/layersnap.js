@@ -1,4 +1,4 @@
-/*! layersnap - v0.1.0 - 2015-09-24
+/*! layersnap - v0.1.1 - 2015-09-24
 * https://github.com/filamentgroup/layersnap
 * Copyright (c) 2015 Filament Group; Licensed MIT */
 (function($,w){
@@ -13,6 +13,9 @@
 	// strings
 	var svgEl = "svg";
 	var childGroups = svgEl + " > g[id]";
+	var replayAttr = "data-layersnap-replay";
+	var replayBtnText = "Replay";
+	var replayBtnClass = "layersnap-replay";
 
 	// ID chunker regexps
 	var regDuration = /(^|\s|_)duration[\-_]+([\d]+)/;
@@ -109,6 +112,7 @@
 				};
 				// get settings from el ID
 				var elID = ret.el.attr( "id" );
+				ret.el.attr( { "opacity": 0 } );
 				// override duration if set
 				var idDuration = elID.match( regDuration);
 				if( idDuration ){
@@ -131,8 +135,20 @@
 				i++;
 			});
 
+			// replay button
+			if( $svgParent.is( "[" + replayAttr + "]" ) ){
+				$( "<button class='" + replayBtnClass + "' title='" + replayBtnText + "'>" + replayBtnText + "</button>" )
+					.bind( "click", function( e ){
+						$svgParent.layersnap();
+						e.preventDefault();
+					})
+					.appendTo( $svgParent );
+
+				$svgParent.removeAttr( replayAttr );
+			}
+
 			// interactivity
-			if( $( this ).is( "[" + interactiveAttr + "]" ) && $( this ).attr( interactiveAttr ) !== interactivitySet ){
+			if( $svgParent.is( "[" + interactiveAttr + "]" ) && $svgParent.attr( interactiveAttr ) !== interactivitySet ){
 
 				$svgParent
 					.attr( interactiveAttr, interactivitySet )
