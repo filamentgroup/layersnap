@@ -121,11 +121,11 @@ SVG Build Animations
 				if( idDelay ){
 					ret.delay =  parseFloat( idDelay[ 2 ] );
 				}
-				$.each( transitions, function( name ){
-					if( elID.indexOf( name ) > -1 ){
+				for( var name in transitions ){
+					if( transitions.hasOwnProperty( name ) && elID.indexOf( name ) > -1 ){
 						ret.transition = name;
 					}
-				} );
+				}
 				if( ret.transition ){
 					runTransition( ret );
 				}
