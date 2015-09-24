@@ -1,13 +1,13 @@
 {
   "name": "layersnap",
   "title": "layersnap",
-  "description": "Create SVG build animations declaratively.",
+  "description": "Build SVG animations declaratively.",
   "version": "0.1.0",
   "homepage": "https://github.com/filamentgroup/layersnap",
   "author": {
-    "name": "Zach Leatherman",
+    "name": "Scott Jehl",
     "company": "Filament Group",
-    "email": "zach@filamentgroup.com",
+    "email": "scott@filamentgroup.com",
     "url": "http://filamentgroup.com/"
   },
   "repository": {

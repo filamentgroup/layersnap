@@ -2,7 +2,7 @@
 
 [![Filament Group](http://filamentgroup.com/images/fg-logo-positive-sm-crop.png) ](http://www.filamentgroup.com/)
 
-## Build SVG animations simply & declaratively.
+## Build SVG animations declaratively.
 
 More docs coming soon.
 
