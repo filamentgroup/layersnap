@@ -17,3 +17,10 @@
 .svg-supported [data-layersnap-interact] g[id*='toggle'] {
 	cursor: pointer;
 }
+.layersnap {
+	background: no-repeat;
+	background-position: 50% 50%;
+}
+.svg-supported .layersnap {
+	background-image: none !important;
+}

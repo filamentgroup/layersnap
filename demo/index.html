@@ -81,12 +81,21 @@
 &lt;/div&gt;
 </code></pre>
 
+<p class="docs">To specify a fallback image for non-svg supporting browsers, give the <code>div</code> a background image (this rule will be negated if svg is supported).</p>
+<pre class="docs"><code code="docs">
+&lt;div&nbsp;class=&quot;layersnap&quot; data-layersnap-init <strong>style="background-image: url(path/to/fallback.png);</strong>&quot;&gt;
+  &lt;svg&gt;
+    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
+  &lt;/svg&gt;
+&lt;/div&gt;
+</code></pre>
+
 
 	<h2 class="docs">Transition Examples</h2>
 
 
 	<div data-xrayhtml="flip" data-title="Fade">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/fade.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="fade">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -98,7 +107,7 @@
 
 
 	<div data-xrayhtml="flip" data-title="Drift-up">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/drift-up.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="drift-up">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -109,7 +118,7 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Drift-down">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/drift-down.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="drift-down">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -120,7 +129,7 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Drift-left">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/drift-left.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="drift-left">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -131,7 +140,7 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Drift-right">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/drift-right.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="drift-right">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -142,7 +151,7 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Slide-up">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/slide-up.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="slide-up">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -153,7 +162,7 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Slide-down">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/slide-down.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="slide-down">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -164,7 +173,7 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Slide-left">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/slide-left.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="slide-left">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -175,9 +184,9 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Slide-right">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/slide-right.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="slide-right">
-				<g id="fade">
+				<g id="slide-right">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
 					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
 				</g>
@@ -187,7 +196,7 @@
 
 
 	<div data-xrayhtml="flip" data-title="Rotate-left">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-left.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="rotate-left">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -198,7 +207,7 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Rotate-right">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="rotate-right">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -210,7 +219,7 @@
 
 
 	<div data-xrayhtml="flip" data-title="Scale-up">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/scale-up.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="scale-up">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -221,7 +230,7 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Scale-down">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/scale-down.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="scale-down">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -232,7 +241,7 @@
 	</div>
 
 	<div data-xrayhtml="flip" data-title="Pop">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/pop.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="pop">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -248,7 +257,7 @@
 	<p>You can set a custom duration on any <code>g</code> element to change it from the default of 800ms. For example, the following example has a <code>g</code> with an ID of <code>rotate-right duration-5000</code>, to make its animation run for 5 seconds.</p>
 
 	<div data-xrayhtml="flip" data-title="Custom Duration">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="rotate-right duration-5000">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -266,7 +275,7 @@
 
 
 	<div data-xrayhtml="flip" data-title="Custom Delay">
-		<div class="layersnap" data-scroll-activate>
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);">
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
 				<g id="rotate-right delay-2000">
 					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
@@ -304,28 +313,28 @@
 	<p class="docs">Animations can interact with other DOM content by changing a group’s ID attribute to include "toggle-" followed by an ID of an element on the page that should be toggled when that group is clicked. Once clicked, a class of "layersnap-toggle-hide" will be added to the associated element, and a class of "layersnap-toggle-active" will be added to the SVG group. By default, all toggles will receive the hide class, so if you'd like to activate a group from the start, add "toggleactive" to that group's ID.</p>
 
 	<div data-xrayhtml="flip" data-title="Example">
-		<div class="layersnap interact-example" data-layersnap-interact data-scroll-activate >
+		<div class="layersnap interact-example" data-layersnap-interact data-scroll-activate  style="background-image: url(fallbacks/interact.png);">
 			<style>
-				.interact-example {
+				.svg-supported .interact-example {
 					position: relative;
 					padding-bottom: 8em; /* make room for divs */
 				}
-				.interact-example div {
+				.svg-supported .interact-example div {
 					padding: 1em;
 					position: absolute;
 				}
-				.interact-example g:hover > polygon {
+				.svg-supported .interact-example g:hover > polygon {
 					fill: #36A2CC;
 				}
-				g.layersnap-toggle-active:hover  > polygon,
-				g.layersnap-toggle-active  > polygon {
+				.svg-supported g.layersnap-toggle-active:hover  > polygon,
+				.svg-supported g.layersnap-toggle-active  > polygon {
 					fill: #073C5C;
 				}
 				@media (min-width: 50em){
-					.interact-example {
+					.svg-supported .interact-example {
 						padding-bottom: 0;
 					}
-					.interact-example div {
+					.svg-supported .interact-example div {
 						right: 10px;
 						left: 320px;
 						top: 40px;
