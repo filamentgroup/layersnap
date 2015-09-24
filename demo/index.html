@@ -308,9 +308,11 @@
 			<style>
 				.interact-example {
 					position: relative;
+					padding-bottom: 8em; /* make room for divs */
 				}
 				.interact-example div {
 					padding: 1em;
+					position: absolute;
 				}
 				.interact-example g:hover > polygon {
 					fill: #36A2CC;
@@ -320,8 +322,10 @@
 					fill: #073C5C;
 				}
 				@media (min-width: 50em){
+					.interact-example {
+						padding-bottom: 0;
+					}
 					.interact-example div {
-						position: absolute;
 						right: 10px;
 						left: 320px;
 						top: 40px;
