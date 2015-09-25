@@ -53,9 +53,9 @@
 
 		<h1 class="docs"> LayerSnap Demos</h1>
 
-		<p class="docs">LayerSnap is a script that builds on top of <a href="http://snapsvg.io/">Snap SVG</a> to enable simple declarative SVG builds by configuring the SVG file itself–no need to script anything.</p>
+		<p class="docs">LayerSnap is a script that builds on top of <a href="http://snapsvg.io/">Snap SVG</a> to enable simple declarative SVG builds by configuring the SVG file itself–no need to script anything. <a href="#ai-tips">You can even build animations from the Layers pallete in Adobe Illustrator!</a></p>
 
-		<p class="docs">An SVG illustration can be animated by grouping graphics as desired and giving those groups IDs to specify their transition type, duration, and delay. The animations in this page are set to auto-play when they scroll into view (<a href="https://github.com/filamentgroup/porthole">using Porthole, which is explained later in this page.</a>). To replay a graphic on this page, you can tap or click it.</p>
+		<p class="docs">An SVG illustration can be animated by grouping graphics as desired and giving those groups IDs to specify their transition type, duration, and delay. The animations in this page are set to auto-play when they scroll into view (<a href="https://github.com/filamentgroup/porthole">using Porthole</a>, which is explained <a href="#porthole">later in this page</a>).</p>
 
 
 		<h2 class="docs">How-To</h2>
@@ -294,7 +294,7 @@
 		</div>
 	</div>
 
-	<h3 class="docs">Delaying Start Time for when the graphic is visible</h3>
+	<h3 class="docs" id="porthole">Delaying Start Time for when the graphic is visible (with Porthole)</h3>
 
 	<p class="docs">If you've included <a href="https://github.com/filamentgroup/porthole">Porthole</a> in your page, you can have an animation start when it scrolls into the viewport. All of the animations in this page use Porthole to do just that.</p>
 
@@ -436,7 +436,7 @@
 
 
 
-	<h2 class="docs">Building Animations in Adobe Illustrator</h2>
+	<h2 class="docs" id="ai-tips">Building Animations in Adobe Illustrator</h2>
 
 	<p class="docs">If you're editing an SVG in Adobe Illustrator, you can group graphics in the Layers palette and name their layer as if you are setting the group's ID attribute (with the transition name, duration, and delay. When you save your SVG, these layers will become `g` elements with ID attributes matching the layer names you created.</p>
 
