@@ -1,0 +1,116 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@2.0.0-beta.0
+3 info using node@v0.10.31
+4 verbose node symlink /usr/local/bin/node
+5 verbose publish [ '.' ]
+6 verbose cache add [ '.', null ]
+7 verbose cache add spec="." args=[".",null]
+8 verbose cache add local package /Users/scott/Sites/layersnap
+9 silly lockFile 3a52ce78- .
+10 verbose lock . /Users/scott/.npm/3a52ce78-.lock
+11 verbose tar pack [ '/Users/scott/.npm/layersnap/0.1.2/package.tgz', '.' ]
+12 verbose tarball /Users/scott/.npm/layersnap/0.1.2/package.tgz
+13 verbose folder .
+14 info prepublish layersnap@0.1.2
+15 silly lockFile 1f1177db-tar tar://.
+16 verbose lock tar://. /Users/scott/.npm/1f1177db-tar.lock
+17 silly lockFile e86e5cd5--npm-layersnap-0-1-2-package-tgz tar:///Users/scott/.npm/layersnap/0.1.2/package.tgz
+18 verbose lock tar:///Users/scott/.npm/layersnap/0.1.2/package.tgz /Users/scott/.npm/e86e5cd5--npm-layersnap-0-1-2-package-tgz.lock
+19 silly lockFile 1f1177db-tar tar://.
+20 silly lockFile 1f1177db-tar tar://.
+21 silly lockFile e86e5cd5--npm-layersnap-0-1-2-package-tgz tar:///Users/scott/.npm/layersnap/0.1.2/package.tgz
+22 silly lockFile e86e5cd5--npm-layersnap-0-1-2-package-tgz tar:///Users/scott/.npm/layersnap/0.1.2/package.tgz
+23 silly lockFile 3eb164d6-cott-npm-layersnap-0-1-2-package /Users/scott/.npm/layersnap/0.1.2/package
+24 verbose lock /Users/scott/.npm/layersnap/0.1.2/package /Users/scott/.npm/3eb164d6-cott-npm-layersnap-0-1-2-package.lock
+25 silly lockFile 3eb164d6-cott-npm-layersnap-0-1-2-package /Users/scott/.npm/layersnap/0.1.2/package
+26 silly lockFile 3eb164d6-cott-npm-layersnap-0-1-2-package /Users/scott/.npm/layersnap/0.1.2/package
+27 silly lockFile 3a52ce78- .
+28 silly lockFile 3a52ce78- .
+29 silly publish { name: 'layersnap',
+29 silly publish   title: 'layersnap',
+29 silly publish   description: 'Build SVG animations declaratively.',
+29 silly publish   version: '0.1.2',
+29 silly publish   homepage: 'https://github.com/filamentgroup/layersnap',
+29 silly publish   author:
+29 silly publish    { name: 'Scott Jehl',
+29 silly publish      email: 'scott@filamentgroup.com',
+29 silly publish      url: 'http://filamentgroup.com/' },
+29 silly publish   repository:
+29 silly publish    { type: 'git',
+29 silly publish      url: 'git://github.com/filamentgroup/layersnap.git' },
+29 silly publish   bugs: { url: 'https://github.com/filamentgroup/layersnap/issues' },
+29 silly publish   licenses:
+29 silly publish    [ { type: 'MIT',
+29 silly publish        url: 'https://github.com/filamentgroup/layersnap/blob/master/LICENSE-MIT' } ],
+29 silly publish   engines: { node: '>= 0.8.0' },
+29 silly publish   scripts: { test: 'grunt travis' },
+29 silly publish   dependencies: { jquery: '^1.11.2', snapsvg: '0.4.0' },
+29 silly publish   devDependencies:
+29 silly publish    { qunitjs: '^1.17.1',
+29 silly publish      grunt: '~0.4.2',
+29 silly publish      'grunt-bytesize': '~0.1.1',
+29 silly publish      'grunt-contrib-clean': '~0.5.0',
+29 silly publish      'grunt-contrib-compress': '~0.12.0',
+29 silly publish      'grunt-contrib-concat': '~0.3.0',
+29 silly publish      'grunt-contrib-copy': '~0.7.0',
+29 silly publish      'grunt-contrib-cssmin': '^0.10.0',
+29 silly publish      'grunt-contrib-jshint': '~0.6.0',
+29 silly publish      'grunt-contrib-qunit': '~0.2.0',
+29 silly publish      'grunt-contrib-uglify': '^0.6.0',
+29 silly publish      'grunt-contrib-watch': '~0.4.0',
+29 silly publish      'grunt-gh-pages': '~0.9.0',
+29 silly publish      matchdep: '~0.1.2',
+29 silly publish      xrayhtml: '^2.0.0',
+29 silly publish      porthole: '0.1.0' },
+29 silly publish   readme: '# Layersnap [![Build Status](https://img.shields.io/travis/filamentgroup/layersnap/master.svg)](https://travis-ci.org/filamentgroup/layersnap)\n\n[![Filament Group](http://filamentgroup.com/images/fg-logo-positive-sm-crop.png) ](http://www.filamentgroup.com/)\n\n## Build SVG animations declaratively.\n\n* [Documentation and Demos](http://filamentgroup.github.io/layersnap/demo/)\n* [npm](https://www.npmjs.com/package/layersnap)\n* [Tests](http://filamentgroup.github.io/layersnap/test/)\n\n## Building the Project Locally\n\nRun `npm install` to install dependencies and then `grunt` to build the project files into the `dist` folder.\n',
+29 silly publish   readmeFilename: 'README.md',
+29 silly publish   gitHead: '6d7467cbb1549ad37f482cd9a860433deae7618a',
+29 silly publish   _id: 'layersnap@0.1.2',
+29 silly publish   _shasum: 'd74d5f728ea3039cc6f8ca5a142cfd1043e7e241',
+29 silly publish   _from: '.' }
+30 verbose mapToRegistry name layersnap
+31 verbose mapToRegistry uri https://registry.npmjs.org/layersnap
+32 verbose publish registryBase https://registry.npmjs.org/
+33 verbose request on initialization, where is /layersnap
+34 verbose request after pass 1, where is /layersnap
+35 verbose request url raw /layersnap
+36 verbose request resolving registry [ 'https://registry.npmjs.org/', './layersnap' ]
+37 verbose request after pass 2, where is https://registry.npmjs.org/layersnap
+38 info retrier registry request attempt 1 at 11:49:07
+39 verbose request using bearer token for auth
+40 verbose request id 85fccf43360bf2f6
+41 http request PUT https://registry.npmjs.org/layersnap
+42 http 403 https://registry.npmjs.org/layersnap
+43 verbose headers { 'content-type': 'application/json',
+43 verbose headers   'cache-control': 'max-age=60',
+43 verbose headers   'content-length': '95',
+43 verbose headers   'accept-ranges': 'bytes',
+43 verbose headers   date: 'Fri, 25 Sep 2015 16:49:19 GMT',
+43 verbose headers   via: '1.1 varnish',
+43 verbose headers   connection: 'keep-alive',
+43 verbose headers   'x-served-by': 'cache-jfk1025-JFK',
+43 verbose headers   'x-cache': 'MISS',
+43 verbose headers   'x-cache-hits': '0',
+43 verbose headers   'x-timer': 'S1443199748.970516,VS0,VE10947' }
+44 error publish Failed PUT 403
+45 error Error: "You cannot publish over the previously published version 0.1.2." : layersnap
+45 error     at RegClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:245:14)
+45 error     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:183:65)
+45 error     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:123:22)
+45 error     at Request.emit (events.js:98:17)
+45 error     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1047:14)
+45 error     at Request.emit (events.js:117:20)
+45 error     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:998:12)
+45 error     at IncomingMessage.emit (events.js:117:20)
+45 error     at _stream_readable.js:943:16
+45 error     at process._tickCallback (node.js:419:13)
+46 error If you need help, you may report this *entire* log,
+46 error including the npm and node versions, at:
+46 error     <http://github.com/npm/npm/issues>
+47 error System Darwin 14.4.0
+48 error command "node" "/usr/local/bin/npm" "publish"
+49 error cwd /Users/scott/Sites/layersnap
+50 error node -v v0.10.31
+51 error npm -v 2.0.0-beta.0
+52 verbose exit [ 1, true ]
