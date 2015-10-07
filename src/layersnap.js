@@ -81,11 +81,11 @@ SVG Build Animations
 			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
 		},
 		"slide-left": function( el, duration, bbox ){
-			el.attr( {transform: "translate(0," + bbox.width + ")"} );
+			el.attr( {transform: "translate(" + bbox.width + ",0)"} );
 			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
 		},
 		"slide-right": function( el, duration, bbox ){
-			el.attr( {transform: "translate(0," + -bbox.width + ")"} );
+			el.attr( {transform: "translate(" + -bbox.width + ",0)"} );
 			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
 		}
 	};
