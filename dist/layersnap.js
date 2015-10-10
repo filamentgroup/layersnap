@@ -1,4 +1,4 @@
-/*! layersnap - v0.1.1 - 2015-09-24
+/*! layersnap - v0.1.4 - 2015-10-09
 * https://github.com/filamentgroup/layersnap
 * Copyright (c) 2015 Filament Group; Licensed MIT */
 (function($,w){
@@ -80,11 +80,11 @@
 			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
 		},
 		"slide-left": function( el, duration, bbox ){
-			el.attr( {transform: "translate(0," + bbox.width + ")"} );
+			el.attr( {transform: "translate(" + bbox.width + ",0)"} );
 			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
 		},
 		"slide-right": function( el, duration, bbox ){
-			el.attr( {transform: "translate(0," + -bbox.width + ")"} );
+			el.attr( {transform: "translate(" + -bbox.width + ",0)"} );
 			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
 		}
 	};

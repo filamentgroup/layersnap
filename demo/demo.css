@@ -32,28 +32,6 @@ pre {
 	height: 52px;
 	background-image: url(http://filamentgroup.com/images/fg-logo-icon.png);
 }
-.layersnap {
-	position: relative;
-}
-.layersnap-replay {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	position: absolute;
-	bottom: 5px;
-	left: 5px;
-	background: #fff;
-	border-radius: 1em;
-	padding: .3em .8em;
-	font-size: 12px;
-	color: #333;
-	cursor: pointer;
-	box-shadow: 0 0 5px rgba(0,0,0,.4);
-	border: none;
-}
-.layersnap-replay:focus {
-	outline: none;
-}
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5){
 	#fg-logo {
 		background-size: 287px 52px;
