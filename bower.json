@@ -1,6 +1,5 @@
 {
 	"name": "layersnap",
-	"version": "0.1.5",
 	"main": [
 		"dist/layersnap.js",
 		"dist/layersnap-init.js",
