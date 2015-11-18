@@ -1,4 +1,4 @@
-/*! layersnap - v0.1.6 - 2015-10-12
+/*! layersnap - v0.1.6 - 2015-11-17
 * https://github.com/filamentgroup/layersnap
 * Copyright (c) 2015 Filament Group; Licensed MIT */
 .svg-supported .layersnap svg > g[id] {
@@ -48,4 +48,7 @@
 }
 .layersnap-replay:focus {
 	outline: none;
+}
+.svg-supported [data-layersnap-interact] .layersnap-replay {
+	display: none;
 }

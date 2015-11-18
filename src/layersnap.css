@@ -49,3 +49,6 @@ SVG Build Animations
 .layersnap-replay:focus {
 	outline: none;
 }
+.svg-supported [data-layersnap-interact] .layersnap-replay {
+	display: none;
+}
