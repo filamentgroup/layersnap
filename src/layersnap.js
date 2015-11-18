@@ -165,6 +165,11 @@ SVG Build Animations
 								$toggle.removeClass( toggleClass );
 								$toggle.siblings().filter( "." + toggleTriggerElementClass ).addClass( toggleClass );
 
+								// trigger layersnap on a toggle'd element that has a layersnap class
+								if( $toggle.is( ".layersnap" ) ){
+									$toggle.layersnap();
+								}
+
 								// activate svg group
 								$el.attr( "class", activeGroupClass );
 								$el.siblings().attr( "class", "" );

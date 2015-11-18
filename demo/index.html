@@ -322,7 +322,7 @@
 	<p class="docs">Animations can interact with other DOM content by changing a group’s ID attribute to include "toggle-" followed by an ID of an element on the page that should be toggled when that group is clicked. Once clicked, a class of "layersnap-toggle-hide" will be added to the associated element, and a class of "layersnap-toggle-active" will be added to the SVG group. By default, all toggles will receive the hide class, so if you'd like to activate a group from the start, add "toggleactive" to that group's ID.</p>
 
 	<div data-xrayhtml="flip" data-title="Example">
-		<div class="layersnap interact-example" data-layersnap-interact data-scroll-activate  style="background-image: url(fallbacks/interact.png);" data-layersnap-replay>
+		<div class="layersnap interact-example" data-layersnap-interact data-scroll-activate  style="background-image: url(fallbacks/interact.png);">
 			<style>
 				.svg-supported .interact-example {
 					position: relative;
@@ -430,6 +430,158 @@
 			<div id="six" class="layersnap-toggle">
 					<h2>SIX!</h2>
 					<p>This text was enabled by tapping an interactive graphic.</p>
+			</div>
+		</div>
+	</div>
+
+	<p class="docs">Interaction can work across SVGs as well, so you can have one SVG toggle the visibility of another SVG, and it'll start playing it as well if it's wrapped in the expected layersnap markup. For example:</p>
+
+	<div data-xrayhtml="flip" data-title="Example">
+		<div class="layersnap interact-example" data-layersnap-interact data-scroll-activate  style="background-image: url(fallbacks/interact.png);" data-layersnap-replay>
+			<style>
+				.svg-supported .interact-example {
+					position: relative;
+					padding-bottom: 8em; /* make room for divs */
+				}
+				.svg-supported .interact-example div {
+					padding: 1em;
+					position: absolute;
+				}
+				.svg-supported .interact-example g:hover > polygon {
+					fill: #36A2CC;
+				}
+				.svg-supported g.layersnap-toggle-active:hover  > polygon,
+				.svg-supported g.layersnap-toggle-active  > polygon {
+					fill: #073C5C;
+				}
+				@media (min-width: 50em){
+					.svg-supported .interact-example {
+						padding-bottom: 0;
+					}
+					.svg-supported .interact-example div {
+						right: 10px;
+						left: 320px;
+						top: 30px;
+					}
+				}
+			</style>
+			<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+				 width="274px" height="274px" viewBox="0 0 274 274" enable-background="new 0 0 274 274" xml:space="preserve">
+			<g id="pop_delay-800_duration-1500_toggle-one-b_activegroup">
+				<polygon fill="#227FB6" points="18.1,205.6 20.3,209.4 22.7,213.2 25.3,216.7 27.9,220.3 30.6,223.7 33.4,227.1 36.4,230.4
+					39.4,233.5 42.7,236.7 45.8,239.6 49.3,242.5 52.6,245.2 56.2,247.9 59.8,250.4 63.5,252.7 67.2,255.2 71,257.3 75,259.3
+					79.1,261.4 87.3,264.9 91.5,266.3 95.8,267.7 100.2,269 104.4,270.2 109,271 113.4,272 118,273 122.5,273 127.3,274 132,274
+					137,274 137,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 72.1786 222.2871)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">ONE</text>
+				</g>
+			</g>
+			<g id="pop_delay-1000_duration-1500_toggle-two-b">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="18.1,68.7 15.9,72.5 13.9,76.6 12,80.5 10.4,84.5
+					8.6,88.7 5.8,96.9 4.6,101.2 3.5,105.4 2,109.8 2,114.1 1,118.5 1,122.7 0,127.2 0,131.6 0,136 0,140.4 0,144.8 0,149.4 1,153.8
+					1,158.2 3,167 4.1,171.5 5.3,175.8 6.6,180.2 8.2,184.5 9.9,188.8 11.8,193 13.7,197.3 15.9,201.4 18.1,205.6 136.6,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 29.5836 140.9613)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">TWO</text>
+				</g>
+			</g>
+			<g id="pop_delay-1200_duration-1500_toggle-three-b">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="137,0.3 132.2,0 123.4,1 118.9,1 114.7,2 110.3,3 106,4
+					101.7,4.9 97.5,6 93.3,7.3 89.2,8.8 85,10.4 81,12.1 77,13.9 73.1,15.9 65.4,20.2 61.5,22.7 58,25.2 54.2,27.8 50.8,30.4
+					47.2,33.4 43.9,36.4 40.6,39.4 34.5,46 31.5,49.6 28.5,53.1 25.7,56.9 23.1,60.7 20.6,64.7 18.1,68.7 137,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 59.7576 61.4365)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">THREE</text>
+				</g>
+			</g>
+			<g id="pop_delay-1800_duration-1500_toggle-four-b">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="255.1,68.7 253,64.9 250.5,61.1 248,57.5 245.4,54
+					242.8,50.6 239.9,47.1 236.9,43.9 233.9,40.8 230.6,37.6 227.5,34.7 224,31.8 220.6,29 217.1,26.3 213.5,23.9 209.8,21.5
+					206.1,19.1 202.3,16.9 198.2,15 194.2,12.9 186,9.4 181.8,7.9 177.5,6.5 173.1,5.2 168.9,4.1 164.3,3 159.9,2 155.3,2 150.8,1
+					146,1 141.3,0 137,0 137,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 156.121 61.4367)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">FOUR</text>
+				</g>
+			</g>
+			<g id="pop_delay-1600_duration-1500_toggle-five-b">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="255.1,205.6 257.4,201.7 259.4,197.7 261.2,193.8
+					262.9,189.7 264.7,185.6 267.5,177.4 268.6,173 269.8,168.8 271,164.5 272,160.2 272,155.8 273,151.6 273,147.1 273,142.7
+					274,138.3 274,133.9 273,129.4 273,124.9 272,120.4 272,116 270.2,107.2 269.2,102.7 268,98.5 266.7,94.1 265.1,89.8 263.4,85.5
+					261.5,81.3 259.5,76.9 257.4,72.8 255.1,68.7 136.6,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 203.016 140.9161)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">FIVE</text>
+				</g>
+			</g>
+			<g id="pop_delay-1400_duration-1500_toggle-six-b">
+				<polygon fill="#227FB6" stroke="#FFFFFF" stroke-miterlimit="10" points="137,274 141,274 149.9,273 154.4,273 158.6,272 163,271
+					167.3,271 171.6,269.4 175.7,268.3 180,267 184.1,265.5 188.3,263.9 192.2,262.2 196.3,260.3 200.2,258.4 207.9,254 211.7,251.6
+					215.4,249.1 219,246.4 222.5,243.8 226.1,240.9 229.4,237.9 232.6,234.8 238.8,228.3 241.8,224.7 244.7,221.1 247.5,217.4
+					250.2,213.5 252.7,209.6 255.1,205.6 137,137.1 	"/>
+				<g>
+					<text transform="matrix(1 0 0 1 176.9976 222.2653)" fill="#FFFFFF" font-family="'Arial-BoldMT'" font-size="12px">SIX</text>
+				</g>
+			</g>
+
+			</svg>
+
+			<div id="one-b" class="layersnap-toggle layersnap">
+				<svg x="0px" y="0px" width="375.2px" height="192.6px" viewBox="0 0 375.2 192.6" enable-background="new 0 0 375.2 192.6" xml:space="preserve">
+					<g id="pop_duration-600_delay-0">
+						<text transform="matrix(1 0 0 1 153.8387 84.7332)" font-family="'Helvetica'" font-size="116.2499px">1</text>
+					</g>
+					<g id="slide-up_duration-900_delay-100">
+						<text transform="matrix(1 0 0 1 120.6609 124.8762)" font-family="'Helvetica'" font-size="12px">You clicked the number 1!</text>
+					</g>
+				</svg>
+
+			</div>
+			<div id="two-b" class="layersnap-toggle layersnap">
+				<svg x="0px" y="0px" width="375.2px" height="192.6px" viewBox="0 0 375.2 192.6" enable-background="new 0 0 375.2 192.6" xml:space="preserve">
+					<g id="pop_duration-600_delay-0">
+						<text transform="matrix(1 0 0 1 153.8387 84.7332)" font-family="'Helvetica'" font-size="116.2499px">2</text>
+					</g>
+					<g id="slide-up_duration-900_delay-100">
+						<text transform="matrix(1 0 0 1 120.6609 124.8762)" font-family="'Helvetica'" font-size="12px">You clicked the number 2!</text>
+					</g>
+				</svg>
+			</div>
+			<div id="three-b" class="layersnap-toggle layersnap">
+				<svg x="0px" y="0px" width="375.2px" height="192.6px" viewBox="0 0 375.2 192.6" enable-background="new 0 0 375.2 192.6" xml:space="preserve">
+					<g id="pop_duration-600_delay-0">
+						<text transform="matrix(1 0 0 1 153.8387 84.7332)" font-family="'Helvetica'" font-size="116.2499px">3</text>
+					</g>
+					<g id="slide-up_duration-900_delay-100">
+						<text transform="matrix(1 0 0 1 120.6609 124.8762)" font-family="'Helvetica'" font-size="12px">You clicked the number 3!</text>
+					</g>
+				</svg>
+			</div>
+			<div id="four-b" class="layersnap-toggle layersnap">
+				<svg x="0px" y="0px" width="375.2px" height="192.6px" viewBox="0 0 375.2 192.6" enable-background="new 0 0 375.2 192.6" xml:space="preserve">
+					<g id="pop_duration-600_delay-0">
+						<text transform="matrix(1 0 0 1 153.8387 84.7332)" font-family="'Helvetica'" font-size="116.2499px">4</text>
+					</g>
+					<g id="slide-up_duration-900_delay-100">
+						<text transform="matrix(1 0 0 1 120.6609 124.8762)" font-family="'Helvetica'" font-size="12px">You clicked the number 4!</text>
+					</g>
+				</svg>
+			</div>
+			<div id="five-b" class="layersnap-toggle layersnap">
+				<svg x="0px" y="0px" width="375.2px" height="192.6px" viewBox="0 0 375.2 192.6" enable-background="new 0 0 375.2 192.6" xml:space="preserve">
+					<g id="pop_duration-600_delay-0">
+						<text transform="matrix(1 0 0 1 153.8387 84.7332)" font-family="'Helvetica'" font-size="116.2499px">5</text>
+					</g>
+					<g id="slide-up_duration-900_delay-100">
+						<text transform="matrix(1 0 0 1 120.6609 124.8762)" font-family="'Helvetica'" font-size="12px">You clicked the number 5!</text>
+					</g>
+				</svg>
+			</div>
+			<div id="six-b" class="layersnap-toggle layersnap">
+				<svg x="0px" y="0px" width="375.2px" height="192.6px" viewBox="0 0 375.2 192.6" enable-background="new 0 0 375.2 192.6" xml:space="preserve">
+					<g id="pop_duration-600_delay-0">
+						<text transform="matrix(1 0 0 1 153.8387 84.7332)" font-family="'Helvetica'" font-size="116.2499px">6</text>
+					</g>
+					<g id="slide-up_duration-900_delay-100">
+						<text transform="matrix(1 0 0 1 120.6609 124.8762)" font-family="'Helvetica'" font-size="12px">You clicked the number 6!</text>
+					</g>
+				</svg>
 			</div>
 		</div>
 	</div>
