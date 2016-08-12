@@ -4,9 +4,9 @@
 
 ## Build SVG animations declaratively.
 
-* [Documentation and Demos](http://filamentgroup.github.io/layersnap/demo/)
+* [Documentation and Demos](http://master.origin.layersnap.fgview.com/demo/)
 * [npm](https://www.npmjs.com/package/layersnap)
-* [Tests](http://filamentgroup.github.io/layersnap/test/)
+* [Tests](http://master.origin.layersnap.fgview.com/test/)
 
 ## Building the Project Locally
 
