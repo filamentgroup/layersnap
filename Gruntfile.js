@@ -161,6 +161,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('travis', ['jshint', 'qunit']);
 	grunt.registerTask('src', ['concat', 'clean:dependencies', 'copy', 'clean:post']);
 	grunt.registerTask('default', ['jshint', 'src', 'qunit', 'bytesize']);
+	grunt.registerTask('stage', ['concat', 'clean:dependencies', 'copy', 'clean:post']);
 
 	// Deploy
 	grunt.registerTask('deploy', ['default', 'gh-pages']);
