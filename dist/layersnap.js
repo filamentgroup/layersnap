@@ -1,6 +1,6 @@
-/*! layersnap - v0.1.6 - 2015-11-17
+/*! layersnap - v0.1.7 - 2016-08-15
 * https://github.com/filamentgroup/layersnap
-* Copyright (c) 2015 Filament Group; Licensed MIT */
+* Copyright (c) 2016 Filament Group; Licensed MIT */
 (function($,w){
 
 	// For CSS targeting
@@ -31,160 +31,213 @@
 	var toggleTriggerElementClass = "layersnap-toggle";
 	var interactivitySet = "bound";
 
-	var transitions = {
-		"rotate-right": function( el, duration, bbox ){
-			el.attr( {transform: "r-30"} );
-			el.animate({ transform: "r0," + bbox.cx + ',' + bbox.cy, opacity: 1 }, duration, mina.easeOut );
-		},
-		"rotate-left": function( el, duration, bbox ){
-			el.attr( {transform: "r30"} );
-			el.animate({ transform: "r0," + bbox.cx + ',' + bbox.cy, opacity: 1 }, duration, mina.easeOut );
-		},
-		"fade": function( el, duration ){
-			el.animate({ opacity: 1 }, duration, mina.easeOut );
-		},
-		"scale-up": function( el, duration, bbox ){
-			el.attr( {transform: "s.7"} );
-			el.animate({ opacity: 1, transform: "s1," + bbox.cx + ',' + bbox.cy }, duration, mina.easeOut );
-		},
-		"scale-down": function( el, duration, bbox ){
-			el.attr( {transform: "s1.3"} );
-			el.animate({ opacity: 1, transform: "s1," + bbox.cx + ',' + bbox.cy }, duration, mina.easeOut );
-		},
-		"pop": function( el, duration, bbox ){
-			el.attr( {transform: "s.7"} );
-			el.animate({ opacity: 1, transform: "s1," + bbox.cx + ',' + bbox.cy }, duration, mina.elastic );
-		},
-		"drift-up": function( el, duration ){
-			el.attr( {transform: "translate(0,30)"} );
-			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
-		},
-		"drift-down": function( el, duration ){
-			el.attr( {transform: "translate(0,-30)"} );
-			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
-		},
-		"drift-left": function( el, duration ){
-			el.attr( {transform: "translate(30,0)"} );
-			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
-		},
-		"drift-right": function( el, duration ){
-			el.attr( {transform: "translate(-30,0)"} );
-			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
-		},
-		"slide-up": function( el, duration, bbox ){
-			el.attr( {transform: "translate(0," + bbox.height + ")"} );
-			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
-		},
-		"slide-down": function( el, duration, bbox ){
-			el.attr( {transform: "translate(0," + -bbox.height + ")"} );
-			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
-		},
-		"slide-left": function( el, duration, bbox ){
-			el.attr( {transform: "translate(" + bbox.width + ",0)"} );
-			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
-		},
-		"slide-right": function( el, duration, bbox ){
-			el.attr( {transform: "translate(" + -bbox.width + ",0)"} );
-			el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+
+	// constructor
+	w.Layersnap = function( elem, options ){
+		this.el = elem;
+		this.options = {
+			replay: false,
+			interactive: false
+		};
+		// override defaults
+		if( options ){
+			for( var i in options ){
+				this.options[ i ] = options[ i ];
+			}
+		}
+
+		var thisReplayAttr = this.el.getAttribute( replayAttr );
+		if( thisReplayAttr !== undefined ){
+			this.options.replay = true;
+		}
+
+		var thisInteractiveAttr = this.el.getAttribute( interactiveAttr );
+		if( thisInteractiveAttr !== undefined && thisInteractiveAttr !== interactivitySet ){
+			this.options.interactive = true;
 		}
 	};
 
-	var runTransition = function( settings ){
+	// more transitions can be added here
+	w.Layersnap.prototype.transitions = {};
+
+	w.Layersnap.prototype.transitions[ "rotate-right"] = function( el, duration, bbox ){
+		el.attr( {transform: "r-30"} );
+		el.animate({ transform: "r0," + bbox.cx + ',' + bbox.cy, opacity: 1 }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( el, duration, bbox ){
+		el.attr( {transform: "r30"} );
+		el.animate({ transform: "r0," + bbox.cx + ',' + bbox.cy, opacity: 1 }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "fade" ] = function( el, duration ){
+		el.animate({ opacity: 1 }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "scale-up" ] = function( el, duration, bbox ){
+		el.attr( {transform: "s.7"} );
+		el.animate({ opacity: 1, transform: "s1," + bbox.cx + ',' + bbox.cy }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "scale-down" ] = function( el, duration, bbox ){
+		el.attr( {transform: "s1.3"} );
+		el.animate({ opacity: 1, transform: "s1," + bbox.cx + ',' + bbox.cy }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "pop" ] = function( el, duration, bbox ){
+		el.attr( {transform: "s.7"} );
+		el.animate({ opacity: 1, transform: "s1," + bbox.cx + ',' + bbox.cy }, duration, mina.elastic );
+	};
+
+	w.Layersnap.prototype.transitions[ "drift-up" ] = function( el, duration ){
+		el.attr( {transform: "translate(0,30)"} );
+		el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "drift-down" ] = function( el, duration ){
+		el.attr( {transform: "translate(0,-30)"} );
+		el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "drift-left" ] = function( el, duration ){
+		el.attr( {transform: "translate(30,0)"} );
+		el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "drift-right" ] = function( el, duration ){
+		el.attr( {transform: "translate(-30,0)"} );
+		el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "slide-up" ] = function( el, duration, bbox ){
+		el.attr( {transform: "translate(0," + bbox.height + ")"} );
+		el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "slide-down" ] = function( el, duration, bbox ){
+		el.attr( {transform: "translate(0," + -bbox.height + ")"} );
+		el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "slide-left" ] = function( el, duration, bbox ){
+		el.attr( {transform: "translate(" + bbox.width + ",0)"} );
+		el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.transitions[ "slide-right" ] = function( el, duration, bbox ){
+		el.attr( {transform: "translate(" + -bbox.width + ",0)"} );
+		el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+	};
+
+	w.Layersnap.prototype.runTransition = function( settings ){
+		var self = this;
 		setTimeout( function(){
-			transitions[ settings.transition ]( settings.el, settings.duration, settings.bbox );
+			self.transitions[ settings.transition ]( settings.el, settings.duration, settings.bbox );
 		}, settings.delay );
 	};
 
-	$.fn.layersnap = function(){
+	w.Layersnap.prototype.init = function(){
+		var self = this;
+		var i = 1;
+		var layersnapDiv = new Snap( this.el );
+		var svg = layersnapDiv.select( svgEl );
+		var bbox = svg.getBBox(); //bounding box, get coords and center
 
-		return this.each(function(){
-			var i = 1;
-			var $svgParent = $( this );
-			var layersnapDiv = new Snap( this );
-			var svg = layersnapDiv.select( svgEl );
-			var bbox = svg.getBBox(); //bounding box, get coords and center
+		layersnapDiv.selectAll( childGroups ).forEach(function(elem){
+			var ret = {
+				el: elem,
+				duration: 800,
+				bbox: bbox
+			};
+			// get settings from el ID
+			var elID = ret.el.attr( "id" );
+			ret.el.attr( { "opacity": 0 } );
+			// override duration if set
+			var idDuration = elID.match( regDuration);
+			if( idDuration ){
+				ret.duration = parseFloat( idDuration[ 2 ] );
+			}
+			// override duration if set
+			var idDelay = elID.match( regDelay );
+			ret.delay = ( ret.duration * i - ret.duration );
+			if( idDelay ){
+				ret.delay =  parseFloat( idDelay[ 2 ] );
+			}
+			for( var name in self.transitions ){
+				if( elID.indexOf( name ) > -1 ){
+					ret.transition = name;
+				}
+			}
+			if( ret.transition ){
+				self.runTransition( ret );
+			}
+			i++;
+		});
 
-			layersnapDiv.selectAll( childGroups ).forEach(function(elem){
-				var ret = {
-					el: elem,
-					duration: 800,
-					bbox: bbox
-				};
-				// get settings from el ID
-				var elID = ret.el.attr( "id" );
-				ret.el.attr( { "opacity": 0 } );
-				// override duration if set
-				var idDuration = elID.match( regDuration);
-				if( idDuration ){
-					ret.duration = parseFloat( idDuration[ 2 ] );
-				}
-				// override duration if set
-				var idDelay = elID.match( regDelay );
-				ret.delay = ( ret.duration * i - ret.duration );
-				if( idDelay ){
-					ret.delay =  parseFloat( idDelay[ 2 ] );
-				}
-				for( var name in transitions ){
-					if( transitions.hasOwnProperty( name ) && elID.indexOf( name ) > -1 ){
-						ret.transition = name;
+		// replay button
+		if( self.options.replay ){
+			self.addReplayButton();
+		}
+
+		// interactivity
+		if( self.options.interactive ){
+			self.addInteractivity();
+		}
+	};
+
+	w.Layersnap.prototype.addReplayButton = function(){
+		var self;
+		$( "<button class='" + replayBtnClass + "' title='" + replayBtnText + "'>" + replayBtnText + "</button>" )
+			.bind( "click", function( e ){
+				$( self.el ).layersnap();
+				e.preventDefault();
+			})
+			.appendTo( this.el );
+
+		this.el.removeAttribute( replayAttr );
+	};
+
+	w.Layersnap.prototype.addInteractivity = function(){
+		$( this.el )
+			.attr( interactiveAttr, interactivitySet )
+			.bind( "click toggleElem", function( e ){
+				var $el = $( e.target ).closest( "g[id]" );
+				var elID = $el.attr( "id" );
+				if( elID ){
+					var toggleID = elID.match( regToggle );
+					if( toggleID.length ){
+						var $toggle = $( "#" + toggleID[ 2 ] );
+
+						// deactivate/activate toggle elements
+						$toggle.removeClass( toggleClass );
+						$toggle.siblings().filter( "." + toggleTriggerElementClass ).addClass( toggleClass );
+
+						// trigger layersnap on a toggle'd element that has a layersnap class
+						if( $toggle.is( ".layersnap" ) ){
+							$toggle.layersnap();
+						}
+
+						// activate svg group
+						$el.attr( "class", activeGroupClass );
+						$el.siblings().attr( "class", "" );
 					}
 				}
-				if( ret.transition ){
-					runTransition( ret );
-				}
-				i++;
-			});
+			} );
 
-			// replay button
-			if( $svgParent.is( "[" + replayAttr + "]" ) ){
-				$( "<button class='" + replayBtnClass + "' title='" + replayBtnText + "'>" + replayBtnText + "</button>" )
-					.bind( "click", function( e ){
-						$svgParent.layersnap();
-						e.preventDefault();
-					})
-					.appendTo( $svgParent );
+		// hide all .layersnap-toggle elems
+		$( this.el )
+			.find( "." + activeGroupClass )
+			.addClass( toggleClass );
 
-				$svgParent.removeAttr( replayAttr );
-			}
+		// trigger initial toggle if specified
+		$( this.el )
+			.find( activeGroupSel )
+			.trigger( "toggleElem" );
+	};
 
-			// interactivity
-			if( $svgParent.is( "[" + interactiveAttr + "]" ) && $svgParent.attr( interactiveAttr ) !== interactivitySet ){
-
-				$svgParent
-					.attr( interactiveAttr, interactivitySet )
-					.bind( "click toggleElem", function( e ){
-						var $el = $( e.target ).closest( "g[id]" );
-						var elID = $el.attr( "id" );
-						if( elID ){
-							var toggleID = elID.match( regToggle );
-							if( toggleID.length ){
-								var $toggle = $( "#" + toggleID[ 2 ] );
-
-								// deactivate/activate toggle elements
-								$toggle.removeClass( toggleClass );
-								$toggle.siblings().filter( "." + toggleTriggerElementClass ).addClass( toggleClass );
-
-								// trigger layersnap on a toggle'd element that has a layersnap class
-								if( $toggle.is( ".layersnap" ) ){
-									$toggle.layersnap();
-								}
-
-								// activate svg group
-								$el.attr( "class", activeGroupClass );
-								$el.siblings().attr( "class", "" );
-							}
-						}
-					} );
-
-				// hide all .layersnap-toggle elems
-				$svgParent.find( "." + activeGroupClass ).addClass( toggleClass );
-
-				// trigger initial toggle if specified
-				$svgParent
-					.find( activeGroupSel )
-					.trigger( "toggleElem" );
-			}
-
+	$.fn.layersnap = function( options ){
+		return this.each(function(){
+			return new w.Layersnap( this, options ).init();
 		});
 	};
 

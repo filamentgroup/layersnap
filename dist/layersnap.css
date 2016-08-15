@@ -1,6 +1,6 @@
-/*! layersnap - v0.1.6 - 2015-11-17
+/*! layersnap - v0.1.7 - 2016-08-15
 * https://github.com/filamentgroup/layersnap
-* Copyright (c) 2015 Filament Group; Licensed MIT */
+* Copyright (c) 2016 Filament Group; Licensed MIT */
 .svg-supported .layersnap svg > g[id] {
 	opacity: 0;
 }
