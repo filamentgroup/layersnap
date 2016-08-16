@@ -8,7 +8,7 @@ SVG Build Animations
 	var svg = !!w.document.createElementNS && !!w.document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect && !!w.document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1") && !(w.opera && w.navigator.userAgent.indexOf('Chrome') === -1) && w.navigator.userAgent.indexOf('Series40') === -1;
 
 	if( svg ){
-		$( w.document.documentElement ).addClass( "svg-supported" );
+		w.document.documentElement.className += " svg-supported";
 	}
 
 	// strings
@@ -48,12 +48,11 @@ SVG Build Animations
 		}
 
 		var thisReplayAttr = this.el.getAttribute( replayAttr );
-		if( thisReplayAttr !== undefined ){
+		if( thisReplayAttr !== null ){
 			this.options.replay = true;
 		}
-
 		var thisInteractiveAttr = this.el.getAttribute( interactiveAttr );
-		if( thisInteractiveAttr !== undefined && thisInteractiveAttr !== interactivitySet ){
+		if( thisInteractiveAttr !== null && thisInteractiveAttr !== interactivitySet ){
 			this.options.interactive = true;
 		}
 	};
@@ -187,14 +186,16 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.addReplayButton = function(){
-		var self;
-		$( "<button class='" + replayBtnClass + "' title='" + replayBtnText + "'>" + replayBtnText + "</button>" )
-			.bind( "click", function( e ){
-				$( self.el ).layersnap();
-				e.preventDefault();
-			})
-			.appendTo( this.el );
-
+		var self = this;
+		var btn = w.document.createElement( "button" );
+		btn.className = replayBtnClass;
+		btn.title = replayBtnText;
+		btn.innerText = replayBtnText;
+		btn.onclick = function( e ){
+			e.preventDefault();
+			$( self.el ).layersnap();
+		};
+		self.el.appendChild( btn );
 		this.el.removeAttribute( replayAttr );
 	};
 

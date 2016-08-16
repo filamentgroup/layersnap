@@ -20,12 +20,6 @@
 	<script src="../dist/layersnap.init.js"></script>
 	<script src="//filamentgroup.github.io/demo-head/loadfont.js"></script>
 	<script>
-		// replay animations on tap/click
-		$( document ).bind( "enhance", function( e ){
-			$( e.target ).find( ".layersnap" ).not( "[data-layersnap-interact]" ).bind( "click", function( e ){
-				$( this ).layersnap();
-			} );
-		});
 
 		// generic event for auto-init. run on domready
 		$( function(){
@@ -316,6 +310,19 @@
 	&lt;/div&gt;
 	</code></pre>
 
+	<h3 class="docs">Replay Buttons</h3>
+	<p class="docs">The demos above are configured to replay on click, but that's mostly for demo purposes and not standard behavior. If you'd like to add a button to replay an animation, add the <code>data-layersnap-replay</code> attribute. </p>
+
+	<div data-xrayhtml="flip" data-title="Animation with a replay button">
+		<div class="layersnap" data-layersnap-replay data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+				<g id="rotate-right duration-5000">
+					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
+					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
+				</g>
+			</svg>
+		</div>
+	</div>
 
 	<h3 class="docs">Interactive Animations</h3>
 
