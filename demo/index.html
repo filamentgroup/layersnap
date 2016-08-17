@@ -8,8 +8,8 @@
 
 	<link rel="stylesheet" href="../dist/layersnap.css">
 	<link rel="stylesheet" href="../dist/dependencies/xrayhtml.css">
-	<link rel="stylesheet" href="demo.css">
 	<link rel="stylesheet" href="//filamentgroup.github.io/demo-head/demohead.css">
+	<link rel="stylesheet" href="demo.css">
 
 	<script src="../dist/dependencies/jquery.js"></script>
 	<script src="../dist/dependencies/xrayhtml.js"></script>
@@ -54,44 +54,27 @@
 
 		<h2 class="docs">How-To</h2>
 
-		<p class="docs">Include jQuery (or Shoestring), SnapSVG, and the <a href="https://github.com/filamentgroup/layersnap/tree/master/dist"></a>layersnap JS and CSS files in the dist folder</a> of this repo.</p>
+		<p class="docs">Include SnapSVG, <a href="https://github.com/filamentgroup/layersnap/tree/master/dist/layersnap.js">layersnap.js</a>, and the <a href="https://github.com/filamentgroup/layersnap/tree/master/dist/layersnap.css">layersnap.css</a> in your page.</p>
 
-		<p class="docs">SVG markup must be included inline in the HTML, wrapped in a <code>&lt;div&nbsp;class=&quot;layersnap&quot;&gt;&lt;/div&gt;</code>. Transitions are defined via the ID attribute of <code>g</code> element children of the <code>svg</code> element.</p>
+
+		<p class="docs">Next, add some SVG markup inline in the body of your HTML, wrapped in a <code>&lt;div&nbsp;class=&quot;layersnap&quot;&gt;&lt;/div&gt;</code>. Transitions for each part of the svg graphic are defined via the ID attribute of <code>g</code> element children of the <code>svg</code> element.</p>
 
 <pre class="docs"><code code="docs">
-&lt;div&nbsp;<strong>class=&quot;layersnap&quot;</strong>&gt;
+&lt;div&nbsp;<strong>class=&quot;layersnap&quot;</strong> id=&quot;mysvg&quot;&gt;
   &lt;svg&gt;
     &lt;g <strong>id=&quot;fade&quot;</strong>&gt;...&lt;/g&gt;
   &lt;/svg&gt;
 &lt;/div&gt;
 </code></pre>
 
-	<p class="docs">To have the animation play when the page loads, give the <code>div</code> wrapper the attribute <code>data-layersnap-init</code>.</p>
+	<p class="docs">To animate the svg, call the <code>Layersnap()</code> function, passing a reference to your svg's wrapper div:</p>
 <pre class="docs"><code code="docs">
-&lt;div&nbsp;class=&quot;layersnap&quot; <strong>data-layersnap-init</strong>&gt;
-  &lt;svg&gt;
-    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
-  &lt;/svg&gt;
-&lt;/div&gt;
+	var mysvg = document.getElementById( "mysvg" );
+	new window.Layersnap( mysvg ).init();
 </code></pre>
 
-<p class="docs">If you want a button that'll replay the animation on click, give the <code>div</code> wrapper the attribute <code>data-layersnap-replay</code>.</p>
-<pre class="docs"><code code="docs">
-&lt;div&nbsp;class=&quot;layersnap&quot; <strong>data-layersnap-replay</strong>&gt;
-  &lt;svg&gt;
-    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
-  &lt;/svg&gt;
-&lt;/div&gt;
-</code></pre>
+<p class="docs">That's it! From there, the layersnap script will play the animations within the svg based on their ID attribute configurations.</p>
 
-<p class="docs">To specify a fallback image for non-svg supporting browsers, give the <code>div</code> a background image (this rule will be negated if svg is supported).</p>
-<pre class="docs"><code code="docs">
-&lt;div&nbsp;class=&quot;layersnap&quot; data-layersnap-init <strong>style="background-image: url(path/to/fallback.png);</strong>&quot;&gt;
-  &lt;svg&gt;
-    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
-  &lt;/svg&gt;
-&lt;/div&gt;
-</code></pre>
 
 
 	<h2 class="docs">Transition Examples</h2>
@@ -288,41 +271,18 @@
 		</div>
 	</div>
 
-	<h3 class="docs" id="porthole">Delaying Start Time for when the graphic is visible (with Porthole)</h3>
-
-	<p class="docs">If you've included <a href="https://github.com/filamentgroup/porthole">Porthole</a> in your page, you can have an animation start when it scrolls into the viewport. All of the animations in this page use Porthole to do just that.</p>
-
-	<p class="docs">With porthole included, to have the animation play once when it scrolls into the viewport, give the <code>div</code> wrapper the attribute <code>data-scroll-activate</code>.</p>
-	<pre><code>
-	&lt;div&nbsp;class=&quot;layersnap&quot; <strong>data-scroll-activate</strong>&gt;
-	  &lt;svg&gt;
-	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
-	  &lt;/svg&gt;
-	&lt;/div&gt;
-	</code></pre>
-
-	<p class="docs">To make it replay every time it enters the viewport, also add the attribute <code>data-scroll-deactivate</code>.</p>
-<pre class="docs"><code code="docs">
-	&lt;div&nbsp;class=&quot;layersnap <strong>&quot; data-scroll-activate data-scroll-deactivate</strong>&gt;
-	  &lt;svg&gt;
-	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
-	  &lt;/svg&gt;
-	&lt;/div&gt;
-	</code></pre>
 
 	<h3 class="docs">Replay Buttons</h3>
-	<p class="docs">The demos above are configured to replay on click, but that's mostly for demo purposes and not standard behavior. If you'd like to add a button to replay an animation, add the <code>data-layersnap-replay</code> attribute. </p>
 
-	<div data-xrayhtml="flip" data-title="Animation with a replay button">
-		<div class="layersnap" data-layersnap-replay data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
-				<g id="rotate-right duration-5000">
-					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
-					<text id="XMLID_14_" transform="matrix(1 0 0 1 57.7562 104)" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
-				</g>
-			</svg>
-		</div>
-	</div>
+	<p class="docs">If you want a button that'll replay the animation on click, give the <code>div</code> wrapper the attribute <code>data-layersnap-replay</code>. Every demo in this page except for the interactive ones has a replay button overlayed on it, with opacity: 0.</p>
+	<pre class="docs"><code code="docs">
+	&lt;div&nbsp;class=&quot;layersnap&quot; <strong>data-layersnap-replay</strong>&gt;
+	  &lt;svg&gt;
+	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
+	  &lt;/svg&gt;
+	&lt;/div&gt;
+	</code></pre>
+
 
 	<h3 class="docs">Interactive Animations</h3>
 
@@ -594,6 +554,17 @@
 	</div>
 
 
+	<h3 class="docs">Fallback Images</h3>
+
+	<p class="docs">To specify a fallback image for non-svg supporting browsers, give the <code>div</code> a background image (this rule will be negated if svg is supported).</p>
+	<pre class="docs"><code code="docs">
+	&lt;div&nbsp;class=&quot;layersnap&quot; data-layersnap-init <strong>style="background-image: url(path/to/fallback.png);</strong>&quot;&gt;
+	  &lt;svg&gt;
+	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
+	  &lt;/svg&gt;
+	&lt;/div&gt;
+	</code></pre>
+
 
 	<h2 class="docs" id="ai-tips">Building Animations in Adobe Illustrator</h2>
 
@@ -605,6 +576,66 @@
 		<li class="docs">In order to use the layer naming technique above, you'll need at least 2 layers in the pallete. Unnamed layers will go ignored by the Animation script.</li>
 		<li class="docs">If more than one layer has the same name, Illustrator will add underscores and other characters to the SVG markup to make its ID unique. It'll still appear the same way in Illustrator however, and the animation engine knows to look for these characters and ignore them.</li>
 	</ul>
+
+
+
+
+
+	<h3 class="docs">jQuery Integration</h3>
+
+	<p class="docs">Layersnap does not depend on jQuery, but we've created some handy tie-ins to use it with jQuery if you prefer.</p>
+
+	<p class="docs">To use Layersnap as a jQuery plugin and bind a few helpful events, include jQuery and the layersnap.jquery.init.js file.
+		This file includes functions to create a $.fn.layersnap() method you can use on any jQuery object, plus event listeners to cue up layersnap animations when the enhance and inviewport events fire on layersnap elements.</p>
+
+	<p class="docs">To have an animation play when the page loads, give the <code>div</code> wrapper the attribute <code>data-layersnap-init</code>, and trigger an "enhance" event when the DOM is ready.</p>
+	<pre class="docs"><code code="docs">
+	&lt;div&nbsp;class=&quot;layersnap&quot; <strong>data-layersnap-init</strong>&gt;
+		&lt;svg&gt;
+			&lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
+		&lt;/svg&gt;
+	&lt;/div&gt;
+	</code></pre>
+
+<pre class="docs"><code code="docs">
+	<script>
+	jQuery( function(){
+		jQuery( document ).trigger( "enhance" );
+	});
+	</script>
+</code></pre>
+
+
+
+	<h3 class="docs" id="porthole">Delaying Start Time for when the graphic is visible (with Porthole)</h3>
+
+	<p class="docs">If you include <a href="https://github.com/filamentgroup/porthole">Porthole</a> in your page, you can have an animation start when it scrolls into the viewport. All of the animations in this page use Porthole to do just that.</p>
+
+	<p class="docs">With porthole included, to have the animation play once when it scrolls into the viewport, give the layersnap <code>div</code> wrapper a <code>data-scroll-activate</code> attribute.</p>
+	<pre><code>
+	&lt;div&nbsp;class=&quot;layersnap&quot; <strong>data-scroll-activate</strong>&gt;
+	  &lt;svg&gt;
+	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
+	  &lt;/svg&gt;
+	&lt;/div&gt;
+	</code></pre>
+
+	<p class="docs">To make it replay every time it enters the viewport, also add the attribute <code>data-scroll-deactivate</code>.</p>
+<pre class="docs"><code code="docs">
+	&lt;div&nbsp;class=&quot;layersnap <strong>&quot; data-scroll-activate data-scroll-deactivate</strong>&gt;
+	  &lt;svg&gt;
+	    &lt;g id=&quot;fade&quot;&gt;...&lt;/g&gt;
+	  &lt;/svg&gt;
+	&lt;/div&gt;
+	</code></pre>
+
+
+
+
+
+
+
+
 
 	</div>
 
