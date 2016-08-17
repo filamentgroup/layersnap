@@ -10,34 +10,32 @@
 		w.document.documentElement.className += " svg-supported";
 	}
 
-	// strings
-	var svgEl = "svg";
-	var childGroups = svgEl + " > g[id]";
-	var replayAttr = "data-layersnap-replay";
-	var replayBtnText = "Replay";
-	var replayBtnClass = "layersnap-replay";
-
-	// ID chunker regexps
-	var regDuration = /(^|\s|_)duration[\-_]+([\d]+)/;
-	var regDelay = /(^|\s|_)delay[\-_]+([\d]+)/;
-	var regToggle = /(^|\s|_)toggle\-([^\s_$]+)/;
-
-	// interactivity
-	var interactiveAttr = "data-layersnap-interact";
-	var activeGroupClass = "layersnap-toggle-active";
-	var activeGroupID = "activegroup";
-	var activeGroupSel = "g[id*=" + activeGroupID + "]";
-	var toggleClass = "layersnap-toggle-hide";
-	var toggleTriggerElementClass = "layersnap-toggle";
-	var interactivitySet = "bound";
-
-
 	// constructor
 	w.Layersnap = function( elem, options ){
 		this.el = elem;
 		this.options = {
+
+			// svg selector strings
+			svgSelector: "svg",
+			childGroupsSelector: "svg > g[id]",
+
+			// ID chunker regexps
+			regDuration: /(^|\s|_)duration[\-_]+([\d]+)/,
+			regDelay: /(^|\s|_)delay[\-_]+([\d]+)/,
+			regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
+
+			// replay and interactive
 			replay: false,
-			interactive: false
+			replayAttr: "data-layersnap-replay",
+			replayBtnText: "Replay",
+			replayBtnClass: "layersnap-replay",
+			interactive: false,
+			interactiveAttr: "data-layersnap-interact",
+			interactivitySetValue: "bound",
+			activeGroupClass: "layersnap-toggle-active",
+			activeGroupSel: "g[id*=activegroup]",
+			toggleClass: "layersnap-toggle-hide",
+			toggleTriggerElementClass: "layersnap-toggle"
 		};
 		// override defaults
 		if( options ){
@@ -46,12 +44,12 @@
 			}
 		}
 
-		var thisReplayAttr = this.el.getAttribute( replayAttr );
+		var thisReplayAttr = this.el.getAttribute( this.options.replayAttr );
 		if( thisReplayAttr !== null ){
 			this.options.replay = true;
 		}
-		var thisInteractiveAttr = this.el.getAttribute( interactiveAttr );
-		if( thisInteractiveAttr !== null && thisInteractiveAttr !== interactivitySet ){
+		var thisInteractiveAttr = this.el.getAttribute( this.options.interactiveAttr );
+		if( thisInteractiveAttr !== null && thisInteractiveAttr !== this.options.interactivitySetValue ){
 			this.options.interactive = true;
 		}
 	};
@@ -140,10 +138,10 @@
 		var i = 1;
 		var layersnapDiv = new Snap( this.el );
 		self.layersnapDiv = layersnapDiv;
-		var svg = layersnapDiv.select( svgEl );
+		var svg = layersnapDiv.select( this.options.svgSelector );
 		var bbox = svg.getBBox(); //bounding box, get coords and center
 
-		layersnapDiv.selectAll( childGroups ).forEach(function(elem){
+		layersnapDiv.selectAll( this.options.childGroupsSelector ).forEach(function(elem){
 			var ret = {
 				el: elem,
 				duration: 800,
@@ -153,12 +151,12 @@
 			var elID = ret.el.attr( "id" );
 			ret.el.attr( { "opacity": 0 } );
 			// override duration if set
-			var idDuration = elID.match( regDuration);
+			var idDuration = elID.match( self.options.regDuration);
 			if( idDuration ){
 				ret.duration = parseFloat( idDuration[ 2 ] );
 			}
 			// override duration if set
-			var idDelay = elID.match( regDelay );
+			var idDelay = elID.match( self.options.regDelay );
 			ret.delay = ( ret.duration * i - ret.duration );
 			if( idDelay ){
 				ret.delay =  parseFloat( idDelay[ 2 ] );
@@ -188,15 +186,15 @@
 	w.Layersnap.prototype.addReplayButton = function(){
 		var self = this;
 		var btn = w.document.createElement( "button" );
-		btn.className = replayBtnClass;
-		btn.title = replayBtnText;
-		btn.innerText = replayBtnText;
+		btn.className = self.options.replayBtnClass;
+		btn.title = self.options.replayBtnText;
+		btn.innerText = self.options.replayBtnText;
 		btn.onclick = function( e ){
 			e.preventDefault();
 			self.init();
 		};
 		self.el.appendChild( btn );
-		this.el.removeAttribute( replayAttr );
+		this.el.removeAttribute( self.options.replayAttr );
 	};
 
 	w.Layersnap.prototype._getClosestID = function( el ){
@@ -218,20 +216,20 @@
 		var el = this._getClosestID( e.target );
 		var elID = el.getAttribute( "id" );
 		if( elID ){
-			var toggleID = elID.match( regToggle );
+			var toggleID = elID.match( self.options.regToggle );
 			if( toggleID.length ){
 				var toggle = w.document.querySelector( "#" + toggleID[ 2 ] );
 
 				var $el = new Snap( el );
 
 				// deactivate/activate toggle elements
-				self.layersnapDiv.selectAll( "." + toggleTriggerElementClass ).forEach( function( elem ){
-						if( elem.node.className.indexOf( toggleClass ) === -1 ){
-							elem.node.className += " " + toggleClass;
+				self.layersnapDiv.selectAll( "." + self.options.toggleTriggerElementClass ).forEach( function( elem ){
+						if( elem.node.className.indexOf( self.options.toggleClass ) === -1 ){
+							elem.node.className += " " + self.options.toggleClass;
 						}
 				} );
 
-				toggle.className = toggle.className.replace( toggleClass, " " );
+				toggle.className = toggle.className.replace( self.options.toggleClass, " " );
 
 				// trigger layersnap on a toggle'd element that has a layersnap class
 				if( toggle.className.match( /[\s^]layersnap[$\s]/ ) ){
@@ -239,17 +237,17 @@
 				}
 
 				// activate svg group
-				self.layersnapDiv.selectAll( "g." + activeGroupClass ).forEach(function(elem){
-					elem.removeClass( activeGroupClass );
+				self.layersnapDiv.selectAll( "g." + self.options.activeGroupClass ).forEach(function(elem){
+					elem.removeClass( self.options.activeGroupClass );
 				});
-				$el.addClass( activeGroupClass );
+				$el.addClass( self.options.activeGroupClass );
 			}
 		}
 	};
 
 	w.Layersnap.prototype.addInteractivity = function(){
 		var self = this;
-		this.layersnapDiv.attr( interactiveAttr, interactivitySet );
+		this.layersnapDiv.attr( self.options.interactiveAttr, self.options.interactivitySetValue );
 
 		this.el.addEventListener( "click", function( e ){
 			self.toggle( e );
@@ -260,12 +258,12 @@
 
 
 		// hide all .layersnap-toggle elems
-		this.layersnapDiv.selectAll( "." + activeGroupClass ).forEach( function( elem ){
-			elem.addClass( toggleClass );
+		this.layersnapDiv.selectAll( "." + this.options.activeGroupClass ).forEach( function( elem ){
+			elem.addClass( self.options.toggleClass );
 		});
 
 		// trigger initial toggle if specified
-		this._triggerEvent( this.layersnapDiv.select( activeGroupSel ).node, "layersnaptoggle" );
+		this._triggerEvent( this.layersnapDiv.select( this.options.activeGroupSel ).node, "layersnaptoggle" );
 	};
 
 }(this));

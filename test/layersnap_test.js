@@ -31,12 +31,25 @@
 		equal( typeof window.Layersnap, "function" );
 	});
 
+	test( 'new instance properties and defaults', function() {
+		expect(7);
+		var exampleelem = document.getElementById( "test1" );
+		var ls = new window.Layersnap( exampleelem );
+		equal( typeof ls, "object", 'layersnap instance type is object.' );
+		ok( ls.el, "el property exists");
+		equal( typeof ls.el, "object", "el prop is an object" );
+		ok( ls.options, "options property exists");
+		equal( typeof ls.options, "object", "options prop is an object" );
+		equal( ls.options.replay, false, "replay option is false by default" );
+		equal( ls.options.interactive, false, "interactive option is false by default" );
+
+	});
+
 	test( 'new instance test', function() {
 		expect(1);
 		var exampleelem = document.getElementById( "test1" );
-		var ls = new Layersnap( exampleelem );
+		var ls = new window.Layersnap( exampleelem );
 		equal( typeof ls, "object", 'layersnap instance type is object.' );
-
 	});
 
 
