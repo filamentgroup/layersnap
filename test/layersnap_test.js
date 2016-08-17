@@ -20,6 +20,7 @@
 			throws(block, [expected], [message])
 	*/
 
+/*jshint loopfunc: true */
 
 	var optionDefaults = {
 
@@ -37,9 +38,8 @@
 		replayAttr: "data-layersnap-replay",
 		replayBtnText: "Replay",
 		replayBtnClass: "layersnap-replay",
-		interactive: false,
+		interact: false,
 		interactiveAttr: "data-layersnap-interact",
-		interactivitySetValue: "bound",
 		activeGroupClass: "layersnap-toggle-active",
 		activeGroupSel: "g[id*=activegroup]",
 		toggleClass: "layersnap-toggle-hide",
@@ -62,9 +62,8 @@
 		replayAttr:1 ,
 		replayBtnText: 1,
 		replayBtnClass: 1,
-		interactive: 1,
+		interact: 1,
 		interactiveAttr: 1,
-		interactivitySetValue: 1,
 		activeGroupClass: 1,
 		activeGroupSel: 1,
 		toggleClass: 1,
@@ -104,12 +103,28 @@
 		}
 	});
 
-	test( 'new instance options overrideable', function() {
+	test( 'new instance options overrideable by argument', function() {
 		expect(Object.keys(optionOverrides).length);
 		var exampleelem = document.getElementById( "test1" );
 		var ls = new window.Layersnap( exampleelem, optionOverrides );
 		for( var i in optionOverrides ){
 			equal( ls.options[ i ].toString(), optionOverrides[ i ].toString(), "Value of " + i + " option is now overridden to " + optionOverrides[ i ] );
+		}
+	});
+
+	test( 'new instance options overrideable by data attribute', function() {
+		expect(Object.keys(optionOverrides).length);
+		var exampleelemb = document.createElement( "div" );
+		var dashAndLowercase = function( c ) {
+			return "-" + c.toLowerCase();
+		};
+		for( var i in optionOverrides ){
+			exampleelemb.setAttribute( "data-layersnap-" + i.replace( /[A-Z]/g, dashAndLowercase ), optionOverrides[ i ] );
+		}
+
+		var ls = new window.Layersnap( exampleelemb );
+		for( var j in optionOverrides ){
+			equal( ls.options[ j ].toString(), optionOverrides[ j ].toString(), "Value of " + j + " option is now overridden to " + optionOverrides[ j ] );
 		}
 	});
 

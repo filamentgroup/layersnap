@@ -29,29 +29,66 @@
 			replayAttr: "data-layersnap-replay",
 			replayBtnText: "Replay",
 			replayBtnClass: "layersnap-replay",
-			interactive: false,
+			interact: false,
 			interactiveAttr: "data-layersnap-interact",
-			interactivitySetValue: "bound",
 			activeGroupClass: "layersnap-toggle-active",
 			activeGroupSel: "g[id*=activegroup]",
 			toggleClass: "layersnap-toggle-hide",
 			toggleTriggerElementClass: "layersnap-toggle"
 		};
+
 		// override defaults
-		if( options ){
-			for( var i in options ){
+		for( var i in this.options ){
+			if( options && options[ i ] !== undefined ){
 				this.options[ i ] = options[ i ];
 			}
+
+			// allow element data attrs to have last word
+			var value = this.el.getAttribute( "data-layersnap-" + i.replace( /[A-Z]/g, this._dashAndLowercase ) );
+			if ( value !== null ) {
+				if( value === "true" || value === "false" ){
+					this.options[ i ] = value === "true";
+				}
+				else if( value.toString().length > 0 ){
+					this.options[ i ] = value;
+				}
+				else {
+					this.options[ i ] = true;
+				}
+			}
+		}
+	};
+
+	// helper for prefixing a value with a dash and lowercasing it. Used for converting options to data-attributes
+	w.Layersnap.prototype._dashAndLowercase = function( c ) {
+		return "-" + c.toLowerCase();
+	};
+
+	// get the closest element with an ID (from a child target)
+	w.Layersnap.prototype._getClosestID = function( el ){
+		var cur = el;
+		while( cur && cur.getAttribute( "id" ) === null ) { //keep going up until you find a match
+				cur = cur.parentNode; //go up
+		}
+		return cur;
+	};
+
+	// init the
+	w.Layersnap.prototype.init = function(){
+		this.layersnapDiv = new Snap( this.el );
+
+		// replay button
+		if( this.options.replay ){
+			this.addReplayButton();
 		}
 
-		var thisReplayAttr = this.el.getAttribute( this.options.replayAttr );
-		if( thisReplayAttr !== null ){
-			this.options.replay = true;
+		// interactivity
+		if( this.options.interact ){
+			this.addInteractivity();
 		}
-		var thisInteractiveAttr = this.el.getAttribute( this.options.interactiveAttr );
-		if( thisInteractiveAttr !== null && thisInteractiveAttr !== this.options.interactivitySetValue ){
-			this.options.interactive = true;
-		}
+
+		// play the animation
+		this.play();
 	};
 
 	// more transitions can be added here
@@ -126,22 +163,21 @@
 		el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
 	};
 
-	w.Layersnap.prototype.runTransition = function( settings ){
+	w.Layersnap.prototype._runTransition = function( settings ){
 		var self = this;
 		setTimeout( function(){
 			self.transitions[ settings.transition ]( settings.el, settings.duration, settings.bbox );
 		}, settings.delay );
 	};
 
-	w.Layersnap.prototype.init = function(){
+	// animate the child g elements
+	w.Layersnap.prototype.play = function(){
 		var self = this;
-		var i = 1;
-		var layersnapDiv = new Snap( this.el );
-		self.layersnapDiv = layersnapDiv;
-		var svg = layersnapDiv.select( this.options.svgSelector );
+		var svg = this.layersnapDiv.select( this.options.svgSelector );
 		var bbox = svg.getBBox(); //bounding box, get coords and center
+		var i = 1;
 
-		layersnapDiv.selectAll( this.options.childGroupsSelector ).forEach(function(elem){
+		this.layersnapDiv.selectAll( this.options.childGroupsSelector ).forEach(function(elem){
 			var ret = {
 				el: elem,
 				duration: 800,
@@ -167,53 +203,51 @@
 				}
 			}
 			if( ret.transition ){
-				self.runTransition( ret );
+				self._runTransition( ret );
 			}
 			i++;
 		});
-
-		// replay button
-		if( self.options.replay ){
-			self.addReplayButton();
-		}
-
-		// interactivity
-		if( self.options.interactive ){
-			self.addInteractivity();
-		}
 	};
 
+	// add replay button and bind click event for it to replay animation on click
 	w.Layersnap.prototype.addReplayButton = function(){
 		var self = this;
+		if( this.replayBound ){
+			return;
+		}
+		else {
+			this.replayBound = true;
+		}
 		var btn = w.document.createElement( "button" );
 		btn.className = self.options.replayBtnClass;
 		btn.title = self.options.replayBtnText;
 		btn.innerText = self.options.replayBtnText;
 		btn.onclick = function( e ){
 			e.preventDefault();
-			self.init();
+			self.play();
 		};
 		self.el.appendChild( btn );
-		this.el.removeAttribute( self.options.replayAttr );
 	};
 
-	w.Layersnap.prototype._getClosestID = function( el ){
-		var cur = el;
-    while( cur && cur.getAttribute( "id" ) === null ) { //keep going up until you find a match
-        cur = cur.parentNode; //go up
-    }
-    return cur;
-	};
-
-	w.Layersnap.prototype._triggerEvent = function( elem, evt ){
-		var event = document.createEvent('Event');
-		event.initEvent( evt, true, true);
-		elem.dispatchEvent( event );
-	};
-
-	w.Layersnap.prototype.toggle = function( e ){
+	// adds the ability to toggle classes between svg group triggers and related elements
+	w.Layersnap.prototype.addInteractivity = function(){
+		if( this.interactivityBound ){
+			return;
+		}
+		else {
+			this.interactivityBound = true;
+		}
 		var self = this;
-		var el = this._getClosestID( e.target );
+		this.el.addEventListener( "click", function( e ){
+			self.toggle( self._getClosestID( e.target ) );
+		} );
+
+		this.toggle( this.layersnapDiv.select( this.options.activeGroupSel ).node );
+	};
+
+	// apply interactive toggle
+	w.Layersnap.prototype.toggle = function( el ){
+		var self = this;
 		var elID = el.getAttribute( "id" );
 		if( elID ){
 			var toggleID = elID.match( self.options.regToggle );
@@ -243,27 +277,6 @@
 				$el.addClass( self.options.activeGroupClass );
 			}
 		}
-	};
-
-	w.Layersnap.prototype.addInteractivity = function(){
-		var self = this;
-		this.layersnapDiv.attr( self.options.interactiveAttr, self.options.interactivitySetValue );
-
-		this.el.addEventListener( "click", function( e ){
-			self.toggle( e );
-		} );
-		this.el.addEventListener( "layersnaptoggle", function( e ){
-			self.toggle( e );
-		} );
-
-
-		// hide all .layersnap-toggle elems
-		this.layersnapDiv.selectAll( "." + this.options.activeGroupClass ).forEach( function( elem ){
-			elem.addClass( self.options.toggleClass );
-		});
-
-		// trigger initial toggle if specified
-		this._triggerEvent( this.layersnapDiv.select( this.options.activeGroupSel ).node, "layersnaptoggle" );
 	};
 
 }(this));
