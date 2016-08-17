@@ -2,7 +2,7 @@
 SVG Build Animations
 */
 
-(function($,w){
+(function(w){
 
 	// For CSS targeting
 	var svg = !!w.document.createElementNS && !!w.document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect && !!w.document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1") && !(w.opera && w.navigator.userAgent.indexOf('Chrome') === -1) && w.navigator.userAgent.indexOf('Series40') === -1;
@@ -140,6 +140,7 @@ SVG Build Animations
 		var self = this;
 		var i = 1;
 		var layersnapDiv = new Snap( this.el );
+		self.layersnapDiv = layersnapDiv;
 		var svg = layersnapDiv.select( svgEl );
 		var bbox = svg.getBBox(); //bounding box, get coords and center
 
@@ -193,54 +194,79 @@ SVG Build Animations
 		btn.innerText = replayBtnText;
 		btn.onclick = function( e ){
 			e.preventDefault();
-			$( self.el ).layersnap();
+			self.init();
 		};
 		self.el.appendChild( btn );
 		this.el.removeAttribute( replayAttr );
 	};
 
-	w.Layersnap.prototype.addInteractivity = function(){
-		$( this.el )
-			.attr( interactiveAttr, interactivitySet )
-			.bind( "click toggleElem", function( e ){
-				var $el = $( e.target ).closest( "g[id]" );
-				var elID = $el.attr( "id" );
-				if( elID ){
-					var toggleID = elID.match( regToggle );
-					if( toggleID.length ){
-						var $toggle = $( "#" + toggleID[ 2 ] );
+	w.Layersnap.prototype._getClosestID = function( el ){
+		var cur = el;
+    while( cur && cur.getAttribute( "id" ) === null ) { //keep going up until you find a match
+        cur = cur.parentNode; //go up
+    }
+    return cur;
+	};
 
-						// deactivate/activate toggle elements
-						$toggle.removeClass( toggleClass );
-						$toggle.siblings().filter( "." + toggleTriggerElementClass ).addClass( toggleClass );
+	w.Layersnap.prototype._triggerEvent = function( elem, evt ){
+		var event = document.createEvent('Event');
+		event.initEvent( evt, true, true);
+		elem.dispatchEvent( event );
+	};
 
-						// trigger layersnap on a toggle'd element that has a layersnap class
-						if( $toggle.is( ".layersnap" ) ){
-							$toggle.layersnap();
+	w.Layersnap.prototype.toggle = function( e ){
+		var self = this;
+		var el = this._getClosestID( e.target );
+		var elID = el.getAttribute( "id" );
+		if( elID ){
+			var toggleID = elID.match( regToggle );
+			if( toggleID.length ){
+				var toggle = w.document.querySelector( "#" + toggleID[ 2 ] );
+
+				var $el = new Snap( el );
+
+				// deactivate/activate toggle elements
+				self.layersnapDiv.selectAll( "." + toggleTriggerElementClass ).forEach( function( elem ){
+						if( elem.node.className.indexOf( toggleClass ) === -1 ){
+							elem.node.className += " " + toggleClass;
 						}
+				} );
 
-						// activate svg group
-						$el.attr( "class", activeGroupClass );
-						$el.siblings().attr( "class", "" );
-					}
+				toggle.className = toggle.className.replace( toggleClass, " " );
+
+				// trigger layersnap on a toggle'd element that has a layersnap class
+				if( toggle.className.match( /[\s^]layersnap[$\s]/ ) ){
+					new w.Layersnap( toggle ).init();
 				}
-			} );
+
+				// activate svg group
+				self.layersnapDiv.selectAll( "g." + activeGroupClass ).forEach(function(elem){
+					elem.removeClass( activeGroupClass );
+				});
+				$el.addClass( activeGroupClass );
+			}
+		}
+	};
+
+	w.Layersnap.prototype.addInteractivity = function(){
+		var self = this;
+		this.layersnapDiv.attr( interactiveAttr, interactivitySet );
+
+		this.el.addEventListener( "click", function( e ){
+			self.toggle( e );
+		} );
+		this.el.addEventListener( "layersnaptoggle", function( e ){
+			self.toggle( e );
+		} );
+
 
 		// hide all .layersnap-toggle elems
-		$( this.el )
-			.find( "." + activeGroupClass )
-			.addClass( toggleClass );
+		this.layersnapDiv.selectAll( "." + activeGroupClass ).forEach( function( elem ){
+			elem.addClass( toggleClass );
+		});
 
 		// trigger initial toggle if specified
-		$( this.el )
-			.find( activeGroupSel )
-			.trigger( "toggleElem" );
+		this._triggerEvent( this.layersnapDiv.select( activeGroupSel ).node, "layersnaptoggle" );
 	};
 
-	$.fn.layersnap = function( options ){
-		return this.each(function(){
-			return new w.Layersnap( this, options ).init();
-		});
-	};
-
-}(jQuery,this));
+}(this));
