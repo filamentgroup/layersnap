@@ -21,9 +21,37 @@
 	*/
 
 
-	test( 'exists', function() {
+	test( 'layersnap global defined.', function() {
 		expect(1);
-		ok( $.fn.layersnap, 'layersnap plugin defined.' );
+		ok( window.Layersnap );
+	});
+
+	test( 'layersnap constructor type is function.', function() {
+		expect(1);
+		equal( typeof window.Layersnap, "function" );
+	});
+
+	test( 'new instance test', function() {
+		expect(1);
+		var exampleelem = document.getElementById( "test1" );
+		var ls = new Layersnap( exampleelem );
+		equal( typeof ls, "object", 'layersnap instance type is object.' );
+
+	});
+
+
+
+
+
+
+
+
+
+
+
+	test( 'jQuery function exists', function() {
+		expect(1);
+		ok( $.fn.layersnap, 'layersnap jQuery plugin defined.' );
 	});
 
 
