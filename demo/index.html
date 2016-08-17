@@ -57,7 +57,9 @@
 		<p class="docs">Include SnapSVG, <a href="https://github.com/filamentgroup/layersnap/tree/master/dist/layersnap.js">layersnap.js</a>, and the <a href="https://github.com/filamentgroup/layersnap/tree/master/dist/layersnap.css">layersnap.css</a> in your page.</p>
 
 
-		<p class="docs">Next, add some SVG markup inline in the body of your HTML, wrapped in a <code>&lt;div&nbsp;class=&quot;layersnap&quot;&gt;&lt;/div&gt;</code>. Transitions for each part of the svg graphic are defined via the ID attribute of <code>g</code> element children of the <code>svg</code> element.</p>
+		<p class="docs">Next, add some SVG markup inline in the body of your HTML, wrapped in a <code>&lt;div&nbsp;class=&quot;layersnap&quot;&gt;&lt;/div&gt;</code>.
+			To animate a portion of your svg markup, group it in a <code>g</code> element (the <code>g</code> element must be a direct child of the svg element) and configure its animation via that <code>g</code> element's ID value.
+			For example, <code>id="fade"</code> will cause that <code>g</code> element to fade in. </p>
 
 <pre class="docs"><code code="docs">
 &lt;div&nbsp;<strong>class=&quot;layersnap&quot;</strong> id=&quot;mysvg&quot;&gt;
@@ -69,15 +71,19 @@
 
 	<p class="docs">To animate the svg, call the <code>Layersnap()</code> function, passing a reference to your svg's wrapper div:</p>
 <pre class="docs"><code code="docs">
+&lt;script&gt;
 	var mysvg = document.getElementById( "mysvg" );
 	new window.Layersnap( mysvg ).init();
+&lt;/script&gt;
 </code></pre>
 
-<p class="docs">That's it! From there, the layersnap script will play the animations within the svg based on their ID attribute configurations.</p>
+<p class="docs">That's it! From there, the layersnap script will play all <code>g</code> element animations within the svg based on their ID attribute configurations. By default, <code>g</code> elements will animate in source order one after the other, but custom delays and durations allow you to configure the order of elements for richer animations.</p>
 
 
 
 	<h2 class="docs">Transition Examples</h2>
+
+	<p class="docs">Layersnap includes many pre-built transitions you can specify by name. All transitions start with the element at opacity 0 and end with the element at opacity 1, though many apply other transformations during that fade. Here are the included transitions. You can click any of them to replay:</p>
 
 
 	<div data-xrayhtml="flip" data-title="Fade">
@@ -236,6 +242,19 @@
 			</svg>
 		</div>
 	</div>
+
+	<p class="docs"><strong>Advanced:</strong> To create new custom named transitions, you can extend the Layersnap object's transitions property. Here's the drift right transition for example:</p>
+
+<pre class="docs"><code code="docs">
+&lt;script&gt;
+w.Layersnap.prototype.transitions[ "drift-right" ] = function( el, duration ){
+	el.attr( {transform: "translate(-30,0)"} );
+	el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+};
+&lt;/script&gt;
+</code></pre>
+
+
 
 
 	<h3 class="docs">Setting Duration</h3>
@@ -598,11 +617,11 @@
 	</code></pre>
 
 <pre class="docs"><code code="docs">
-	<script>
+&Tab;&lt;script&gt;
 	jQuery( function(){
 		jQuery( document ).trigger( "enhance" );
 	});
-	</script>
+&Tab;&lt;/script&gt;
 </code></pre>
 
 
