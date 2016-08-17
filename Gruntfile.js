@@ -64,9 +64,9 @@ module.exports = function(grunt) {
 			},
 			init: {
 				src: [
-					'src/layersnap-init.js'
+					'src/layersnap.jquery.init.js'
 				],
-				dest: 'dist/<%= pkg.name %>.init.js'
+				dest: 'dist/<%= pkg.name %>.jquery.init.js'
 			},
 			css: {
 				src: [
@@ -132,7 +132,7 @@ module.exports = function(grunt) {
 				src: [
 					'dist/<%= pkg.name %>.min.css',
 					'dist/<%= pkg.name %>.min.js',
-					'dist/<%= pkg.name %>.init.min.js'
+					'dist/<%= pkg.name %>.jquery.init.min.js'
 				]
 			}
 		},
