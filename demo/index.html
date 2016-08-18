@@ -47,19 +47,19 @@
 
 		<h1 class="docs"> LayerSnap Demos</h1>
 
-		<p class="docs">LayerSnap is a script that builds on top of <a href="http://snapsvg.io/">Snap SVG</a> to enable simple declarative SVG builds by configuring the SVG file itself–no need to script anything. <a href="#ai-tips">You can even build animations from the Layers pallete in Adobe Illustrator!</a></p>
+		<p class="docs">LayerSnap is a script that builds on top of <a href="http://snapsvg.io/">Snap SVG</a> to enable simple declarative SVG builds by editing the SVG markup's attributes. <a href="#ai-tips">You can even build animations from the Layers pallete in Adobe Illustrator!</a></p>
 
-		<p class="docs">An SVG illustration can be animated by grouping graphics as desired and giving those groups IDs to specify their transition type, duration, and delay. The animations in this page are set to auto-play when they scroll into view (<a href="https://github.com/filamentgroup/porthole">using Porthole</a>, which is explained <a href="#porthole">later in this page</a>).</p>
+		<p class="docs">An SVG illustration can be animated by grouping elements and giving those groups ID attributes to specify their transition type, duration, and delay.</p>
 
 
 		<h2 class="docs">How-To</h2>
 
-		<p class="docs">Include SnapSVG, <a href="https://github.com/filamentgroup/layersnap/tree/master/dist/layersnap.js">layersnap.js</a>, and the <a href="https://github.com/filamentgroup/layersnap/tree/master/dist/layersnap.css">layersnap.css</a> in your page.</p>
+		<p class="docs">Include <a href="https://github.com/adobe-webplatform/Snap.svg/blob/master/dist/snap.svg.js">SnapSVG.js</a>, <a href="https://github.com/filamentgroup/layersnap/tree/master/dist/layersnap.js">layersnap.js</a>, and the <a href="https://github.com/filamentgroup/layersnap/tree/master/dist/layersnap.css">layersnap.css</a> in your page.</p>
 
 
 		<p class="docs">Next, add some SVG markup inline in the body of your HTML, wrapped in a <code>&lt;div&nbsp;class=&quot;layersnap&quot;&gt;&lt;/div&gt;</code>.
-			To animate a portion of your svg markup, group it in a <code>g</code> element (the <code>g</code> element must be a direct child of the svg element) and configure its animation via that <code>g</code> element's ID value.
-			For example, <code>id="fade"</code> will cause that <code>g</code> element to fade in. </p>
+			To specify that a portion of your svg markup should animate, group it in a <code>g</code> element (<em>the <code>g</code> element must be a direct child of the svg element</em>) and configure its animation via the <code>g</code> element's ID value.
+			For example, <code>id="fade"</code> will cause that <code>g</code> element to fade in when the animation plays.</p>
 
 <pre class="docs"><code code="docs">
 &lt;div&nbsp;<strong>class=&quot;layersnap&quot;</strong> id=&quot;mysvg&quot;&gt;
@@ -77,13 +77,15 @@
 &lt;/script&gt;
 </code></pre>
 
-<p class="docs">That's it! From there, the layersnap script will play all <code>g</code> element animations within the svg based on their ID attribute configurations. By default, <code>g</code> elements will animate in source order one after the other, but custom delays and durations allow you to configure the order of elements for richer animations.</p>
+<p class="docs">That's it! From there, the layersnap script will play all <code>g</code> element animations within the svg based on their ID attribute configurations.
+	By default, <code>g</code> elements will animate in source order one after the other, but by setting custom delays and durations, you can cahnge the order and timing for richer animations.</p>
 
 
 
 	<h2 class="docs">Transition Examples</h2>
 
-	<p class="docs">Layersnap includes many pre-built transitions you can specify by name. All transitions start with the element at opacity 0 and end with the element at opacity 1, though many apply other transformations during that fade. Here are the included transitions. You can click any of them to replay:</p>
+	<p class="docs">Layersnap includes many pre-built transitions you can specify by name. All transitions start with the element at opacity 0 and end with the element at opacity 1, though most apply other transformations while fading in.
+		Here are the pre-built transitions. The demos in this page are set to auto-play when they scroll into view, and you can click any of them to replay:</p>
 
 
 	<div data-xrayhtml="flip" data-title="Fade">
