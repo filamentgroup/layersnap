@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>LayerSnap Demos</title>
 
-	<link rel="stylesheet" href="../dist/layersnap.css">
+	<link rel="stylesheet" href="../src/layersnap.css">
 	<link rel="stylesheet" href="../dist/dependencies/xrayhtml.css">
 	<link rel="stylesheet" href="//filamentgroup.github.io/demo-head/demohead.css">
 	<link rel="stylesheet" href="demo.css">
@@ -16,8 +16,8 @@
 	<script src="../dist/dependencies/snap.svg.js"></script>
 	<script src="../dist/dependencies/porthole.js"></script>
 	<script src="../dist/dependencies/porthole.init.js"></script>
-	<script src="../dist/layersnap.js"></script>
-	<script src="../dist/layersnap.jquery.init.js"></script>
+	<script src="../src/layersnap.js"></script>
+	<script src="../src/layersnap.jquery.init.js"></script>
 	<script src="//filamentgroup.github.io/demo-head/loadfont.js"></script>
 	<script>
 
@@ -81,7 +81,7 @@
 	By default, <code>g</code> elements will animate in source order one after the other, but by setting custom delays and durations, you can change the order and timing for richer animations.</p>
 
 
-<div class="layersnap" data-scroll-activate="" data-layersnap-replay="">
+<div class="layersnap" data-scroll-activate data-scroll-deactivate data-layersnap-replay>
 	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 		 width="700px" height="700px" viewBox="30 98.3 828.7 828.7" style="enable-background:new 30 98.3 828.7 828.7;"
 		 xml:space="preserve">

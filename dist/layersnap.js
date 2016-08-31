@@ -1,4 +1,4 @@
-/*! layersnap - v0.1.7 - 2016-08-17
+/*! layersnap - v0.1.7 - 2016-08-31
 * https://github.com/filamentgroup/layersnap
 * Copyright (c) 2016 Filament Group; Licensed MIT */
 (function(w){
@@ -57,6 +57,30 @@
 				}
 			}
 		}
+	};
+
+	// polyfill raf if needed
+	var raf = (function(){
+		return w.requestAnimationFrame       ||
+			w.webkitRequestAnimationFrame ||
+			w.mozRequestAnimationFrame    ||
+			function( callback ){
+				w.setTimeout(callback, 1000 / 60);
+			};
+	})();
+
+	w.Layersnap.prototype._delay = function( cb, time ){
+		var start = new Date().getTime();
+		var checkrun = function(){
+			var current = new Date().getTime();
+			if( current - start >= time ){
+				cb();
+			}
+			else {
+				raf( checkrun );
+			}
+		};
+		checkrun();
 	};
 
 	// helper for prefixing a value with a dash and lowercasing it. Used for converting options to data-attributes
@@ -165,7 +189,7 @@
 
 	w.Layersnap.prototype._runTransition = function( settings ){
 		var self = this;
-		setTimeout( function(){
+		this._delay( function(){
 			self.transitions[ settings.transition ]( settings.el, settings.duration, settings.bbox );
 		}, settings.delay );
 	};
