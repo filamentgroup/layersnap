@@ -25,6 +25,7 @@ SVG Build Animations
 			regDelay: /(^|\s|_)delay[\-_]+([\d]+)/,
 			regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
 			regLoop: /(^|\s|_)loop(\s|_|$)/,
+			regLoopDelay: /(^|\s|_)loop-delay[\-_]+([\d]+)/,
 
 			// replay and interactive
 			replay: false,
@@ -124,6 +125,7 @@ SVG Build Animations
 		var self = this;
 		return function(){
 			settings.startEnd = settings.startEnd.reverse();
+			settings.delay = settings.loopDelay;
 			self._runTransition( settings );
 		};
 	};
@@ -256,7 +258,8 @@ SVG Build Animations
 				el: elem,
 				duration: 800,
 				bbox: bbox,
-				loop: false
+				loop: false,
+				loopDelay: 0
 			};
 			// get settings from el ID
 			var elID = ret.el.attr( "id" );
@@ -266,7 +269,7 @@ SVG Build Animations
 			if( idDuration ){
 				ret.duration = parseFloat( idDuration[ 2 ] );
 			}
-			// override duration if set
+			// override delay if set
 			var idDelay = elID.match( self.options.regDelay );
 			ret.delay = ( ret.duration * i - ret.duration );
 			if( idDelay ){
@@ -275,6 +278,11 @@ SVG Build Animations
 			// override loop if set
 			if( elID.match( self.options.regLoop ) ){
 				ret.loop = true;
+			}
+			// override loop delay if set
+			var idLoopDelay = elID.match( self.options.regLoopDelay );
+			if( idLoopDelay ){
+				ret.loopDelay =  parseFloat( idLoopDelay[ 2 ] );
 			}
 			for( var name in self.transitions ){
 				if( elID.indexOf( name ) > -1 ){
