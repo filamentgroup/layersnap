@@ -76,7 +76,7 @@ SVG Build Animations
 		var checkrun = function(){
 			var current = new Date().getTime();
 			if( current - start >= time ){
-				cb();
+				cb.call( this );
 			}
 			else {
 				raf( checkrun );
