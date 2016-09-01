@@ -128,21 +128,7 @@ SVG Build Animations
 		};
 	};
 
-	w.Layersnap.prototype.transitions[ "rotate-right"] = function( settings ){
-		if( !settings.startEnd ){
-			settings.startEnd = [ "r-30", "r0" ];
-		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, mina.easeOut, settings.complete );
-	};
-
-	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
-		if( !settings.startEnd ){
-			settings.startEnd = [ "r30", "r0" ];
-		}
+	w.Layersnap.prototype._transformTransition = function( settings ){
 		if( settings.loop ){
 			settings.complete = this._loop( settings );
 		}
@@ -160,125 +146,95 @@ SVG Build Animations
 		settings.el.animate({ opacity: settings.startEnd[ 0 ] }, settings.duration, mina.easeOut, settings.complete );
 	};
 
+	w.Layersnap.prototype.transitions[ "rotate-right"] = function( settings ){
+		if( !settings.startEnd ){
+			settings.startEnd = [ "r-30", "r0" ];
+		}
+		this._transformTransition( settings );
+	};
+
+	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
+		if( !settings.startEnd ){
+			settings.startEnd = [ "r30", "r0" ];
+		}
+		this._transformTransition( settings );
+	};
+
 	w.Layersnap.prototype.transitions[ "scale-up" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "s.7", "s1" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-down" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "s1.3", "s1" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "pop" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "s.7", "s1" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ]} );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy }, settings.duration, mina.elastic, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-up" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0,30)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-down" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0,-30)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-left" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(30,0)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(-30,0)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-up" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0," + settings.bbox.height + ")", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-down" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-left" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(" + settings.bbox.width + ",0)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-right" ] = function( settings ){
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(" + -settings.bbox.width + ",0)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype._runTransition = function( settings ){
