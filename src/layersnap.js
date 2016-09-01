@@ -26,6 +26,7 @@ SVG Build Animations
 			regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
 			regLoop: /(^|\s|_)loop(\s|_|$)/,
 			regLoopDelay: /(^|\s|_)loop-delay[\-_]+([\d]+)/,
+			regRepeat: /(^|\s|_)repeat(\s|_|$)/,
 
 			// replay and interactive
 			replay: false,
@@ -121,6 +122,7 @@ SVG Build Animations
 	// more transitions can be added here
 	w.Layersnap.prototype.transitions = {};
 
+	// loop is for animations that return back to start
 	w.Layersnap.prototype._loop = function( settings ){
 		var self = this;
 		return function(){
@@ -130,9 +132,21 @@ SVG Build Animations
 		};
 	};
 
+	// repeat is for animations that simply play again the same way every time
+	w.Layersnap.prototype._repeat = function( settings ){
+		var self = this;
+		return function(){
+			self._runTransition( settings );
+		};
+	};
+
 	w.Layersnap.prototype._transformTransition = function( settings ){
 		if( settings.loop ){
 			settings.complete = this._loop( settings );
+		}
+		// one or the other...
+		else if( settings.repeat ){
+			settings.complete = this._repeat( settings );
 		}
 		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
 		settings.el.animate({ transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, mina.easeOut, settings.complete );
@@ -140,12 +154,17 @@ SVG Build Animations
 
 	w.Layersnap.prototype.transitions[ "fade" ] = function( settings ){
 		if( !settings.startEnd ){
-			settings.startEnd = [ 1, 0 ];
+			settings.startEnd = [ 0, 1 ];
 		}
 		if( settings.loop ){
 			settings.complete = this._loop( settings );
 		}
-		settings.el.animate({ opacity: settings.startEnd[ 0 ] }, settings.duration, mina.easeOut, settings.complete );
+		// one or the other...
+		else if( settings.repeat ){
+			settings.complete = this._repeat( settings );
+		}
+		settings.el.attr( { opacity: settings.startEnd[ 0 ] } );
+		settings.el.animate({ opacity: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
 	};
 
 	w.Layersnap.prototype.transitions[ "rotate-right"] = function( settings ){
@@ -259,7 +278,8 @@ SVG Build Animations
 				duration: 800,
 				bbox: bbox,
 				loop: false,
-				loopDelay: 0
+				loopDelay: 0,
+				repeat: false
 			};
 			// get settings from el ID
 			var elID = ret.el.attr( "id" );
@@ -278,6 +298,10 @@ SVG Build Animations
 			// override loop if set
 			if( elID.match( self.options.regLoop ) ){
 				ret.loop = true;
+			}
+			// override repeat if set
+			if( elID.match( self.options.regRepeat ) ){
+				ret.repeat = true;
 			}
 			// override loop delay if set
 			var idLoopDelay = elID.match( self.options.regLoopDelay );
