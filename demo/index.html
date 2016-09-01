@@ -578,13 +578,15 @@
 		</div>
 	</div>
 
-	<p class="docs"><strong>Advanced:</strong> To create new custom named transitions, you can extend the Layersnap object's transitions property. Here's the drift right transition for example:</p>
+	<p class="docs"><strong>Advanced:</strong> To create new custom named transitions, you can extend the Layersnap object's transitions property. Here's an example of a transform transition called drift right:</p>
 
 <pre class="docs"><code code="docs">
 &lt;script&gt;
-w.Layersnap.prototype.transitions[ "drift-right" ] = function( el, duration ){
-	el.attr( {transform: "translate(-30,0)"} );
-	el.animate({ opacity: 1, transform: "translate(0,0)" }, duration, mina.easeOut );
+window.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
+	if( !settings.startEnd ){
+		settings.startEnd = [ "translate(-30,0)", "translate(0,0)" ];
+	}
+	this._transformTransition( settings );
 };
 &lt;/script&gt;
 </code></pre>
