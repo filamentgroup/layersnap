@@ -76,7 +76,7 @@ SVG Build Animations
 		var checkrun = function(){
 			var current = new Date().getTime();
 			if( current - start >= time ){
-				cb.call( this );
+				cb();
 			}
 			else {
 				raf( checkrun );
@@ -130,7 +130,7 @@ SVG Build Animations
 
 	w.Layersnap.prototype.transitions[ "rotate-right"] = function( settings ){
 		if( !settings.startEnd ){
-			settings.startEnd = [ "r-30", "0" ];
+			settings.startEnd = [ "r-30", "r0" ];
 		}
 		if( settings.loop ){
 			settings.complete = this._loop( settings );
@@ -141,7 +141,7 @@ SVG Build Animations
 
 	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
 		if( !settings.startEnd ){
-			settings.startEnd = [ "r30", "0" ];
+			settings.startEnd = [ "r30", "r0" ];
 		}
 		if( settings.loop ){
 			settings.complete = this._loop( settings );
