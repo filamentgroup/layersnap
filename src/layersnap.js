@@ -204,28 +204,28 @@ SVG Build Animations
 
 	w.Layersnap.prototype.transitions[ "drift-up" ] = function( settings ){
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0,30)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0,100)", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-down" ] = function( settings ){
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0,-30)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0,-100)", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-left" ] = function( settings ){
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(30,0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(100,0)", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(-30,0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(-100,0)", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
