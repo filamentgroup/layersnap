@@ -148,8 +148,11 @@ SVG Build Animations
 		else if( settings.repeat ){
 			settings.complete = this._repeat( settings );
 		}
+		if( !settings.easing ){
+			settings.easing = mina.easeOut;
+		}
 		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, mina.easeOut, settings.complete );
+		settings.el.animate({ transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, settings.easing, settings.complete );
 	};
 
 	w.Layersnap.prototype.transitions[ "fade" ] = function( settings ){
@@ -255,6 +258,14 @@ SVG Build Animations
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(" + -settings.bbox.width + ",0)", "translate(0,0)" ];
 		}
+		this._transformTransition( settings );
+	};
+
+	w.Layersnap.prototype.transitions[ "anvil" ] = function( settings ){
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
+		}
+		settings.easing = mina.bounce;
 		this._transformTransition( settings );
 	};
 
