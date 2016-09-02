@@ -306,14 +306,15 @@ SVG Build Animations
 			if( idDelay ){
 				ret.delay =  parseFloat( idDelay[ 2 ] );
 			}
-			// override loop if set
-			if( elID.match( self.options.regLoop ) ){
+			// override loop if set and loop
+			if( elID.match( self.options.regLoop ) && !self.replay ){
 				ret.loop = true;
 			}
-			// override repeat if set
-			if( elID.match( self.options.regRepeat ) ){
+			// override repeat if set and replay
+			if( elID.match( self.options.regRepeat ) && !self.replay ){
 				ret.repeat = true;
 			}
+
 			// override loop delay if set
 			var idLoopDelay = elID.match( self.options.regLoopDelay );
 			if( idLoopDelay ){
