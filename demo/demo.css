@@ -22,9 +22,9 @@ body {
 }
 .docs-main {
 	margin: 1em 20px;
-	max-width: 46em;
+	max-width: 56em;
 }
-@media (min-width: 46em) {
+@media (min-width: 58em) {
 	.docs-main {
 		margin: 1em auto;
 	}
@@ -84,8 +84,8 @@ h5.docs {
 }
 
 h1.docs { font-size: 2.5em; margin-top: .8em; font-weight: bold; }
-h2.docs { font-size: 2em; margin-top: 1.5em; border-top:1px solid #ddd; padding-top: .6em; float:none; }
-h3.docs { font-size: 1.6em; margin-top: 1.5em; margin-bottom: .5em; }
+h2.docs { font-size: 2em; margin-top: 2em;  padding-top: .6em; float:none; }
+h3.docs { font-size: 1.6em; margin-top: 2.5em; margin-bottom: .5em; }
 h4.docs { font-size: 1.4em; margin-top: 1.5em; }
 
 p.docs,
@@ -96,6 +96,17 @@ p.docs-note,
 dl.docs {
 	margin: 1em 0;
 	font-size: 1em;
+}
+
+@media (min-width:40em){
+	p.docs,
+	p.docs-intro,
+	ol.docs,
+	ul.docs,
+	p.docs-note,
+	dl.docs {
+		font-size: 1.2em;
+	}
 }
 
 ul.docs,
@@ -196,4 +207,21 @@ code {
 	font-size: 1.2em;
 	line-height: 1.4;
 	font-weight: 300;
+}
+
+
+.docsgrid > div {
+	width: 45%;
+	border: 1px solid #eee;
+	float: right;
+	clear: right;
+	margin-bottom: 2em;
+}
+.docsgrid > div svg text {
+	font-size: 16px;
+	width: 100%;
+	text-align: center;
+}
+.docsgrid > div:nth-child(odd){
+	float: left;
 }
