@@ -24,6 +24,9 @@ SVG Build Animations
 			regDuration: /(^|\s|_)duration[\-_]+([\d]+)/,
 			regDelay: /(^|\s|_)delay[\-_]+([\d]+)/,
 			regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
+			regLoop: /(^|\s|_)loop(\s|_|$)/,
+			regLoopDelay: /(^|\s|_)loop-delay[\-_]+([\d]+)/,
+			regRepeat: /(^|\s|_)repeat(\s|_|$)/,
 
 			// replay and interactive
 			replay: false,
@@ -119,79 +122,157 @@ SVG Build Animations
 	// more transitions can be added here
 	w.Layersnap.prototype.transitions = {};
 
-	w.Layersnap.prototype.transitions[ "rotate-right"] = function( settings ){
-		settings.el.attr( {transform: "r-30"} );
-		settings.el.animate({ transform: "r0," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, mina.easeOut );
+	// loop is for animations that return back to start
+	w.Layersnap.prototype._loop = function( settings ){
+		var self = this;
+		return function(){
+			settings.startEnd = settings.startEnd.reverse();
+			settings.delay = settings.loopDelay;
+			self._runTransition( settings );
+		};
 	};
 
-	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
-		settings.el.attr( {transform: "r30"} );
-		settings.el.animate({ transform: "r0," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, mina.easeOut );
+	// repeat is for animations that simply play again the same way every time
+	w.Layersnap.prototype._repeat = function( settings ){
+		var self = this;
+		return function(){
+			self._runTransition( settings );
+		};
+	};
+
+	w.Layersnap.prototype._transformTransition = function( settings ){
+		if( settings.loop ){
+			settings.complete = this._loop( settings );
+		}
+		// one or the other...
+		else if( settings.repeat ){
+			settings.complete = this._repeat( settings );
+		}
+		if( !settings.easing ){
+			settings.easing = mina.easeOut;
+		}
+		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
+		settings.el.animate({ transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, settings.easing, settings.complete );
 	};
 
 	w.Layersnap.prototype.transitions[ "fade" ] = function( settings ){
-		settings.el.animate({ opacity: 1 }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ 0, 1 ];
+		}
+		if( settings.loop ){
+			settings.complete = this._loop( settings );
+		}
+		// one or the other...
+		else if( settings.repeat ){
+			settings.complete = this._repeat( settings );
+		}
+		settings.el.attr( { opacity: settings.startEnd[ 0 ] } );
+		settings.el.animate({ opacity: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+	};
+
+	w.Layersnap.prototype.transitions[ "rotate-right"] = function( settings ){
+		if( !settings.startEnd ){
+			settings.startEnd = [ "r-30", "r0" ];
+		}
+		this._transformTransition( settings );
+	};
+
+	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
+		if( !settings.startEnd ){
+			settings.startEnd = [ "r30", "r0" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-up" ] = function( settings ){
-		settings.el.attr( {transform: "s.7"} );
-		settings.el.animate({ opacity: 1, transform: "s1," + settings.bbox.cx + ',' + settings.bbox.cy }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "s.7", "s1" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-down" ] = function( settings ){
-		settings.el.attr( {transform: "s1.3"} );
-		settings.el.animate({ opacity: 1, transform: "s1," + settings.bbox.cx + ',' + settings.bbox.cy }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "s1.3", "s1" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "pop" ] = function( settings ){
-		settings.el.attr( {transform: "s.7"} );
-		settings.el.animate({ opacity: 1, transform: "s1," + settings.bbox.cx + ',' + settings.bbox.cy }, settings.duration, mina.elastic );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "s.7", "s1" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-up" ] = function( settings ){
-		settings.el.attr( {transform: "translate(0,30)"} );
-		settings.el.animate({ opacity: 1, transform: "translate(0,0)" }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(0,100)", "translate(0,0)" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-down" ] = function( settings ){
-		settings.el.attr( {transform: "translate(0,-30)"} );
-		settings.el.animate({ opacity: 1, transform: "translate(0,0)" }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(0,-100)", "translate(0,0)" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-left" ] = function( settings ){
-		settings.el.attr( {transform: "translate(30,0)"} );
-		settings.el.animate({ opacity: 1, transform: "translate(0,0)" }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(100,0)", "translate(0,0)" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
-		settings.el.attr( {transform: "translate(-30,0)"} );
-		settings.el.animate({ opacity: 1, transform: "translate(0,0)" }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(-100,0)", "translate(0,0)" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-up" ] = function( settings ){
-		settings.el.attr( {transform: "translate(0," + settings.bbox.height + ")"} );
-		settings.el.animate({ opacity: 1, transform: "translate(0,0)" }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(0," + settings.bbox.height + ")", "translate(0,0)" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-down" ] = function( settings ){
-		settings.el.attr( {transform: "translate(0," + -settings.bbox.height + ")"} );
-		settings.el.animate({ opacity: 1, transform: "translate(0,0)" }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-left" ] = function( settings ){
-		settings.el.attr( {transform: "translate(" + settings.bbox.width + ",0)"} );
-		settings.el.animate({ opacity: 1, transform: "translate(0,0)" }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(" + settings.bbox.width + ",0)", "translate(0,0)" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-right" ] = function( settings ){
-		settings.el.attr( {transform: "translate(" + -settings.bbox.width + ",0)"} );
-		settings.el.animate({ opacity: 1, transform: "translate(0,0)" }, settings.duration, mina.easeOut );
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(" + -settings.bbox.width + ",0)", "translate(0,0)" ];
+		}
+		this._transformTransition( settings );
+	};
+
+	w.Layersnap.prototype.transitions[ "anvil" ] = function( settings ){
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
+		}
+		settings.easing = mina.bounce;
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype._runTransition = function( settings ){
 		var self = this;
 		this._delay( function(){
-			self.transitions[ settings.transition ]( settings );
+			self.transitions[ settings.transition ].call( self, settings );
 		}, settings.delay );
 	};
 
@@ -206,7 +287,10 @@ SVG Build Animations
 			var ret = {
 				el: elem,
 				duration: 800,
-				bbox: bbox
+				bbox: bbox,
+				loop: false,
+				loopDelay: 0,
+				repeat: false
 			};
 			// get settings from el ID
 			var elID = ret.el.attr( "id" );
@@ -216,11 +300,25 @@ SVG Build Animations
 			if( idDuration ){
 				ret.duration = parseFloat( idDuration[ 2 ] );
 			}
-			// override duration if set
+			// override delay if set
 			var idDelay = elID.match( self.options.regDelay );
 			ret.delay = ( ret.duration * i - ret.duration );
 			if( idDelay ){
 				ret.delay =  parseFloat( idDelay[ 2 ] );
+			}
+			// override loop if set and loop
+			if( elID.match( self.options.regLoop ) && !self.replay ){
+				ret.loop = true;
+			}
+			// override repeat if set and replay
+			if( elID.match( self.options.regRepeat ) && !self.replay ){
+				ret.repeat = true;
+			}
+
+			// override loop delay if set
+			var idLoopDelay = elID.match( self.options.regLoopDelay );
+			if( idLoopDelay ){
+				ret.loopDelay =  parseFloat( idLoopDelay[ 2 ] );
 			}
 			for( var name in self.transitions ){
 				if( elID.indexOf( name ) > -1 ){
