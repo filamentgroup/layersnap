@@ -27,6 +27,7 @@ SVG Build Animations
 			regLoop: /(^|\s|_)loop(\s|_|$)/,
 			regLoopDelay: /(^|\s|_)loop-delay[\-_]+([\d]+)/,
 			regRepeat: /(^|\s|_)repeat(\s|_|$)/,
+			regEasing: /(^|\s|_)easing[\-_]+([\D]+)/,
 
 			// replay and interactive
 			replay: false,
@@ -147,9 +148,6 @@ SVG Build Animations
 		// one or the other...
 		else if( settings.repeat ){
 			settings.complete = this._repeat( settings );
-		}
-		if( !settings.easing ){
-			settings.easing = mina.easeOut;
 		}
 		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
 		settings.el.animate({ transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, settings.easing, settings.complete );
@@ -288,6 +286,7 @@ SVG Build Animations
 				el: elem,
 				duration: 800,
 				bbox: bbox,
+				easing: mina.easeOut,
 				loop: false,
 				loopDelay: 0,
 				repeat: false
@@ -306,6 +305,12 @@ SVG Build Animations
 			if( idDelay ){
 				ret.delay =  parseFloat( idDelay[ 2 ] );
 			}
+			// override easing if set
+			var idEasing = elID.match( self.options.regEasing );
+			if( idEasing ){
+				ret.easing =  mina[ idEasing[ 2 ] ];
+			}
+
 			// override loop if set and loop
 			if( elID.match( self.options.regLoop ) && !self.replay ){
 				ret.loop = true;

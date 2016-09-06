@@ -208,20 +208,31 @@ code {
 	line-height: 1.4;
 	font-weight: 300;
 }
-
-
-.docsgrid > div {
-	width: 45%;
-	border: 1px solid #eee;
-	float: right;
-	clear: right;
-	margin-bottom: 2em;
-}
 .docsgrid > div svg text {
 	font-size: 16px;
-	width: 100%;
-	text-align: center;
+	font-family: inherit;
 }
-.docsgrid > div:nth-child(odd){
-	float: left;
+@media (min-width: 35em) {
+	.docsgrid > div {
+		width: 45%;
+		border: 1px solid #ddd;
+		box-sizing: border-box;
+		float: left;
+		clear: right;
+		margin-bottom: 2em;
+	}
+	.docsgrid > div:nth-child(even){
+		float: right;
+	}
+}
+@media (min-width: 50em) {
+	.docsgrid > div {
+		width: 32%;
+		float: left;
+		clear: none;
+		margin-right: 1.333%;
+	}
+	.docsgrid > div:nth-child(3n+1){
+		clear: left;
+	}
 }
