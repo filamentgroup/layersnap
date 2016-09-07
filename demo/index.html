@@ -600,6 +600,86 @@ window.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
 		</div>
 	</div>
 
+	<h3 class="docs">Settings Configurator</h3>
+
+	<p class="docs">Use this to play with the various settings and see what each does.</p>
+
+	<form action="#" id="configurator">
+		<label>Transition
+			<select id="transition">
+				<option value="fade">fade</option>
+				<option value="rotate-right">rotate-right</option>
+				<option value="rotate-left">rotate-left</option>
+				<option value="scale-up">scale-up</option>
+				<option value="scale-down">scale-down</option>
+				<option value="pop">pop</option>
+				<option value="drift-up">drift-up</option>
+				<option value="drift-down">drift-down</option>
+				<option value="drift-left">drift-left</option>
+				<option value="drift-right">drift-right</option>
+				<option value="slide-left">slide-left</option>
+				<option value="slide-right">slide-right</option>
+				<option value="slide-up">slide-up</option>
+				<option value="slide-down">slide-down</option>
+				<option value="anvil">anvil</option>
+			</select>
+		</label>
+		<label>Duration
+			<input value="500" id="duration" type="number">
+		</label>
+		<label>Delay
+			<input value="0" id="delay" type="number">
+		</label>
+		<label>Amount
+			<input value="50" id="amount" type="number">
+		</label>
+		<label>Easing
+			<select id="easing">
+				<option value="linear">linear</option>
+				<option value="easeout">easeout</option>
+				<option value="easein">easein</option>
+				<option value="easinout">easinout</option>
+				<option value="backin">backin</option>
+				<option value="backout">backout</option>
+				<option value="elastic">elastic</option>
+				<option value="bounce">bounce</option>
+			</select>
+		</label>
+	</form>
+
+	<p class="docs">
+		<strong>Current Value: </strong>
+		<input id="example-output" value="">
+	</p>
+
+
+
+	<div class="layersnap configurator-example" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+			<g id="drift-down_duration-500" class="configurator-g">
+				<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
+				<text id="XMLID_14_" x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
+			</g>
+		</svg>
+	</div>
+
+	<script>
+		function updateConfigurator( e ){
+			var transition = $( "#transition" ).val();
+			var duration = $( "#duration" ).val();
+			var delay = $( "#delay" ).val();
+			var amount = $( "#amount" ).val();
+			var easing = $( "#easing" ).val();
+			var output = transition + "_duration-" + duration + "_delay-" + delay + "_amount-" + amount + "_easing-" + easing;
+			$( "#example-output" ).val( output );
+			$( "svg .configurator-g" ).attr( "id", output );
+			$( ".configurator-example" ).layersnap();
+		}
+		$( "#configurator" ).bind( "change input", updateConfigurator );
+		updateConfigurator();
+	</script>
+
+
 
 
 	<h3 class="docs">Custom Delays</h3>
