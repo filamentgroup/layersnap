@@ -28,6 +28,7 @@ SVG Build Animations
 			regLoopDelay: /(^|\s|_)loop-delay[\-_]+([\d]+)/,
 			regRepeat: /(^|\s|_)repeat(\s|_|$)/,
 			regEasing: /(^|\s|_)easing[\-_]+([\D]+)/,
+			regAmount: /(^|\s|_)amount[\-_]+([\d]+)/,
 
 			// replay and interactive
 			replay: false,
@@ -154,6 +155,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "fade" ] = function( settings ){
+		// amount is not applicable for fade
 		if( !settings.startEnd ){
 			settings.startEnd = [ 0, 1 ];
 		}
@@ -169,69 +171,109 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "rotate-right"] = function( settings ){
+		if( settings.amount === null ){
+			// amount is degrees in this case
+			settings.amount = 30;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "r-30", "r0" ];
+			settings.startEnd = [ "rotate(-" + settings.amount +"," + settings.bbox.cx + ',' + settings.bbox.cy + ")", "rotate(0," + settings.bbox.cx + ',' + settings.bbox.cy + ")" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is degrees in this case
+			settings.amount = 30;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "r30", "r0" ];
+			settings.startEnd = [ "rotate(" + settings.amount +"," + settings.bbox.cx + ',' + settings.bbox.cy + ")", "rotate(0," + settings.bbox.cx + ',' + settings.bbox.cy + ")" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-up" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is scale % in this case
+			settings.amount = 70;
+		}
+		settings.amount = settings.amount / 100;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s.7", "s1" ];
+			settings.startEnd = [ "s" + settings.amount, "s1" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-down" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is start scale % in this case
+			settings.amount = 130;
+		}
+		settings.amount = settings.amount / 100;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s1.3", "s1" ];
+			settings.startEnd = [ "s" + settings.amount, "s1" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "pop" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is scale % in this case
+			settings.amount = 70;
+		}
+		settings.amount = settings.amount / 100;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s.7", "s1" ];
+			settings.startEnd = [ "s" + settings.amount, "s1" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-up" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is px distance in this case
+			settings.amount = 100;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0,100)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0,"+ settings.amount +")", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-down" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is px distance in this case
+			settings.amount = 100;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0,-100)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0,-"+ settings.amount +")", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-left" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is px distance in this case
+			settings.amount = 100;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(100,0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate("+ settings.amount +",0)", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is px distance in this case
+			settings.amount = 100;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(-100,0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(-"+ settings.amount +",0)", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-up" ] = function( settings ){
+		// amount is not applicable for slide
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0," + settings.bbox.height + ")", "translate(0,0)" ];
 		}
@@ -239,6 +281,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-down" ] = function( settings ){
+		// amount is not applicable for slide
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
 		}
@@ -246,6 +289,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-left" ] = function( settings ){
+		// amount is not applicable for slide
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(" + settings.bbox.width + ",0)", "translate(0,0)" ];
 		}
@@ -253,6 +297,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-right" ] = function( settings ){
+		// amount is not applicable for slide
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(" + -settings.bbox.width + ",0)", "translate(0,0)" ];
 		}
@@ -260,6 +305,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "anvil" ] = function( settings ){
+		// amount is not applicable for anvil
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
 		}
@@ -285,6 +331,7 @@ SVG Build Animations
 			var ret = {
 				el: elem,
 				duration: 800,
+				amount: null,
 				bbox: bbox,
 				easing: mina.easeOut,
 				loop: false,
@@ -305,6 +352,12 @@ SVG Build Animations
 			if( idDelay ){
 				ret.delay =  parseFloat( idDelay[ 2 ] );
 			}
+			// override amount if set
+			var idAmount = elID.match( self.options.regAmount );
+			if( idAmount ){
+				ret.amount =  parseFloat( idAmount[ 2 ] );
+			}
+
 			// override easing if set
 			var idEasing = elID.match( self.options.regEasing );
 			if( idEasing ){
