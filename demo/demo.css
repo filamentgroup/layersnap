@@ -236,3 +236,64 @@ code {
 		clear: left;
 	}
 }
+
+form {
+	overflow: hidden;
+}
+label {
+	display: block;
+	margin: 1.2em 0;
+}
+.formgroup {
+	float: left;
+	width: 50%;
+}
+fieldset {
+		border: 0;
+		margin: 0;
+		padding: 0;
+}
+legend {
+	margin: 0 0 1em;
+	padding: 0;
+}
+fieldset label {
+	display: inline-block;
+	margin: 0 1em 0 0;
+	padding: 0;
+}
+label input[type=number],
+label select,
+#example-output {
+	font-size: 1em;
+	display: block;
+	width: 8em;
+	border-radius: 3px;
+	border: 1px solid #aaa;
+	padding: .5em;
+	font-size: 1em;
+	margin: .3em 0;
+	font-family: monospace;
+}
+label select {
+	width: 12em;
+}
+label input[type=radio] {
+	margin: 0 .8em 0 0;
+}
+#example-output {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	font-size: .9em;
+	padding: 1em .5em;
+	font-family: monospace;
+}
+.configurator_wrap {
+	padding: 20px;
+	background: #eee;
+	border: 1px solid #ddd;
+}
+.configurator-example {
+	background: #fff;
+}

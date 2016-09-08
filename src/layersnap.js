@@ -21,14 +21,14 @@ SVG Build Animations
 			childGroupsSelector: "svg > g[id]",
 
 			// ID chunker regexps
-			regDuration: /(^|\s|_)duration[\-_]+([\d]+)/,
-			regDelay: /(^|\s|_)delay[\-_]+([\d]+)/,
+			regDuration: /(^|\s|_)duration\-([\d]+)/,
+			regDelay: /(^|\s|_)delay\-([\d]+)/,
 			regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
 			regLoop: /(^|\s|_)loop(\s|_|$)/,
-			regLoopDelay: /(^|\s|_)loop-delay[\-_]+([\d]+)/,
+			regLoopDelay: /(^|\s|_)loop-delay\-([\d]+)/,
 			regRepeat: /(^|\s|_)repeat(\s|_|$)/,
-			regEasing: /(^|\s|_)easing[\-_]+([\D]+)/,
-			regAmount: /(^|\s|_)amount[\-_]+([\d]+)/,
+			regEasing: /(^|\s|_)easing\-([a-z]+)/,
+			regAmount: /(^|\s|_)amount\-([\d]+)/,
 
 			// replay and interactive
 			replay: false,
