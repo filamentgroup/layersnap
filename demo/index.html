@@ -344,7 +344,83 @@
 	</div>
 
 
-	<h3 class="docs">Looping animations</h3>
+	<h2 class="docs">Customizing Transitions</h2>
+
+
+	<h3 class="docs">Setting Duration</h3>
+
+	<p class="docs">You can set a custom duration on any <code>g</code> element to change it from the default of 800ms. For example, the following example has a <code>g</code> with an ID of <code>rotate-right duration-5000</code>, to make its animation run for 5 seconds.</p>
+
+	<div data-xrayhtml="flip" data-title="Custom Duration">
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+				<g id="rotate-right duration-5000">
+					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
+					<text id="XMLID_14_" x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
+				</g>
+			</svg>
+		</div>
+	</div>
+
+	<h3 class="docs">Setting Easing</h3>
+
+	<p class="docs">You can set a custom easing on any <code>g</code> element to change it from the default of easeOut. For example, the following example has a <code>g</code> with an ID of <code>rotate-right easing-bounce</code>. You can use any of the mina easing functions in the snapsvg docs</p>
+
+	<div data-xrayhtml="flip" data-title="Custom Duration">
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+				<g id="rotate-right easing-bounce">
+					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
+					<text id="XMLID_14_" x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
+				</g>
+			</svg>
+		</div>
+	</div>
+
+	<h3 class="docs">Setting Amount</h3>
+
+	<p class="docs">You can set a custom amount on any <code>g</code> element to change it from its default.
+		Amount varies depending on the animation type. In rotate transitons, amount reflects degrees (e.g. "360").
+		For scale transitions, amount reflects the starting scale percentage, like "70" or "130".
+		For drift transitions, amount reflects a pixel value, like "300".
+		Amount does nothing for slide and anvil animations, which always come from off-screen, and fade animations, which always fade from 0 to 100.
+		The following example has a <code>g</code> with an ID of <code>rotate-right amount-270</code>.</p>
+
+	<div data-xrayhtml="flip" data-title="Custom Duration">
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+				<g id="rotate-right amount-270">
+					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
+					<text id="XMLID_14_" x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
+				</g>
+			</svg>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+	<h3 class="docs">Setting Delays</h3>
+
+	<p class="docs">You can set a custom delay on any <code>g</code> element to change it from the default, which is just after the prior <code>g</code> finishes its transition. If you set a custom delay, note that it represents the time from the start of the entire animation, so delays can be used to change the order that your groups animate in. For example, the following example has a <code>g</code> with an ID of <code>rotate-right delay-2000</code>, to make its transition delay for 2 seconds before starting.</p>
+
+
+	<div data-xrayhtml="flip" data-title="Custom Delay">
+		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+				<g id="rotate-right delay-2000">
+					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
+					<text id="XMLID_14_" x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
+				</g>
+			</svg>
+		</div>
+	</div>
+
+	<h3 class="docs">Looping transitions</h3>
 
 	<p class="docs">If you want a particular group's animation to loop infinitely, you can add a "loop" to the group ID. For example, a looping "scale-down" animation would be <code>id="scale-down_loop"</code> </p>
 
@@ -361,7 +437,7 @@
 		</div>
 
 
-	<h3 class="docs">Repeating animations</h3>
+	<h3 class="docs">Repeating transitions</h3>
 
 	<p class="docs">If you want a particular group's animation to repeat (in the same direction) infinitely, you can add a "repeat" to the group ID. For example, a repeating "scale-down" animation would be <code>id="scale-down_repeat"</code> </p>
 
@@ -391,97 +467,7 @@
 	</div>
 
 
-	<p class="docs"><strong>Advanced:</strong> To create new custom named transitions, you can extend the Layersnap object's transitions property. Here's an example of a transform transition called drift right:</p>
-
-<pre class="docs"><code code="docs">
-&lt;script&gt;
-window.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
-	if( !settings.startEnd ){
-		settings.startEnd = [ "translate(-30,0)", "translate(0,0)" ];
-	}
-	this._transformTransition( settings );
-};
-&lt;/script&gt;
-</code></pre>
-
-
-
-
-	<h3 class="docs">Setting Duration</h3>
-
-	<p>You can set a custom duration on any <code>g</code> element to change it from the default of 800ms. For example, the following example has a <code>g</code> with an ID of <code>rotate-right duration-5000</code>, to make its animation run for 5 seconds.</p>
-
-	<div data-xrayhtml="flip" data-title="Custom Duration">
-		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
-				<g id="rotate-right duration-5000">
-					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
-					<text id="XMLID_14_" x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
-				</g>
-			</svg>
-		</div>
-	</div>
-
-	<h3 class="docs">Setting Easing</h3>
-
-	<p>You can set a custom easing on any <code>g</code> element to change it from the default of easeOut. For example, the following example has a <code>g</code> with an ID of <code>rotate-right easing-bounce</code>. You can use any of the mina easing functions in the snapsvg docs</p>
-
-	<div data-xrayhtml="flip" data-title="Custom Duration">
-		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
-				<g id="rotate-right easing-bounce">
-					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
-					<text id="XMLID_14_" x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
-				</g>
-			</svg>
-		</div>
-	</div>
-
-	<h3 class="docs">Setting Amount</h3>
-
-	<p>You can set a custom amount on any <code>g</code> element to change it from its default.
-		Amount varies depending on the animation type. In rotate transitons, amount reflects degrees (e.g. "360").
-		For scale transitions, amount reflects the starting scale percentage, like "70" or "130".
-		For drift transitions, amount reflects a pixel value, like "300".
-		Amount does nothing for slide and anvil animations, which always come from off-screen, and fade animations, which always fade from 0 to 100.
-		The following example has a <code>g</code> with an ID of <code>rotate-right amount-270</code>.</p>
-
-	<div data-xrayhtml="flip" data-title="Custom Duration">
-		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
-				<g id="rotate-right amount-270">
-					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
-					<text id="XMLID_14_" x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
-				</g>
-			</svg>
-		</div>
-	</div>
-
-
-
-
-
-
-
-
-	<h3 class="docs">Custom Delays</h3>
-
-	<p>You can set a custom delay on any <code>g</code> element to change it from the default, which is just after the prior <code>g</code> finishes its transition. If you set a custom delay, note that it represents the time from the start of the entire animation, so delays can be used to change the order that your groups animate in. For example, the following example has a <code>g</code> with an ID of <code>rotate-right delay-2000</code>, to make its transition delay for 2 seconds before starting.</p>
-
-
-	<div data-xrayhtml="flip" data-title="Custom Delay">
-		<div class="layersnap" data-scroll-activate style="background-image: url(fallbacks/rotate-right.png);" data-layersnap-replay>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
-				<g id="rotate-right delay-2000">
-					<circle id="XMLID_543_" fill="#8ABC4A" cx="100" cy="100" r="83.9"></circle>
-					<text id="XMLID_14_" x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Arial" font-size="12px">Animated Group</text>
-				</g>
-			</svg>
-		</div>
-	</div>
-
-
-	<h3 class="docs">Settings Configurator</h3>
+	<h2 class="docs">Settings Configurator</h2>
 
 	<p class="docs">Use this to play with the various settings and see what each does.</p>
 
@@ -879,6 +865,21 @@ window.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
 	  &lt;/svg&gt;
 	&lt;/div&gt;
 	</code></pre>
+
+	<h3 class="docs">Creating Custom Named Transitions</h3>
+
+	<p class="docs"> To create new custom named transitions, you can extend the Layersnap object's transitions property. Here's an example of a transform transition called drift right:</p>
+
+<pre class="docs"><code code="docs">
+&lt;script&gt;
+window.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
+	if( !settings.startEnd ){
+		settings.startEnd = [ "translate(-30,0)", "translate(0,0)" ];
+	}
+	this._transformTransition( settings );
+};
+&lt;/script&gt;
+</code></pre>
 
 
 	<h2 class="docs" id="ai-tips">Building Animations in Adobe Illustrator</h2>

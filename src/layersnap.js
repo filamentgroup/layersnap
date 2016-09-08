@@ -18,9 +18,9 @@ SVG Build Animations
 
 			// svg selector strings
 			svgSelector: "svg",
-			childGroupsSelector: "svg > g[id]",
+			groupAttribute: "id",
 
-			// ID chunker regexps
+			// attr chunker regexps
 			regDuration: /(^|\s|_)duration\-([\d]+)/,
 			regDelay: /(^|\s|_)delay\-([\d]+)/,
 			regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
@@ -38,7 +38,7 @@ SVG Build Animations
 			interact: false,
 			interactiveAttr: "data-layersnap-interact",
 			activeGroupClass: "layersnap-toggle-active",
-			activeGroupSel: "g[id*=activegroup]",
+			activeGroupSelectorToken: "activegroup",
 			toggleClass: "layersnap-toggle-hide",
 			toggleTriggerElementClass: "layersnap-toggle"
 		};
@@ -94,10 +94,10 @@ SVG Build Animations
 		return "-" + c.toLowerCase();
 	};
 
-	// get the closest element with an ID (from a child target)
-	w.Layersnap.prototype._getClosestID = function( el ){
+	// get the closest element with an attr (from a child target)
+	w.Layersnap.prototype._getClosestAnimateGroup = function( el ){
 		var cur = el;
-		while( cur && cur.getAttribute( "id" ) === null ) { //keep going up until you find a match
+		while( cur && cur.getAttribute( this.options.groupAttribute ) === null ) { //keep going up until you find a match
 				cur = cur.parentNode; //go up
 		}
 		return cur;
@@ -327,7 +327,7 @@ SVG Build Animations
 		var bbox = svg.getBBox(); //bounding box, get coords and center
 		var i = 1;
 
-		this.layersnapDiv.selectAll( this.options.childGroupsSelector ).forEach(function(elem){
+		this.layersnapDiv.selectAll( "svg > g[" + this.options.groupAttribute + "]"  ).forEach(function(elem){
 			var ret = {
 				el: elem,
 				duration: 800,
@@ -338,8 +338,8 @@ SVG Build Animations
 				loopDelay: 0,
 				repeat: false
 			};
-			// get settings from el ID
-			var elID = ret.el.attr( "id" );
+			// get settings from el attr
+			var elID = ret.el.attr( self.options.groupAttribute );
 			ret.el.attr( { "opacity": 0 } );
 			// override duration if set
 			var idDuration = elID.match( self.options.regDuration);
@@ -420,16 +420,16 @@ SVG Build Animations
 		}
 		var self = this;
 		this.el.addEventListener( "click", function( e ){
-			self.toggle( self._getClosestID( e.target ) );
+			self.toggle( self._getClosestAnimateGroup( e.target ) );
 		} );
 
-		this.toggle( this.layersnapDiv.select( this.options.activeGroupSel ).node );
+		this.toggle( this.layersnapDiv.select( "g[" + this.options.groupAttribute + "*='" + this.options.activeGroupSel + "']" ).node );
 	};
 
 	// apply interactive toggle
 	w.Layersnap.prototype.toggle = function( el ){
 		var self = this;
-		var elID = el.getAttribute( "id" );
+		var elID = el.getAttribute( this.options.groupAttribute );
 		if( elID ){
 			var toggleID = elID.match( self.options.regToggle );
 			if( toggleID.length ){
