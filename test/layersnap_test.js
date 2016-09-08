@@ -26,12 +26,17 @@
 
 		// svg selector strings
 		svgSelector: "svg",
-		childGroupsSelector: "svg > g[id]",
+		groupAttribute: "data-layersnap-group",
 
-		// ID chunker regexps
-		regDuration: /(^|\s|_)duration[\-_]+([\d]+)/,
-		regDelay: /(^|\s|_)delay[\-_]+([\d]+)/,
+		// attr chunker regexps
+		regDuration: /(^|\s|_)duration\-([\d]+)/,
+		regDelay: /(^|\s|_)delay\-([\d]+)/,
 		regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
+		regLoop: /(^|\s|_)loop(\s|_|$)/,
+		regLoopDelay: /(^|\s|_)loop-delay\-([\d]+)/,
+		regRepeat: /(^|\s|_)repeat(\s|_|$)/,
+		regEasing: /(^|\s|_)easing\-([a-z]+)/,
+		regAmount: /(^|\s|_)amount\-([\d]+)/,
 
 		// replay and interactive
 		replay: false,
@@ -41,7 +46,7 @@
 		interact: false,
 		interactiveAttr: "data-layersnap-interact",
 		activeGroupClass: "layersnap-toggle-active",
-		activeGroupSel: "g[id*=activegroup]",
+		activeGroupSelectorToken: "activegroup",
 		toggleClass: "layersnap-toggle-hide",
 		toggleTriggerElementClass: "layersnap-toggle"
 	};
@@ -50,12 +55,17 @@
 
 		// svg selector strings
 		svgSelector: 1,
-		childGroupsSelector: 1,
+		groupAttribute: 1,
 
 		// ID chunker regexps
 		regDuration: /1/,
 		regDelay: /1/,
 		regToggle: /1/,
+		regLoop: /1/,
+		regLoopDelay: /1/,
+		regRepeat: /1/,
+		regEasing: /1/,
+		regAmount: /1/,
 
 		// replay and interactive
 		replay: 1,
@@ -65,7 +75,7 @@
 		interact: 1,
 		interactiveAttr: 1,
 		activeGroupClass: 1,
-		activeGroupSel: 1,
+		activeGroupSelectorToken: 1,
 		toggleClass: 1,
 		toggleTriggerElementClass: 1
 	};

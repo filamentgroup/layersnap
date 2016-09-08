@@ -18,7 +18,7 @@ SVG Build Animations
 
 			// svg selector strings
 			svgSelector: "svg",
-			groupAttribute: "id",
+			groupAttribute: "data-layersnap-group",
 
 			// attr chunker regexps
 			regDuration: /(^|\s|_)duration\-([\d]+)/,
@@ -423,7 +423,7 @@ SVG Build Animations
 			self.toggle( self._getClosestAnimateGroup( e.target ) );
 		} );
 
-		this.toggle( this.layersnapDiv.select( "g[" + this.options.groupAttribute + "*='" + this.options.activeGroupSel + "']" ).node );
+		this.toggle( this.layersnapDiv.select( "g[" + this.options.groupAttribute + "*='" + this.options.activeGroupSelectorToken + "']" ).node );
 	};
 
 	// apply interactive toggle

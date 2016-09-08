@@ -1,4 +1,4 @@
-/*! layersnap - v0.1.7 - 2016-08-31
+/*! layersnap - v0.1.7 - 2016-09-08
 * https://github.com/filamentgroup/layersnap
 * Copyright (c) 2016 Filament Group; Licensed MIT */
 (function(w){
@@ -17,13 +17,17 @@
 
 			// svg selector strings
 			svgSelector: "svg",
-			childGroupsSelector: "svg > g[id]",
+			groupAttribute: "data-layersnap-group",
 
-			// ID chunker regexps
-			regDuration: /(^|\s|_)duration[\-_]+([\d]+)/,
-			regDelay: /(^|\s|_)delay[\-_]+([\d]+)/,
+			// attr chunker regexps
+			regDuration: /(^|\s|_)duration\-([\d]+)/,
+			regDelay: /(^|\s|_)delay\-([\d]+)/,
 			regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
 			regLoop: /(^|\s|_)loop(\s|_|$)/,
+			regLoopDelay: /(^|\s|_)loop-delay\-([\d]+)/,
+			regRepeat: /(^|\s|_)repeat(\s|_|$)/,
+			regEasing: /(^|\s|_)easing\-([a-z]+)/,
+			regAmount: /(^|\s|_)amount\-([\d]+)/,
 
 			// replay and interactive
 			replay: false,
@@ -33,7 +37,7 @@
 			interact: false,
 			interactiveAttr: "data-layersnap-interact",
 			activeGroupClass: "layersnap-toggle-active",
-			activeGroupSel: "g[id*=activegroup]",
+			activeGroupSelectorToken: "activegroup",
 			toggleClass: "layersnap-toggle-hide",
 			toggleTriggerElementClass: "layersnap-toggle"
 		};
@@ -89,10 +93,10 @@
 		return "-" + c.toLowerCase();
 	};
 
-	// get the closest element with an ID (from a child target)
-	w.Layersnap.prototype._getClosestID = function( el ){
+	// get the closest element with an attr (from a child target)
+	w.Layersnap.prototype._getClosestAnimateGroup = function( el ){
 		var cur = el;
-		while( cur && cur.getAttribute( "id" ) === null ) { //keep going up until you find a match
+		while( cur && cur.getAttribute( this.options.groupAttribute ) === null ) { //keep going up until you find a match
 				cur = cur.parentNode; //go up
 		}
 		return cur;
@@ -119,165 +123,193 @@
 	// more transitions can be added here
 	w.Layersnap.prototype.transitions = {};
 
+	// loop is for animations that return back to start
 	w.Layersnap.prototype._loop = function( settings ){
 		var self = this;
 		return function(){
 			settings.startEnd = settings.startEnd.reverse();
+			settings.delay = settings.loopDelay;
 			self._runTransition( settings );
 		};
 	};
 
-	w.Layersnap.prototype.transitions[ "rotate-right"] = function( settings ){
-		if( !settings.startEnd ){
-			settings.startEnd = [ "r-30", "0" ];
-		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, mina.easeOut, settings.complete );
+	// repeat is for animations that simply play again the same way every time
+	w.Layersnap.prototype._repeat = function( settings ){
+		var self = this;
+		return function(){
+			self._runTransition( settings );
+		};
 	};
 
-	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
-		if( !settings.startEnd ){
-			settings.startEnd = [ "r30", "0" ];
-		}
+	w.Layersnap.prototype._transformTransition = function( settings ){
 		if( settings.loop ){
 			settings.complete = this._loop( settings );
 		}
+		// one or the other...
+		else if( settings.repeat ){
+			settings.complete = this._repeat( settings );
+		}
 		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, mina.easeOut, settings.complete );
+		settings.el.animate({ transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy, opacity: 1 }, settings.duration, settings.easing, settings.complete );
 	};
 
 	w.Layersnap.prototype.transitions[ "fade" ] = function( settings ){
+		// amount is not applicable for fade
 		if( !settings.startEnd ){
-			settings.startEnd = [ 1, 0 ];
+			settings.startEnd = [ 0, 1 ];
 		}
 		if( settings.loop ){
 			settings.complete = this._loop( settings );
 		}
-		settings.el.animate({ opacity: settings.startEnd[ 0 ] }, settings.duration, mina.easeOut, settings.complete );
+		// one or the other...
+		else if( settings.repeat ){
+			settings.complete = this._repeat( settings );
+		}
+		settings.el.attr( { opacity: settings.startEnd[ 0 ] } );
+		settings.el.animate({ opacity: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+	};
+
+	w.Layersnap.prototype.transitions[ "rotate-right"] = function( settings ){
+		if( settings.amount === null ){
+			// amount is degrees in this case
+			settings.amount = 30;
+		}
+		if( !settings.startEnd ){
+			settings.startEnd = [ "rotate(-" + settings.amount +"," + settings.bbox.cx + ',' + settings.bbox.cy + ")", "rotate(0," + settings.bbox.cx + ',' + settings.bbox.cy + ")" ];
+		}
+		this._transformTransition( settings );
+	};
+
+	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is degrees in this case
+			settings.amount = 30;
+		}
+		if( !settings.startEnd ){
+			settings.startEnd = [ "rotate(" + settings.amount +"," + settings.bbox.cx + ',' + settings.bbox.cy + ")", "rotate(0," + settings.bbox.cx + ',' + settings.bbox.cy + ")" ];
+		}
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-up" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is scale % in this case
+			settings.amount = 70;
+		}
+		settings.amount = settings.amount / 100;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s.7", "s1" ];
+			settings.startEnd = [ "s" + settings.amount, "s1" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-down" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is start scale % in this case
+			settings.amount = 130;
+		}
+		settings.amount = settings.amount / 100;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s1.3", "s1" ];
+			settings.startEnd = [ "s" + settings.amount, "s1" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "pop" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is scale % in this case
+			settings.amount = 70;
+		}
+		settings.amount = settings.amount / 100;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s.7", "s1" ];
+			settings.startEnd = [ "s" + settings.amount, "s1" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ]} );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] + "," + settings.bbox.cx + ',' + settings.bbox.cy }, settings.duration, mina.elastic, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-up" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is px distance in this case
+			settings.amount = 100;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0,30)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0,"+ settings.amount +")", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-down" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is px distance in this case
+			settings.amount = 100;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0,-30)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0,-"+ settings.amount +")", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-left" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is px distance in this case
+			settings.amount = 100;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(30,0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate("+ settings.amount +",0)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
+		if( !settings.amount ){
+			// amount is px distance in this case
+			settings.amount = 100;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(-30,0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(-"+ settings.amount +",0)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-up" ] = function( settings ){
+		// amount is not applicable for slide
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0," + settings.bbox.height + ")", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-down" ] = function( settings ){
+		// amount is not applicable for slide
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-left" ] = function( settings ){
+		// amount is not applicable for slide
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(" + settings.bbox.width + ",0)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
-		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "slide-right" ] = function( settings ){
+		// amount is not applicable for slide
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(" + -settings.bbox.width + ",0)", "translate(0,0)" ];
 		}
-		if( settings.loop ){
-			settings.complete = this._loop( settings );
+		this._transformTransition( settings );
+	};
+
+	w.Layersnap.prototype.transitions[ "anvil" ] = function( settings ){
+		// amount is not applicable for anvil
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
 		}
-		settings.el.attr( {transform: settings.startEnd[ 0 ] } );
-		settings.el.animate({ opacity: 1, transform: settings.startEnd[ 1 ] }, settings.duration, mina.easeOut, settings.complete );
+		settings.easing = mina.bounce;
+		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype._runTransition = function( settings ){
@@ -294,30 +326,56 @@
 		var bbox = svg.getBBox(); //bounding box, get coords and center
 		var i = 1;
 
-		this.layersnapDiv.selectAll( this.options.childGroupsSelector ).forEach(function(elem){
+		this.layersnapDiv.selectAll( "svg > g[" + this.options.groupAttribute + "]"  ).forEach(function(elem){
 			var ret = {
 				el: elem,
 				duration: 800,
+				amount: null,
 				bbox: bbox,
-				loop: false
+				easing: mina.easeOut,
+				loop: false,
+				loopDelay: 0,
+				repeat: false
 			};
-			// get settings from el ID
-			var elID = ret.el.attr( "id" );
+			// get settings from el attr
+			var elID = ret.el.attr( self.options.groupAttribute );
 			ret.el.attr( { "opacity": 0 } );
 			// override duration if set
 			var idDuration = elID.match( self.options.regDuration);
 			if( idDuration ){
 				ret.duration = parseFloat( idDuration[ 2 ] );
 			}
-			// override duration if set
+			// override delay if set
 			var idDelay = elID.match( self.options.regDelay );
 			ret.delay = ( ret.duration * i - ret.duration );
 			if( idDelay ){
 				ret.delay =  parseFloat( idDelay[ 2 ] );
 			}
-			// override loop if set
-			if( elID.match( self.options.regLoop ) ){
+			// override amount if set
+			var idAmount = elID.match( self.options.regAmount );
+			if( idAmount ){
+				ret.amount =  parseFloat( idAmount[ 2 ] );
+			}
+
+			// override easing if set
+			var idEasing = elID.match( self.options.regEasing );
+			if( idEasing ){
+				ret.easing =  mina[ idEasing[ 2 ] ];
+			}
+
+			// override loop if set and loop
+			if( elID.match( self.options.regLoop ) && !self.replay ){
 				ret.loop = true;
+			}
+			// override repeat if set and replay
+			if( elID.match( self.options.regRepeat ) && !self.replay ){
+				ret.repeat = true;
+			}
+
+			// override loop delay if set
+			var idLoopDelay = elID.match( self.options.regLoopDelay );
+			if( idLoopDelay ){
+				ret.loopDelay =  parseFloat( idLoopDelay[ 2 ] );
 			}
 			for( var name in self.transitions ){
 				if( elID.indexOf( name ) > -1 ){
@@ -361,16 +419,16 @@
 		}
 		var self = this;
 		this.el.addEventListener( "click", function( e ){
-			self.toggle( self._getClosestID( e.target ) );
+			self.toggle( self._getClosestAnimateGroup( e.target ) );
 		} );
 
-		this.toggle( this.layersnapDiv.select( this.options.activeGroupSel ).node );
+		this.toggle( this.layersnapDiv.select( "g[" + this.options.groupAttribute + "*='" + this.options.activeGroupSelectorToken + "']" ).node );
 	};
 
 	// apply interactive toggle
 	w.Layersnap.prototype.toggle = function( el ){
 		var self = this;
-		var elID = el.getAttribute( "id" );
+		var elID = el.getAttribute( this.options.groupAttribute );
 		if( elID ){
 			var toggleID = elID.match( self.options.regToggle );
 			if( toggleID.length ){
