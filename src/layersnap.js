@@ -228,7 +228,7 @@ SVG Build Animations
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "drift-up" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "move-up" ] = function( settings ){
 		if( !settings.amount ){
 			// amount is px distance in this case
 			settings.amount = 100;
@@ -239,7 +239,7 @@ SVG Build Animations
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "drift-down" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "move-down" ] = function( settings ){
 		if( !settings.amount ){
 			// amount is px distance in this case
 			settings.amount = 100;
@@ -250,7 +250,7 @@ SVG Build Animations
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "drift-left" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "move-left" ] = function( settings ){
 		if( !settings.amount ){
 			// amount is px distance in this case
 			settings.amount = 100;
@@ -261,7 +261,7 @@ SVG Build Animations
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "drift-right" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "move-right" ] = function( settings ){
 		if( !settings.amount ){
 			// amount is px distance in this case
 			settings.amount = 100;
