@@ -195,9 +195,9 @@ SVG Build Animations
 	w.Layersnap.prototype.transitions[ "scale-up" ] = function( settings ){
 		if( !settings.amount ){
 			// amount is scale % in this case
-			settings.amount = 70;
+			settings.amount = 30;
 		}
-		settings.amount = settings.amount / 100;
+		settings.amount = ( 100 - settings.amount ) / 100;
 		if( !settings.startEnd ){
 			settings.startEnd = [ "s" + settings.amount, "s1" ];
 		}
@@ -207,9 +207,9 @@ SVG Build Animations
 	w.Layersnap.prototype.transitions[ "scale-down" ] = function( settings ){
 		if( !settings.amount ){
 			// amount is start scale % in this case
-			settings.amount = 130;
+			settings.amount = 30;
 		}
-		settings.amount = settings.amount / 100;
+		settings.amount = ( 100 + settings.amount ) / 100;
 		if( !settings.startEnd ){
 			settings.startEnd = [ "s" + settings.amount, "s1" ];
 		}
@@ -219,9 +219,10 @@ SVG Build Animations
 	w.Layersnap.prototype.transitions[ "pop" ] = function( settings ){
 		if( !settings.amount ){
 			// amount is scale % in this case
-			settings.amount = 70;
+			settings.amount = 80;
 		}
-		settings.amount = settings.amount / 100;
+		settings.amount = ( 100 - settings.amount ) / 100;
+		settings.easing = mina.elastic;
 		if( !settings.startEnd ){
 			settings.startEnd = [ "s" + settings.amount, "s1" ];
 		}
