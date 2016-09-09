@@ -14,8 +14,36 @@ SVG Build Animations
 	// constructor
 	w.Layersnap = function( elem, options ){
 		this.el = elem;
+		this.options = {
 
-		// override default options from the prototype
+			// svg selector strings
+			svgSelector: "svg",
+			groupAttribute: "data-layersnap-group",
+
+			// attr chunker regexps
+			regDuration: /(^|\s|_)duration\-([\d]+)/,
+			regDelay: /(^|\s|_)delay\-([\d]+)/,
+			regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
+			regLoop: /(^|\s|_)loop(\s|_|$)/,
+			regLoopDelay: /(^|\s|_)loop-delay\-([\d]+)/,
+			regRepeat: /(^|\s|_)repeat(\s|_|$)/,
+			regEasing: /(^|\s|_)easing\-([a-z]+)/,
+			regAmount: /(^|\s|_)amount\-([\d]+)/,
+
+			// replay and interactive
+			replay: false,
+			replayAttr: "data-layersnap-replay",
+			replayBtnText: "Replay",
+			replayBtnClass: "layersnap-replay",
+			interact: false,
+			interactiveAttr: "data-layersnap-interact",
+			activeGroupClass: "layersnap-toggle-active",
+			activeGroupSelectorToken: "activegroup",
+			toggleClass: "layersnap-toggle-hide",
+			toggleTriggerElementClass: "layersnap-toggle"
+		};
+
+		// override defaults
 		for( var i in this.options ){
 			if( options && options[ i ] !== undefined ){
 				this.options[ i ] = options[ i ];
@@ -35,36 +63,6 @@ SVG Build Animations
 				}
 			}
 		}
-	};
-
-	// default global options, overridable per instance or globally
-	w.Layersnap.prototype.options = {
-
-		// svg selector strings
-		svgSelector: "svg",
-		groupAttribute: "data-layersnap-group",
-
-		// attr chunker regexps
-		regDuration: /(^|\s|_)duration\-([\d]+)/,
-		regDelay: /(^|\s|_)delay\-([\d]+)/,
-		regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
-		regLoop: /(^|\s|_)loop(\s|_|$)/,
-		regLoopDelay: /(^|\s|_)loop-delay\-([\d]+)/,
-		regRepeat: /(^|\s|_)repeat(\s|_|$)/,
-		regEasing: /(^|\s|_)easing\-([a-z]+)/,
-		regAmount: /(^|\s|_)amount\-([\d]+)/,
-
-		// replay and interactive
-		replay: false,
-		replayAttr: "data-layersnap-replay",
-		replayBtnText: "Replay",
-		replayBtnClass: "layersnap-replay",
-		interact: false,
-		interactiveAttr: "data-layersnap-interact",
-		activeGroupClass: "layersnap-toggle-active",
-		activeGroupSelectorToken: "activegroup",
-		toggleClass: "layersnap-toggle-hide",
-		toggleTriggerElementClass: "layersnap-toggle"
 	};
 
 	// polyfill raf if needed
