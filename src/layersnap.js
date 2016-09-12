@@ -156,8 +156,15 @@ SVG Build Animations
 
 	w.Layersnap.prototype.transitions[ "fade" ] = function( settings ){
 		// amount is not applicable for fade
+		if( settings.amount === null ){
+			settings.amount = 100;
+		}
+		settings.amount = settings.amount / 100;
+		settings.amount = Math.min( settings.amount, 1 );
+		settings.amount = Math.max( 0, settings.amount );
+		settings.amount = 1 - settings.amount;
 		if( !settings.startEnd ){
-			settings.startEnd = [ 0, 1 ];
+			settings.startEnd = [ settings.amount, 1 ];
 		}
 		if( settings.loop ){
 			settings.complete = this._loop( settings );

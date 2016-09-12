@@ -381,9 +381,10 @@
 
 	<p class="docs">You can set a custom amount on any <code>g</code> element to change it from its default.
 		Amount varies depending on the animation type. In rotate transitons, amount reflects degrees (e.g. "360").
-		For scale transitions, amount reflects the starting scale percentage, like "70" or "130".
+		For scale transitions, amount reflects the percent you want to scale up or down, like "50".
 		For move transitions, amount reflects a pixel value, like "300".
-		Amount does nothing for enter and anvil animations, which always come from off-screen, and fade animations, which always fade from 0 to 100.
+		For fade transitions, amount reflects the transparency you'd like the object to fade in from (100 is the default, which is fully transparent).
+		Amount does nothing for enter and anvil animations, which always come from off-screen.
 		The following example has a <code>g</code> with an <code>data-layersnap-group</code> attribute value of <code>rotate-right amount-270</code>.</p>
 
 	<div data-xrayhtml="flip" data-title="Custom Duration">
