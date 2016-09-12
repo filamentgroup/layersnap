@@ -273,18 +273,18 @@ SVG Build Animations
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "enter-down" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "enter-top" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0," + settings.bbox.height + ")", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0," + (-this.el.offsetHeight) + ")", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "enter-up" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "enter-bottom" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0," + (this.el.offsetHeight) + ")", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
@@ -292,7 +292,7 @@ SVG Build Animations
 	w.Layersnap.prototype.transitions[ "enter-right" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(" + settings.bbox.width + ",0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(" + (this.el.offsetWidth) + ",0)", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
@@ -300,7 +300,7 @@ SVG Build Animations
 	w.Layersnap.prototype.transitions[ "enter-left" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(" + -settings.bbox.width + ",0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(" + (-this.el.offsetWidth) + ",0)", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
