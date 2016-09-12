@@ -182,7 +182,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is degrees in this case
 			settings.amount = 30;
 		}
@@ -193,7 +193,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-up" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is scale % in this case
 			settings.amount = 30;
 		}
@@ -205,7 +205,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-down" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is start scale % in this case
 			settings.amount = 30;
 		}
@@ -217,7 +217,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "pop" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is scale % in this case
 			settings.amount = 80;
 		}
@@ -230,7 +230,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "move-up" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is px distance in this case
 			settings.amount = 100;
 		}
@@ -241,7 +241,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "move-down" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is px distance in this case
 			settings.amount = 100;
 		}
@@ -252,7 +252,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "move-left" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is px distance in this case
 			settings.amount = 100;
 		}
@@ -263,7 +263,7 @@ SVG Build Animations
 	};
 
 	w.Layersnap.prototype.transitions[ "move-right" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is px distance in this case
 			settings.amount = 100;
 		}
