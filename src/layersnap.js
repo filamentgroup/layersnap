@@ -315,7 +315,7 @@ SVG Build Animations
 	w.Layersnap.prototype.transitions[ "anvil" ] = function( settings ){
 		// amount is not applicable for anvil
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0," + (-this.el.offsetHeight) + ")", "translate(0,0)" ];
 		}
 		settings.easing = mina.bounce;
 		this._transformTransition( settings );
