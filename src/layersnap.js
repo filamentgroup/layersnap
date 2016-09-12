@@ -273,7 +273,7 @@ SVG Build Animations
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "enter-up" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "enter-down" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0," + settings.bbox.height + ")", "translate(0,0)" ];
@@ -281,7 +281,7 @@ SVG Build Animations
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "enter-down" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "enter-up" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
@@ -289,7 +289,7 @@ SVG Build Animations
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "enter-left" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "enter-right" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(" + settings.bbox.width + ",0)", "translate(0,0)" ];
@@ -297,7 +297,7 @@ SVG Build Animations
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "enter-right" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "enter-left" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
 			settings.startEnd = [ "translate(" + -settings.bbox.width + ",0)", "translate(0,0)" ];
