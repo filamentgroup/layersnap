@@ -205,8 +205,14 @@ SVG Build Animations
 			settings.amount = 30;
 		}
 		settings.amount = ( 100 - settings.amount ) / 100;
+		if( settings.amount > 1 ){
+			settings.amount = 1;
+		}
+		if( settings.amount < 0 ){
+			settings.amount = 0;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s" + settings.amount, "s1" ];
+			settings.startEnd = [ "s" + settings.amount + "," + settings.amount + "," + settings.bbox.cx + "," + settings.bbox.cy, "s1" ];
 		}
 		this._transformTransition( settings );
 	};
@@ -218,7 +224,7 @@ SVG Build Animations
 		}
 		settings.amount = ( 100 + settings.amount ) / 100;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s" + settings.amount, "s1" ];
+			settings.startEnd = [ "s" + settings.amount + "," + settings.amount + "," + settings.bbox.cx + "," + settings.bbox.cy, "s1" ];
 		}
 		this._transformTransition( settings );
 	};
@@ -231,7 +237,7 @@ SVG Build Animations
 		settings.amount = ( 100 - settings.amount ) / 100;
 		settings.easing = mina.elastic;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s" + settings.amount, "s1" ];
+			settings.startEnd = [ "s" + settings.amount + "," + settings.amount + "," + settings.bbox.cx + "," + settings.bbox.cy, "s1" ];
 		}
 		this._transformTransition( settings );
 	};
