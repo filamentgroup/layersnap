@@ -15,19 +15,75 @@
 		background-image: url(http://filamentgroup.com/images/fg-logo-icon-lrg.png);
 	}
 }
+.a11y-only {
+	position: absolute;
+	left: -9999px;
+}
+.docs-attribute {
+	font-size: .6em;
+	padding: 1em 20px;
+	text-align: right;
+	opacity: .8;
+}
 /* Demo styles */
 body {
 	font-family: sans-serif;
 	font-size: 100%;
 }
-.docs-main {
-	margin: 1em 20px;
+.docs-title {
+	padding: 1em 0 0;
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+.docs-title .layersnap svg {
+	width: 100%;
+	margin: 0;
+}
+.docs-title .layersnap svg.logo {
+	display: block;
+	margin-bottom: 2em;
+}
+.docs-title .layersnap svg.mountains {
+	max-height: 150px;
+	display: block;
+}
+.docs-title img {
+	width: 100px;
+	vertical-align: middle;
+}
+.docs-title h1.docs {
+	margin: 1em 0 .3em;
+}
+.docs-main-contain {
+	background: #DFDCCD;
+	padding: 1em 0;
+}
+.docs-main,
+.demo-header {
+	margin: 0 20px;
 	max-width: 56em;
 }
+.docs-main {
+	padding: 30px;
+	margin: 1em auto;
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 500px,rgba(255,255,255,1) 100%);
+	box-sizing: border-box;
+}
 @media (min-width: 58em) {
-	.docs-main {
-		margin: 1em auto;
+	.docs-title {
+		margin-top: 5em;
 	}
+	.docs-main,
+	.demo-header {
+		margin: 0 auto;
+	}
+	.docs-main {
+		border-radius: 10px;
+		padding: 50px 60px;
+		box-shadow: 0 25px 5px rgba(0,0,0,.1);
+	}
+
 }
 label {
 	display: block;
@@ -291,7 +347,6 @@ label input[type=radio] {
 }
 .configurator_wrap {
 	padding: 20px;
-	background: #eee;
 	border: 1px solid #ddd;
 }
 .configurator-example {
