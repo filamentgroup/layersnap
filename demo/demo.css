@@ -352,3 +352,6 @@ label input[type=radio] {
 .configurator-example {
 	background: #fff;
 }
+.layersnap-replay {
+	cursor: pointer;
+}
