@@ -2,7 +2,7 @@
   "name": "layersnap",
   "title": "layersnap",
   "description": "Build SVG animations declaratively.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/filamentgroup/layersnap",
   "author": {
     "name": "Scott Jehl",
