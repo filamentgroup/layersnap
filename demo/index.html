@@ -950,6 +950,15 @@
 
 	<p class="docs">Animations can interact with other DOM content by changing a group’s <code>data-layersnap-group</code> attribute to include "toggle-" followed by an ID of an element on the page that should be toggled when that group is clicked. Once clicked, a class of "layersnap-toggle-hide" will be added to the associated element, and a class of "layersnap-toggle-active" will be added to the SVG group. By default, all toggles will receive the hide class, so if you'd like to activate a group from the start, add "toggleactive" to that group's ID.</p>
 
+	<p class="docs">Note that the demo and code below uses a mixture of HTML and SVG so view the source carefully to see how it's assembled. First off, there is layersnap container around everything that has the <code>data-layersnap-interact</code> attribute - this allows for the SVG interactivity. Inside this container, we have the following elements that may need to be customized slightly for each interactive animation:</p>
+
+	<ul class="docs">
+		<li>An <strong>inline style block at the top</strong> has simple styles to position the text blocks to the right and a mediaquery to stack them on smaller breakpoints.  A CSS rule to set the hover and active state color of the SVG "slice" </li>
+		<li>The <strong>SVG for the interactive "controller"</strong>. In this example, they are slices of a circle but thse can be any appearance or layout. For each interactive element in the SVG, add a reference to the div that should display when you click the slice by adding this to the name of the layer: "toggle-[layer-id]". For example, by adding <code>toggle-buy</code> to the buy slice's layer name in Illustrator, it will show the HTML text div with and id of <code>buy</code> when it's clicked. You can also specify the animation type, duration, and delay on these layers - just separate each parameter with a space in your layer name.</li>
+		<li>A <strong>series of HTML content divs</strong> that are swapped out based on what slice is clicked. The IDs of these should map to the naming used in the interactive SVG.</li>
+	</ul>
+
+	
 	<div data-xrayhtml="flip" data-title="Example">
 		<div class="layersnap interact-example" data-layersnap-interact data-scroll-activate  style="background-image: url(fallbacks/interact.png);">
 			<style>
