@@ -1,7 +1,7 @@
 /*
 SVG Build Animations
 */
-.svg-supported .layersnap svg > g[id] {
+.svg-supported .layersnap svg > g[data-layersnap-group] {
 	opacity: 0;
 }
 .svg-supported .layersnap svg {
