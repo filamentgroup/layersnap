@@ -1,6 +1,6 @@
-/*! layersnap - v0.1.7 - 2016-09-09
+/*! layersnap - v1.0.1 - 2017-08-01
 * https://github.com/filamentgroup/layersnap
-* Copyright (c) 2016 Filament Group; Licensed MIT */
+* Copyright (c) 2017 Filament Group; Licensed MIT */
 (function(w){
 
 	// For CSS targeting
@@ -13,8 +13,36 @@
 	// constructor
 	w.Layersnap = function( elem, options ){
 		this.el = elem;
+		this.options = {
 
-		// override default options from the prototype
+			// svg selector strings
+			svgSelector: "svg",
+			groupAttribute: "data-layersnap-group",
+
+			// attr chunker regexps
+			regDuration: /(^|\s|_)duration\-([\d]+)/,
+			regDelay: /(^|\s|_)delay\-([\d]+)/,
+			regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
+			regLoop: /(^|\s|_)loop(\s|_|$)/,
+			regLoopDelay: /(^|\s|_)loop-delay\-([\d]+)/,
+			regRepeat: /(^|\s|_)repeat(\s|_|$)/,
+			regEasing: /(^|\s|_)easing\-([a-z]+)/,
+			regAmount: /(^|\s|_)amount\-([\d]+)/,
+
+			// replay and interactive
+			replay: false,
+			replayAttr: "data-layersnap-replay",
+			replayBtnText: "Replay",
+			replayBtnClass: "layersnap-replay",
+			interact: false,
+			interactiveAttr: "data-layersnap-interact",
+			activeGroupClass: "layersnap-toggle-active",
+			activeGroupSelectorToken: "activegroup",
+			toggleClass: "layersnap-toggle-hide",
+			toggleTriggerElementClass: "layersnap-toggle"
+		};
+
+		// override defaults
 		for( var i in this.options ){
 			if( options && options[ i ] !== undefined ){
 				this.options[ i ] = options[ i ];
@@ -34,36 +62,6 @@
 				}
 			}
 		}
-	};
-
-	// default global options, overridable per instance or globally
-	w.Layersnap.prototype.options = {
-
-		// svg selector strings
-		svgSelector: "svg",
-		groupAttribute: "data-layersnap-group",
-
-		// attr chunker regexps
-		regDuration: /(^|\s|_)duration\-([\d]+)/,
-		regDelay: /(^|\s|_)delay\-([\d]+)/,
-		regToggle: /(^|\s|_)toggle\-([^\s_$]+)/,
-		regLoop: /(^|\s|_)loop(\s|_|$)/,
-		regLoopDelay: /(^|\s|_)loop-delay\-([\d]+)/,
-		regRepeat: /(^|\s|_)repeat(\s|_|$)/,
-		regEasing: /(^|\s|_)easing\-([a-z]+)/,
-		regAmount: /(^|\s|_)amount\-([\d]+)/,
-
-		// replay and interactive
-		replay: false,
-		replayAttr: "data-layersnap-replay",
-		replayBtnText: "Replay",
-		replayBtnClass: "layersnap-replay",
-		interact: false,
-		interactiveAttr: "data-layersnap-interact",
-		activeGroupClass: "layersnap-toggle-active",
-		activeGroupSelectorToken: "activegroup",
-		toggleClass: "layersnap-toggle-hide",
-		toggleTriggerElementClass: "layersnap-toggle"
 	};
 
 	// polyfill raf if needed
@@ -157,8 +155,15 @@
 
 	w.Layersnap.prototype.transitions[ "fade" ] = function( settings ){
 		// amount is not applicable for fade
+		if( settings.amount === null ){
+			settings.amount = 100;
+		}
+		settings.amount = settings.amount / 100;
+		settings.amount = Math.min( settings.amount, 1 );
+		settings.amount = Math.max( 0, settings.amount );
+		settings.amount = 1 - settings.amount;
 		if( !settings.startEnd ){
-			settings.startEnd = [ 0, 1 ];
+			settings.startEnd = [ settings.amount, 1 ];
 		}
 		if( settings.loop ){
 			settings.complete = this._loop( settings );
@@ -183,7 +188,7 @@
 	};
 
 	w.Layersnap.prototype.transitions[ "rotate-left" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is degrees in this case
 			settings.amount = 30;
 		}
@@ -194,43 +199,50 @@
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-up" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is scale % in this case
-			settings.amount = 70;
+			settings.amount = 30;
 		}
-		settings.amount = settings.amount / 100;
+		settings.amount = ( 100 - settings.amount ) / 100;
+		if( settings.amount > 1 ){
+			settings.amount = 1;
+		}
+		if( settings.amount < 0 ){
+			settings.amount = 0;
+		}
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s" + settings.amount, "s1" ];
+			settings.startEnd = [ "s" + settings.amount + "," + settings.amount + "," + settings.bbox.cx + "," + settings.bbox.cy, "s1" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "scale-down" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is start scale % in this case
-			settings.amount = 130;
+			settings.amount = 30;
 		}
-		settings.amount = settings.amount / 100;
+		settings.amount = ( 100 + settings.amount ) / 100;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s" + settings.amount, "s1" ];
+			settings.startEnd = [ "s" + settings.amount + "," + settings.amount + "," + settings.bbox.cx + "," + settings.bbox.cy, "s1" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "pop" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is scale % in this case
-			settings.amount = 70;
+			settings.amount = 80;
 		}
-		settings.amount = settings.amount / 100;
+		settings.amount = ( 100 - settings.amount ) / 100;
+		settings.easing = mina.elastic;
 		if( !settings.startEnd ){
-			settings.startEnd = [ "s" + settings.amount, "s1" ];
+			settings.startEnd = [ "s" + settings.amount + "," + settings.amount + "," + settings.bbox.cx + "," + settings.bbox.cy, "s1" ];
 		}
 		this._transformTransition( settings );
 	};
 
 	w.Layersnap.prototype.transitions[ "move-up" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is px distance in this case
 			settings.amount = 100;
 		}
@@ -241,7 +253,7 @@
 	};
 
 	w.Layersnap.prototype.transitions[ "move-down" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is px distance in this case
 			settings.amount = 100;
 		}
@@ -252,7 +264,7 @@
 	};
 
 	w.Layersnap.prototype.transitions[ "move-left" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is px distance in this case
 			settings.amount = 100;
 		}
@@ -263,7 +275,7 @@
 	};
 
 	w.Layersnap.prototype.transitions[ "move-right" ] = function( settings ){
-		if( !settings.amount ){
+		if( settings.amount === null ){
 			// amount is px distance in this case
 			settings.amount = 100;
 		}
@@ -273,26 +285,18 @@
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "enter-up" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "enter-top" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0," + settings.bbox.height + ")", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0," + (-this.el.offsetHeight) + ")", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
 
-	w.Layersnap.prototype.transitions[ "enter-down" ] = function( settings ){
+	w.Layersnap.prototype.transitions[ "enter-bottom" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
-		}
-		this._transformTransition( settings );
-	};
-
-	w.Layersnap.prototype.transitions[ "enter-left" ] = function( settings ){
-		// amount is not applicable for enter
-		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(" + settings.bbox.width + ",0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0," + (this.el.offsetHeight) + ")", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
@@ -300,7 +304,15 @@
 	w.Layersnap.prototype.transitions[ "enter-right" ] = function( settings ){
 		// amount is not applicable for enter
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(" + -settings.bbox.width + ",0)", "translate(0,0)" ];
+			settings.startEnd = [ "translate(" + (this.el.offsetWidth) + ",0)", "translate(0,0)" ];
+		}
+		this._transformTransition( settings );
+	};
+
+	w.Layersnap.prototype.transitions[ "enter-left" ] = function( settings ){
+		// amount is not applicable for enter
+		if( !settings.startEnd ){
+			settings.startEnd = [ "translate(" + (-this.el.offsetWidth) + ",0)", "translate(0,0)" ];
 		}
 		this._transformTransition( settings );
 	};
@@ -308,7 +320,7 @@
 	w.Layersnap.prototype.transitions[ "anvil" ] = function( settings ){
 		// amount is not applicable for anvil
 		if( !settings.startEnd ){
-			settings.startEnd = [ "translate(0," + -settings.bbox.height + ")", "translate(0,0)" ];
+			settings.startEnd = [ "translate(0," + (-this.el.offsetHeight) + ")", "translate(0,0)" ];
 		}
 		settings.easing = mina.bounce;
 		this._transformTransition( settings );

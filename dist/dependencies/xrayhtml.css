@@ -1,11 +1,14 @@
-/*! X-rayHTML - v2.1.2 - 2016-05-18
+/*! X-rayHTML - v2.1.5 - 2017-07-05
 * https://github.com/filamentgroup/x-rayhtml
-* Copyright (c) 2016 Filament Group; Licensed MIT */
+* Copyright (c) 2017 Filament Group; Licensed MIT */
 .xrayhtml {
 	border: 1px solid rgba(0,0,0,.1);
 	border-radius: .3em;
 	margin: 1.5em 0 2.5em 0;
 	padding: 1em 1em 2em;
+}
+.xrayhtml.xray-copy {
+	position: relative;
 }
 .xrayhtml .xraytitle {
 	text-transform: uppercase;
@@ -32,6 +35,8 @@
 }
 .xrayhtml .source-panel pre {
 	margin: 0;
+	padding: 16px;
+	border-radius: 0 0 .3em .3em;
 }
 .xrayhtml .source-panel code {
 	white-space: pre-wrap;
@@ -41,17 +46,13 @@
 	border-radius: 0.3em;
 }
 .xrayhtml.method-inline .source-panel {
-	margin: 2em -1em -2em -1em !important; /* Prism style override. */
+	margin: 2em -1em -2em -1em !important; /* Prism override. */
 	border-top: 1px solid rgba(0,0,0,.1);
 	border-radius: 0 0 .3em .3em;
 }
-.xrayhtml pre {
-	padding: 16px;
-	margin: 0 !important; /* Prism style override. */
-	border-radius: 0 0 .3em .3em;
-}
-.xrayhtml code {
-	white-space: pre-wrap !important; /* Prism style override. */
+/* Prism override. */
+.xrayhtml .source-panel code.language-markup {
+	white-space: pre-wrap !important;
 }
 
 .xrayhtml.antipattern {
@@ -63,20 +64,13 @@
 }
 
 /* Flip Animation */
-
+.xrayhtml.method-flip {
+	padding: 0;
+}
 .method-flip {
 	-webkit-perspective: 2500px;
 	-moz-perspective: 2500px;
 	perspective: 2500px;
-}
-.method-flip .snippet {
-	padding: 0;
-	margin: 0;
-	position: relative;
-	top: 0;
-	left: 0;
-	z-index: 2;
-	min-height: 100%;
 }
 .method-flip .source-panel {
 	position: absolute;
@@ -84,10 +78,18 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	overflow-x: scroll;
+	overflow-x: auto;
 }
-
 .method-flip .snippet {
+	margin: 0;
+	position: relative;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	min-height: 100%;
+	background-color: #fff;
+	padding: 1em;
+
 	-webkit-transform: rotateY(0deg);
 	-webkit-transform-style: preserve-3d;
 	-webkit-backface-visibility: hidden;
