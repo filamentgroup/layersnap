@@ -119,6 +119,7 @@ SVG Build Animations
 
 		// play the animation
 		this.play();
+
 	};
 
 	// more transitions can be added here
@@ -334,8 +335,12 @@ SVG Build Animations
 		}, settings.delay );
 	};
 
+	w.Layersnap.prototype.reset = function(){
+		return this.play( true );
+	};
+
 	// animate the child g elements
-	w.Layersnap.prototype.play = function(){
+	w.Layersnap.prototype.play = function( resetOnly ){
 		var self = this;
 		var svg = this.layersnapDiv.select( this.options.svgSelector );
 		var bbox = svg.getBBox(); //bounding box, get coords and center
@@ -355,6 +360,9 @@ SVG Build Animations
 			// get settings from el attr
 			var elID = ret.el.attr( self.options.groupAttribute );
 			ret.el.attr( { "opacity": 0 } );
+			if( resetOnly ){
+				return;
+			}
 			// override duration if set
 			var idDuration = elID.match( self.options.regDuration);
 			if( idDuration ){
