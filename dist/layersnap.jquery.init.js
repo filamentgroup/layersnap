@@ -1,4 +1,4 @@
-/*! layersnap - v1.0.1 - 2017-08-01
+/*! layersnap - v1.0.2 - 2017-08-22
 * https://github.com/filamentgroup/layersnap
 * Copyright (c) 2017 Filament Group; Licensed MIT */
 /* global Layersnap:true */
