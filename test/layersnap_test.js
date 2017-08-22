@@ -92,7 +92,7 @@
 	});
 
 	test( 'new instance properties ', function() {
-		expect(9 );
+		expect(6 );
 		var exampleelem = document.getElementById( "test1" );
 		var ls = new window.Layersnap( exampleelem );
 		equal( typeof ls, "object", 'layersnap instance type is object.' );
@@ -101,9 +101,6 @@
 		ok( ls.options, "options property exists");
 		equal( typeof ls.options, "object", "options prop is an object" );
 		ok( ls.options, "options property exists");
-		ok( ls.init, "init method exists");
-		ok( ls.play, "play method exists");
-		ok( ls.reset, "reset method exists");
 
 	});
 
