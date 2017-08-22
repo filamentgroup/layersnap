@@ -92,7 +92,7 @@
 	});
 
 	test( 'new instance properties ', function() {
-		expect(5 );
+		expect(6 );
 		var exampleelem = document.getElementById( "test1" );
 		var ls = new window.Layersnap( exampleelem );
 		equal( typeof ls, "object", 'layersnap instance type is object.' );
@@ -100,7 +100,7 @@
 		equal( typeof ls.el, "object", "el prop is an object" );
 		ok( ls.options, "options property exists");
 		equal( typeof ls.options, "object", "options prop is an object" );
-
+		ok( ls.options, "options property exists");
 
 	});
 
@@ -136,6 +136,24 @@
 		for( var j in optionOverrides ){
 			equal( ls.options[ j ].toString(), optionOverrides[ j ].toString(), "Value of " + j + " option is now overridden to " + optionOverrides[ j ] );
 		}
+	});
+
+	asyncTest( 'init, reset, methods change opacity as expected', function() {
+		expect(3);
+		var exampleelem = document.getElementById( "test1" );
+		var ls = new window.Layersnap( exampleelem );
+		var firstG = exampleelem.getElementsByTagName( "g" )[0];
+
+		equal( window.getComputedStyle( firstG ).opacity, "0", "opacity starts at 0" );
+		ls.init();
+		setTimeout(function(){
+			notEqual( window.getComputedStyle( firstG ).opacity, "0", "opacity no longer at 0" );
+			ls.reset();
+			equal( window.getComputedStyle( firstG ).opacity, "0", "opacity back to 0" );
+			start();
+		}, 500 );
+
+
 	});
 
 

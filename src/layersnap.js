@@ -119,6 +119,7 @@ SVG Build Animations
 
 		// play the animation
 		this.play();
+
 	};
 
 	// more transitions can be added here
@@ -334,14 +335,27 @@ SVG Build Animations
 		}, settings.delay );
 	};
 
+	w.Layersnap.prototype._getGroups = function(){
+		return this.layersnapDiv.selectAll( "svg > g[" + this.options.groupAttribute + "]"  );
+	};
+
+	w.Layersnap.prototype.reset = function( groups ){
+		( groups || this._getGroups() ).forEach(function(elem){
+			elem.attr( { "opacity": 0 } );
+		});
+		return this;
+	};
+
 	// animate the child g elements
 	w.Layersnap.prototype.play = function(){
 		var self = this;
 		var svg = this.layersnapDiv.select( this.options.svgSelector );
 		var bbox = svg.getBBox(); //bounding box, get coords and center
 		var i = 1;
+		var groups = this._getGroups();
+		this.reset( groups );
 
-		this.layersnapDiv.selectAll( "svg > g[" + this.options.groupAttribute + "]"  ).forEach(function(elem){
+		groups.forEach(function(elem){
 			var ret = {
 				el: elem,
 				duration: 800,
@@ -354,7 +368,6 @@ SVG Build Animations
 			};
 			// get settings from el attr
 			var elID = ret.el.attr( self.options.groupAttribute );
-			ret.el.attr( { "opacity": 0 } );
 			// override duration if set
 			var idDuration = elID.match( self.options.regDuration);
 			if( idDuration ){
