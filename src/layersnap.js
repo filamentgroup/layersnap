@@ -10,6 +10,10 @@ SVG Build Animations
 	if( svg ){
 		w.document.documentElement.className += " svg-supported";
 	}
+	
+	// set var to note whether reduced motion is preferred (for vestibular disorders, etc) 
+	var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion)").matches === true;
+
 
 	// constructor
 	w.Layersnap = function( elem, options ){
@@ -410,6 +414,15 @@ SVG Build Animations
 					ret.transition = name;
 				}
 			}
+			
+			// if reduced motion is preferred, set timing to 0 and disable looping and repeat
+			if( reduceMotion ){
+				ret.duration = 0;
+				ret.delay = 0;
+				ret.loop = false;
+				ret.repeat = false;
+			}
+			
 			if( ret.transition ){
 				self._runTransition( ret );
 			}
