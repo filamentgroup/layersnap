@@ -10,9 +10,9 @@ SVG Build Animations
 	if( svg ){
 		w.document.documentElement.className += " svg-supported";
 	}
-	
-	// set var to note whether reduced motion is preferred (for vestibular disorders, etc) 
-	var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion)").matches === true;
+
+	// set var to note whether reduced motion is preferred (for vestibular disorders, etc)
+	var reduceMotion = w.matchMedia && w.matchMedia("(prefers-reduced-motion)").matches === true;
 
 
 	// constructor
@@ -414,7 +414,7 @@ SVG Build Animations
 					ret.transition = name;
 				}
 			}
-			
+
 			// if reduced motion is preferred, set timing to 0 and disable looping and repeat
 			if( reduceMotion ){
 				ret.duration = 0;
@@ -422,7 +422,7 @@ SVG Build Animations
 				ret.loop = false;
 				ret.repeat = false;
 			}
-			
+
 			if( ret.transition ){
 				self._runTransition( ret );
 			}
