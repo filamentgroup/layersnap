@@ -44,7 +44,7 @@
     "grunt-contrib-qunit": "^2.0.0",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "~0.4.0",
-    "grunt-gh-pages": "~0.9.0",
+    "grunt-gh-pages": "~0.10.0",
     "matchdep": "~0.1.2",
     "xrayhtml": "^2.0.0",
     "porthole": "0.1.0"
