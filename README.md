@@ -1,12 +1,12 @@
-# Layersnap [![Build Status](https://img.shields.io/travis/filamentgroup/layersnap/master.svg)](https://travis-ci.org/filamentgroup/layersnap)
+# Layersnap 
 
 [![Filament Group](http://filamentgroup.com/images/fg-logo-positive-sm-crop.png) ](http://www.filamentgroup.com/)
 
 ## Build SVG animations declaratively.
 
-* [Documentation and Demos](http://master.origin.layersnap.fgview.com/demo/)
+* [Documentation and Demos](https://filamentgroup.github.io/layersnap/demo/)
 * [npm](https://www.npmjs.com/package/layersnap)
-* [Tests](http://master.origin.layersnap.fgview.com/test/)
+* [Tests](https://filamentgroup.github.io/layersnap/test/)
 
 ## Building the Project Locally
 
