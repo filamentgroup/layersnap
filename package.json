@@ -28,7 +28,7 @@
     "test": "./node_modules/.bin/grunt travis"
   },
   "dependencies": {
-    "jquery": "^1.11.2",
+    "jquery": "^3.5.0",
     "snapsvg": "0.4.0"
   },
   "devDependencies": {
